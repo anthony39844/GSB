@@ -22,11 +22,17 @@ app = Flask(__name__)
 CORS(app)  # Allow cross-origin requests
 
 # Sample API endpoint
+def get_matches(puuid1):
+    matches_route = f'https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid1}/ids?start=0&count=20&api_key={api_key}'
+    response = requests.get(matches_route, headers=headers).json()
+    return response
+
 @app.route('/api/data', methods=['GET'])
 def get_data():
     response = requests.get(temp_route, headers=headers).json()
     puuid = response["puuid"]
-    print(puuid)
+    matches_route = f'https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20&api_key={api_key}'
+    response = requests.get(matches_route, headers=headers).json()
     return jsonify(response)
 
 if __name__ == '__main__':
