@@ -7,6 +7,7 @@ CORS(app)  # Allow cross-origin requests
 # Sample API endpoint
 @app.route('/api/data', methods=['GET'])
 def get_data():
+    print("get")
     return jsonify({"message": "Hello from the Python backend!"})
 
 if __name__ == '__main__':
