@@ -17,5 +17,10 @@ export class AppComponent {
       console.log(data);
     });
   }
+  getData() {
+    this.apiService.getData().subscribe(data => {
+      console.log(data);
+    });
+  }
   title = 'GSB';
 }
