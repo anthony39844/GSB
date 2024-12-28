@@ -18,10 +18,15 @@ def get_matches(puuid):
     return response
 
 @app.route('/puuid/<summoner>', methods=['GET'])
-def get_data(summoner):
+def get_puuid(summoner):
     response = requests.get(f"{route}/riot/account/v1/accounts/by-riot-id/{summoner}/NA1?api_key={api_key}").json()
     return jsonify(response)
 
+@app.route('/get_matches/<match_id>', methods=['GET'])
+def get_match_info(match_id):
+    response = requests.get(f"{route}/lol/match/v5/matches/{match_id}/timeline?api_key={api_key}").json()
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

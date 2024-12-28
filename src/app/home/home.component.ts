@@ -14,7 +14,7 @@ export class HomeComponent {
 
   getMatchIds(summoner: string) {
     this.apiService.getPuuid(summoner).subscribe(data => {
-      if (data) {
+      if (data['puuid']) {
         this.puuidService.setPuuid(data['puuid']);
         this.router.navigate(['/summoner', summoner]);
       } else {

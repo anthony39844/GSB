@@ -17,4 +17,9 @@ export class ApiService {
   getMatchIds(puuid: string): Observable<any> {
     return this.http.get(`${this.baseUrl}match_ids/${puuid}`)
   }
+
+  getMatchData(matchId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_matches/${matchId}`)
+
+  }
 }
