@@ -1,0 +1,10 @@
+<div class="home">
+    <div class="header">
+        <h1 class="title">GSB</h1>
+        <p>Game Sense Builder</p>  
+    </div>
+
+    <div class="search-div"> 
+        <input type="input" #inputRef (keydown.enter)="getMatchIds(inputRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
+    </div>
+</div>

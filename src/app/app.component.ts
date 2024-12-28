@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ApiService } from './service/api.service';
-import { provideHttpClient } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +9,5 @@ import { provideHttpClient } from '@angular/common/http';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit() {
-    this.apiService.getData().subscribe(data => {
-      console.log(data);
-    });
-  }
-  getData() {
-    this.apiService.getData().subscribe(data => {
-      console.log(data);
-    });
-  }
   title = 'GSB';
 }
