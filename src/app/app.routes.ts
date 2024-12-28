@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
-
+import { CommonModule } from '@angular/common';
 export const routes: Routes = [
     {
         path: '',

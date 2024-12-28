@@ -24,7 +24,7 @@ def get_puuid(summoner):
 
 @app.route('/get_matches/<match_id>', methods=['GET'])
 def get_match_info(match_id):
-    response = requests.get(f"{route}/lol/match/v5/matches/{match_id}/timeline?api_key={api_key}").json()
+    response = requests.get(f"{route}/lol/match/v5/matches/{match_id}?api_key={api_key}").json()
 
     return jsonify(response)
 
