@@ -1,0 +1,30 @@
+.won {
+    background-color: green;
+    color: white;
+  }
+  
+.lost {
+    background-color: red;
+    color: white;
+}
+
+.match-module {
+    border: 5px solid black;
+    height: fit-content;
+    padding: 10px;
+}
+
+.header {
+    margin-top: 10px;
+}
+
+.summoner {
+    border: 2px solid black;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    p {
+        font-size: large;
+        color: white;
+    }
+}

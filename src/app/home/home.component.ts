@@ -12,13 +12,13 @@ import { PuuidService } from '../service/puuid/puuid.service';
 export class HomeComponent {
   constructor(private apiService: ApiService, private router: Router, private puuidService: PuuidService) {}
 
-  getMatchIds(summoner: string) {
+  getPuuid(summoner: string) {
     this.apiService.getPuuid(summoner).subscribe(data => {
       if (data['puuid']) {
         this.puuidService.setPuuid(data['puuid']);
         this.router.navigate(['/summoner', summoner]);
       } else {
-        console.log("Invalid summoner")
+        console.log("Invalid summoner", data)
       }
     })
   }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
-import { CommonModule } from '@angular/common';
+
 export const routes: Routes = [
     {
         path: '',
@@ -8,6 +8,6 @@ export const routes: Routes = [
         loadComponent: () => { return import('./home/home.component').then((m) => m.HomeComponent)}
     },
     {
-        path: 'summoner/:summonerName', component: ProfileComponent,
+        path: 'summoner/:summoner', component: ProfileComponent,
     }
 ];

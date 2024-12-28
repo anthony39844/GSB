@@ -1,2 +1,21 @@
-<p>profile works!</p>
-<button (click)="getMatchData()">YOU ARE A BUM</button>
+<div class="search-div"> 
+    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
+</div>
+<div class="header" *ngIf="accountLoaded">
+    <div class="summoner">
+        <p>{{ summoner }} #{{ tagLine }}</p>
+    </div>
+</div>
+
+<div *ngIf="allDataLoaded()">
+    <div *ngFor="let match of ids">
+      <div [ngClass]="{ 
+          'won': match.win, 
+          'lost': !match.win, 
+          'match-module': true
+        }">
+        {{ match.champion }}
+      </div>
+    </div>
+  </div>
+  

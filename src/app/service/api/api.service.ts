@@ -22,4 +22,8 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}get_matches/${matchId}`)
 
   }
+
+  getAccountData(puuid: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_account/${puuid}`)
+  }
 }

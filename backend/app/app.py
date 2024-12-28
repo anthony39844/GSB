@@ -13,7 +13,7 @@ route = "https://americas.api.riotgames.com"
 
 @app.route('/match_ids/<puuid>')
 def get_matches(puuid):
-    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20&api_key={api_key}'
+    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10&api_key={api_key}'
     response = requests.get(matches_route).json()
     return response
 
@@ -25,7 +25,11 @@ def get_puuid(summoner):
 @app.route('/get_matches/<match_id>', methods=['GET'])
 def get_match_info(match_id):
     response = requests.get(f"{route}/lol/match/v5/matches/{match_id}?api_key={api_key}").json()
+    return jsonify(response)
 
+@app.route('/get_account/<puuid>', methods=['GET'])
+def get_account_info(puuid):
+    response = requests.get(f"{route}/riot/account/v1/accounts/by-puuid/{puuid}?api_key={api_key}").json()
     return jsonify(response)
 
 if __name__ == '__main__':
