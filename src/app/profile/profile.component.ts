@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { MatchData } from './profile.interface';
+import { type } from 'node:os';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,8 @@ import { MatchData } from './profile.interface';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
+
+
 
 export class ProfileComponent {
   puuid = ""
@@ -26,14 +29,23 @@ export class ProfileComponent {
   soloWins: string = "";
   soloLP: string = "";
   soloWinPercent: number = 0;
-  soloTier: string = ""
+  soloTier: string = "unrank"
 
   flexRank: string = "";
   flexWins: string = "";
   flexLosses: string = "";
   flexLP: string = "";
   flexWinPercent: number = 0;
-  flexTier: string = ""
+  flexTier: string = "unrank"
+
+  queueIDMap: {[key: number]: string} = {
+    400: "NORMAL DRAFT",
+    420: "RANKED SOLO",
+    430: "QUICK PLAY",
+    440: "RANKED FLEX",
+    450: "ARAM",
+    490: "QUICK PLAY"
+  }
 
 
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
@@ -52,6 +64,7 @@ export class ProfileComponent {
           win: true,
           champion: "",
           time: 0,
+          gameMode: "",
           dataLoaded: false
         }));
         this.getMatchData();
@@ -80,8 +93,10 @@ export class ProfileComponent {
           match.champion = currentParticipant["championName"];
           match.time = gameStart;
           match.dataLoaded = true;
+          match.gameMode = this.queueIDMap[matchInfo['queueId']]
 
           this.ids.sort((a, b) => b.time - a.time);
+
         }
       });
     }
@@ -118,51 +133,48 @@ export class ProfileComponent {
     })
     this.apiService.getRankData(this.puuid).subscribe(data => {
       if (data) {
-        console.log(data)
-        const solo = data[1]
-        const flex = data[0]
+        let hasFlex = true
+        let hasSolo = true
+        let solo = null;
+        let flex = null;
+        if (data.length == 1) {
+          if (data[0]['queueType'] == 'RANKED_FLEX_SR') {
+            hasSolo = false
+          } else {
+            hasFlex = false
+          }
+        }
+        if (hasSolo && hasFlex) {
+          flex = data[0]
+          solo = data[1]
+        } else if (hasFlex) {
+          flex = data[0]
+        } else if (hasSolo) {
+          solo = data[0]
+        }
 
-        this.soloTier = solo['tier']
-        this.soloRank = this.soloTier + " " + solo["rank"]
-        this.soloLosses = solo['losses']
-        this.soloWins = solo['wins']
-        this.soloLP = solo['leaguePoints']
-        this.soloWinPercent = +Number(parseFloat(this.soloWins) / (parseFloat(this.soloWins) + parseFloat(this.soloLosses)) * 100).toFixed(1)
-          
-        this.flexTier = flex['tier']
-        this.flexRank = this.flexTier + " " + flex["rank"]
-        this.flexLosses = flex['losses']
-        this.flexWins = flex['wins']
-        this.flexLP = flex['leaguePoints']
-        this.flexWinPercent = +Number(parseFloat(this.flexWins) / (parseFloat(this.flexWins) + parseFloat(this.flexLosses)) * 100).toFixed(1)
+        if (solo) {
+          this.soloTier = solo['tier']
+          this.soloRank = this.soloTier + " " + solo["rank"]
+          this.soloLosses = solo['losses']
+          this.soloWins = solo['wins']
+          this.soloLP = solo['leaguePoints']
+          this.soloWinPercent = +Number(parseFloat(this.soloWins) / (parseFloat(this.soloWins) + parseFloat(this.soloLosses)) * 100).toFixed(1) 
+        }
+      
+        if (flex) {
+          this.flexTier = flex['tier']
+          this.flexRank = this.flexTier + " " + flex["rank"]
+          this.flexLosses = flex['losses']
+          this.flexWins = flex['wins']
+          this.flexLP = flex['leaguePoints']
+          this.flexWinPercent = +Number(parseFloat(this.flexWins) / (parseFloat(this.flexWins) + parseFloat(this.flexLosses)) * 100).toFixed(1)
+        }
       }
     })
   }
 
-  getTierImage(tier: string): string {
-    switch (tier.toLowerCase()) {
-      case 'iron':
-        return './iron.png';
-      case 'bronze':
-        return './bronze.png';
-      case 'silver':
-        return './silver.png';
-      case 'gold':
-        return './gold.png';
-      case 'platinum':
-        return './plat.png';
-      case 'emerald':
-        return './emerald.png';
-      case 'diamond':
-        return './diamond.png';
-      case 'master':
-        return './master.png';
-      case 'grandmaster':
-        return './grandmaster.png';
-      case 'challenger':
-        return './challenger.png';
-      default:
-        return './unrank.png';
-    }
+  sendHome() {
+    this.router.navigate(['']);
   }
 }

@@ -1,7 +1,11 @@
-<div class="search-div"> 
-  <div class="searches">
-    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
-    <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search tag_search" placeholder="#NA1" name="name" id='name' required />
+
+<div class="header">
+  <h1 class="homeBtn" (click)="sendHome()">GSB</h1>
+  <div class="search-div"> 
+    <div class="searches">
+      <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
+      <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search tag_search" placeholder="#NA1" name="name" id='name' required />
+    </div>
   </div>
 </div>
 
@@ -13,7 +17,7 @@
         </div>
         <div class="rank">
           <div class="tierImg">
-            <img [src]="getTierImage(soloTier)" alt="Tier image"/>
+            <img src="/assets/rank/{{ soloTier.toLowerCase() }}.png" alt="Tier image"/>
           </div>
           <div class="rank-info">
             <h3>Ranked Solo/Duo</h3>
@@ -30,7 +34,7 @@
         </div>
         <div class="rank last-rank-box">
           <div class="tierImg">
-            <img [src]="getTierImage(flexTier)" alt="Tier image"/>
+            <img src="/assets/rank/{{ flexTier.toLowerCase() }}.png" alt="Tier image"/>
           </div>
           <div class="rank-info">
             <h3>Ranked Flex</h3>
@@ -46,6 +50,7 @@
           </div>
         </div>
     </div>  
+
     <div class="right">
         <div *ngIf="allDataLoaded() && loaded">
             <div *ngFor="let match of ids">
@@ -54,9 +59,21 @@
                     'lost': !match.win, 
                     'match-module': true
                     }">
-                    <img class="champ-img" src="/assets/champion/{{match.champion}}.png">
-
-                    {{ match.champion }}
+                  <p class="gameMode">{{ match.gameMode ? match.gameMode : "TRAINING" }} </p>
+                  <div class="match-info">
+                    <div class="champion">
+                      <img 
+                        [ngStyle]="{'border': match.win ? '8px solid #0BDA51' : '8px solid red'}" 
+                        class="champ-img" 
+                        src="/assets/champion/{{match.champion}}.png"
+                      >
+                      <p>{{ match.champion }}</p>
+                    </div>
+                    <div class="player-info">
+                      <p>you look good today</p>
+                    </div>
+                  </div>
+                  
                 </div>
             </div>
         </div>

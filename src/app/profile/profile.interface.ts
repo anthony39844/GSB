@@ -3,5 +3,6 @@ export interface MatchData {
     win: boolean; 
     champion: string; 
     time: number; 
+    gameMode: string
     dataLoaded: boolean 
 }
