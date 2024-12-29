@@ -17,6 +17,7 @@
     <div class="right">
         <div *ngIf="allDataLoaded() && loaded">
             <div *ngFor="let match of ids">
+                <img src="/assets/champion/{{match.champion}}.png">
                 <div [ngClass]="{ 
                     'won': match.win, 
                     'lost': !match.win, 
