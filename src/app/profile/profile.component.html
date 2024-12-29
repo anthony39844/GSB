@@ -1,17 +1,49 @@
 <div class="search-div"> 
-    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
-    <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search" placeholder="#NA1" name="name" id='name' required />
-
+  <div class="searches">
+    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
+    <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search tag_search" placeholder="#NA1" name="name" id='name' required />
+  </div>
 </div>
 
+
 <div class="container">
-    <div class="left">
-        <div class="header" *ngIf="accountLoaded">
-            <div class="summoner">
-                <p>{{ summoner }} #{{ tagLine }}</p>
+    <div class="left" *ngIf="accountLoaded">
+        <div class="summoner">
+            <p>{{ summoner }} #{{ tagLine }}</p>
+        </div>
+        <div class="rank">
+          <div class="tierImg">
+            <img [src]="getTierImage(soloTier)" alt="Tier image"/>
+          </div>
+          <div class="rank-info">
+            <h3>Ranked Solo/Duo</h3>
+            <p>{{ soloRank }} • {{ soloLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ soloWins }}W {{ soloLosses }}L</p>
+              <p [ngStyle]="{
+                'color': soloWinPercent >= 50 ? 'green' : 'red'
+              }">
+                {{ soloWinPercent }}%
+              </p>
             </div>
-            <p>{{ flexRank }}</p>
-            <p>{{ soloRank }}</p>
+          </div>
+        </div>
+        <div class="rank last-rank-box">
+          <div class="tierImg">
+            <img [src]="getTierImage(flexTier)" alt="Tier image"/>
+          </div>
+          <div class="rank-info">
+            <h3>Ranked Flex</h3>
+            <p>{{ flexRank }} • {{ flexLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ flexWins }}W {{ flexLosses }}L</p>
+              <p [ngStyle]="{
+                'color': flexWinPercent >= 50 ? 'green' : 'red'
+              }">
+                {{ flexWinPercent }}%
+              </p>
+            </div>
+          </div>
         </div>
     </div>  
     <div class="right">

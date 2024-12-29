@@ -4,13 +4,7 @@ import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { timeStamp } from 'console';
-
-interface MatchData {
-  win: boolean;
-  champion: string;
-  time: number;
-}
+import { MatchData } from './profile.interface';
 
 @Component({
   selector: 'app-profile',
@@ -21,15 +15,28 @@ interface MatchData {
 
 export class ProfileComponent {
   puuid = ""
-  ids: { matchId: string; win: boolean; champion: string; time: number; dataLoaded: boolean }[] = []; 
+  ids: MatchData[] = []; 
   loaded = false;
   summoner: string = "";
   tagLine: string = "";
   accountLoaded: boolean = false;
-  soloRank: string = "";
-  flexRank: string = "";
 
-  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private route: ActivatedRoute) {}
+  soloRank: string = "";
+  soloLosses: string = "";
+  soloWins: string = "";
+  soloLP: string = "";
+  soloWinPercent: number = 0;
+  soloTier: string = ""
+
+  flexRank: string = "";
+  flexWins: string = "";
+  flexLosses: string = "";
+  flexLP: string = "";
+  flexWinPercent: number = 0;
+  flexTier: string = ""
+
+
+  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
 
   ngOnInit(): void {
     this.puuid = this.puuidService.getPuuid();
@@ -47,9 +54,7 @@ export class ProfileComponent {
           time: 0,
           dataLoaded: false
         }));
-
         this.getMatchData();
-
       } else {
         console.log("Error getting matchIds")
       }
@@ -105,13 +110,59 @@ export class ProfileComponent {
 
   getAccountData() {
     this.apiService.getAccountData(this.puuid).subscribe(data => {
-      this.summoner = data['gameName']
-      this.tagLine = data['tagLine']
-      this.accountLoaded = true;
+      if (data) {
+        this.summoner = data['gameName']
+        this.tagLine = data['tagLine']
+        this.accountLoaded = true;
+      }
     })
     this.apiService.getRankData(this.puuid).subscribe(data => {
-      this.soloRank = data[1]["tier"] + " " + data[1]["rank"]
-      this.flexRank = data[0]["tier"] + " " + data[0]["rank"]
+      if (data) {
+        console.log(data)
+        const solo = data[1]
+        const flex = data[0]
+
+        this.soloTier = solo['tier']
+        this.soloRank = this.soloTier + " " + solo["rank"]
+        this.soloLosses = solo['losses']
+        this.soloWins = solo['wins']
+        this.soloLP = solo['leaguePoints']
+        this.soloWinPercent = +Number(parseFloat(this.soloWins) / (parseFloat(this.soloWins) + parseFloat(this.soloLosses)) * 100).toFixed(1)
+          
+        this.flexTier = flex['tier']
+        this.flexRank = this.flexTier + " " + flex["rank"]
+        this.flexLosses = flex['losses']
+        this.flexWins = flex['wins']
+        this.flexLP = flex['leaguePoints']
+        this.flexWinPercent = +Number(parseFloat(this.flexWins) / (parseFloat(this.flexWins) + parseFloat(this.flexLosses)) * 100).toFixed(1)
+      }
     })
+  }
+
+  getTierImage(tier: string): string {
+    switch (tier.toLowerCase()) {
+      case 'iron':
+        return './iron.png';
+      case 'bronze':
+        return './bronze.png';
+      case 'silver':
+        return './silver.png';
+      case 'gold':
+        return './gold.png';
+      case 'platinum':
+        return './plat.png';
+      case 'emerald':
+        return './emerald.png';
+      case 'diamond':
+        return './diamond.png';
+      case 'master':
+        return './master.png';
+      case 'grandmaster':
+        return './grandmaster.png';
+      case 'challenger':
+        return './challenger.png';
+      default:
+        return './unrank.png';
+    }
   }
 }
