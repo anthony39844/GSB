@@ -5,6 +5,8 @@
     </div>
 
     <div class="search-div"> 
-        <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
+        <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
+        <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search" placeholder="#NA1" name="name" id='name' required />
+
     </div>
 </div>

@@ -4,6 +4,7 @@ import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { timeStamp } from 'console';
 
 interface MatchData {
   win: boolean;
@@ -25,6 +26,8 @@ export class ProfileComponent {
   summoner: string = "";
   tagLine: string = "";
   accountLoaded: boolean = false;
+  soloRank: string = "";
+  flexRank: string = "";
 
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private route: ActivatedRoute) {}
 
@@ -84,9 +87,11 @@ export class ProfileComponent {
     return this.ids.every(match => match.dataLoaded);
   }
 
-  getPuuid(summoner: string) {
+  getPuuid(summoner: string, tag : string) {
     this.accountLoaded = false;
-    this.apiService.getPuuid(summoner).subscribe(data => {
+    this.loaded = false;
+    tag = tag.replace("#", "")
+    this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
       if (data['puuid']) {
         this.puuid = data['puuid'];
         this.router.navigate(['/summoner', summoner]);
@@ -103,6 +108,10 @@ export class ProfileComponent {
       this.summoner = data['gameName']
       this.tagLine = data['tagLine']
       this.accountLoaded = true;
+    })
+    this.apiService.getRankData(this.puuid).subscribe(data => {
+      this.soloRank = data[1]["tier"] + " " + data[1]["rank"]
+      this.flexRank = data[0]["tier"] + " " + data[0]["rank"]
     })
   }
 }

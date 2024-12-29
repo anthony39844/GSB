@@ -12,8 +12,9 @@ import { PuuidService } from '../service/puuid/puuid.service';
 export class HomeComponent {
   constructor(private apiService: ApiService, private router: Router, private puuidService: PuuidService) {}
 
-  getPuuid(summoner: string) {
-    this.apiService.getPuuid(summoner).subscribe(data => {
+  getPuuid(summoner: string, tag: string) {
+    tag = tag.replace("#", "");
+    this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
       if (data['puuid']) {
         this.puuidService.setPuuid(data['puuid']);
         this.router.navigate(['/summoner', summoner]);

@@ -10,8 +10,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getPuuid(summoner: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}puuid/${summoner}`);
+  getPuuid(summoner: string, tag: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}puuid/${summoner}/${tag}`);
   }
 
   getMatchIds(puuid: string): Observable<any> {
@@ -25,5 +25,8 @@ export class ApiService {
 
   getAccountData(puuid: string): Observable<any> {
     return this.http.get(`${this.baseUrl}get_account/${puuid}`)
+  }
+  getRankData(puuid: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_rank/${puuid}`)
   }
 }

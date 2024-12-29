@@ -1,21 +1,32 @@
 <div class="search-div"> 
-    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
-</div>
-<div class="header" *ngIf="accountLoaded">
-    <div class="summoner">
-        <p>{{ summoner }} #{{ tagLine }}</p>
-    </div>
+    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
+    <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search" placeholder="#NA1" name="name" id='name' required />
+
 </div>
 
-<div *ngIf="allDataLoaded()">
-    <div *ngFor="let match of ids">
-      <div [ngClass]="{ 
-          'won': match.win, 
-          'lost': !match.win, 
-          'match-module': true
-        }">
-        {{ match.champion }}
-      </div>
-    </div>
-  </div>
+<div class="container">
+    <div class="left">
+        <div class="header" *ngIf="accountLoaded">
+            <div class="summoner">
+                <p>{{ summoner }} #{{ tagLine }}</p>
+            </div>
+            <p>{{ flexRank }}</p>
+            <p>{{ soloRank }}</p>
+        </div>
+    </div>  
+    <div class="right">
+        <div *ngIf="allDataLoaded() && loaded">
+            <div *ngFor="let match of ids">
+                <div [ngClass]="{ 
+                    'won': match.win, 
+                    'lost': !match.win, 
+                    'match-module': true
+                    }">
+                    {{ match.champion }}
+                </div>
+            </div>
+        </div>
   
+    </div>
+
+</div>

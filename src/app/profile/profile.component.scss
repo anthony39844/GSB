@@ -1,10 +1,10 @@
 .won {
-    background-color: green;
+    background: linear-gradient(to right, rgb(37, 156, 91), #36393e);
     color: white;
   }
   
 .lost {
-    background-color: red;
+    background: linear-gradient(to right, rgb(223, 72, 72), #36393e);
     color: white;
 }
 
@@ -20,7 +20,6 @@
 
 .summoner {
     border: 2px solid black;
-    width: 50%;
     display: flex;
     justify-content: center;
     p {
@@ -28,3 +27,17 @@
         color: white;
     }
 }
+
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    .left {
+        width: 35%;
+    }
+    
+    .right {
+        width: 60%;
+    }
+}
+
