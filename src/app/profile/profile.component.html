@@ -73,12 +73,12 @@
                       <p>{{ match.kills }} / {{ match.deaths }} / {{ match.assists }}</p>
                       <p> {{ ((match.kills + match.assists) / (Math.max(match.deaths, 1))).toFixed(1) }} KDA</p>
                       <div class="items">
-                      <div *ngFor="let item of match.items"
-                      class="item-img">
-                        <img
-                            src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-                        >
-                      </div>
+                        <div *ngFor="let item of match.items"
+                        class="item-img">
+                          <img
+                              src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+                          >
+                        </div>
                     </div>
                     </div>
                   </div>
