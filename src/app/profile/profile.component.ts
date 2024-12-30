@@ -50,9 +50,12 @@ export class ProfileComponent {
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
 
   ngOnInit(): void {
-    this.puuid = this.puuidService.getPuuid();
-    this.getMatchIds();
-    this.getAccountData();
+    if (this.puuidService.getPuuid() != "") {
+      this.puuid = this.puuidService.getPuuid();
+      this.getMatchIds();
+      this.getAccountData();
+    }
+    
   }
 
   getMatchIds() {
