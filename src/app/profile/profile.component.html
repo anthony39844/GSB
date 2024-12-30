@@ -1,19 +1,56 @@
-<div class="search-div"> 
-    <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search" placeholder="Summoner Name" name="name" id='name' required />
-    <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search" placeholder="#NA1" name="name" id='name' required />
 
+<div class="header">
+  <h1 class="homeBtn" (click)="sendHome()">GSB</h1>
+  <div class="search-div"> 
+    <div class="searches">
+      <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
+      <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search tag_search" placeholder="#NA1" name="name" id='name' required />
+    </div>
+  </div>
 </div>
 
+
 <div class="container">
-    <div class="left">
-        <div class="header" *ngIf="accountLoaded">
-            <div class="summoner">
-                <p>{{ summoner }} #{{ tagLine }}</p>
+    <div class="left" *ngIf="accountLoaded">
+        <div class="summoner">
+            <p>{{ summoner }} #{{ tagLine }}</p>
+        </div>
+        <div class="rank">
+          <div class="tierImg">
+            <img src="/assets/rank/{{ soloTier.toLowerCase() }}.png" alt="Tier image"/>
+          </div>
+          <div class="rank-info">
+            <h3>Ranked Solo/Duo</h3>
+            <p>{{ soloRank }} • {{ soloLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ soloWins }}W {{ soloLosses }}L</p>
+              <p [ngStyle]="{
+                'color': soloWinPercent >= 50 ? 'green' : 'red'
+              }">
+                {{ soloWinPercent }}%
+              </p>
             </div>
-            <p>{{ flexRank }}</p>
-            <p>{{ soloRank }}</p>
+          </div>
+        </div>
+        <div class="rank last-rank-box">
+          <div class="tierImg">
+            <img src="/assets/rank/{{ flexTier.toLowerCase() }}.png" alt="Tier image"/>
+          </div>
+          <div class="rank-info">
+            <h3>Ranked Flex</h3>
+            <p>{{ flexRank }} • {{ flexLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ flexWins }}W {{ flexLosses }}L</p>
+              <p [ngStyle]="{
+                'color': flexWinPercent >= 50 ? 'green' : 'red'
+              }">
+                {{ flexWinPercent }}%
+              </p>
+            </div>
+          </div>
         </div>
     </div>  
+
     <div class="right">
         <div *ngIf="allDataLoaded() && loaded">
             <div *ngFor="let match of ids">
@@ -22,7 +59,30 @@
                     'lost': !match.win, 
                     'match-module': true
                     }">
-                    {{ match.champion }}
+                  <p class="gameMode">{{ match.gameMode ? match.gameMode : "TRAINING" }} </p>
+                  <div class="match-info">
+                    <div class="champion">
+                      <img 
+                        [ngStyle]="{'border': match.win ? '8px solid #0BDA51' : '8px solid red'}" 
+                        class="champ-img" 
+                        src ='https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/{{match.champion}}.png'
+                      >
+                      <p>{{match.lane}}: {{ match.champion }}</p>
+                    </div>
+                    <div class="player-info">
+                      <p>{{ match.kills }} / {{ match.deaths }} / {{ match.assists }}</p>
+                      <p> {{ ((match.kills + match.assists) / (Math.max(match.deaths, 1))).toFixed(1) }} KDA</p>
+                      <div class="items">
+                      <div *ngFor="let item of match.items"
+                      class="item-img">
+                        <img
+                            src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+                        >
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  
                 </div>
             </div>
         </div>

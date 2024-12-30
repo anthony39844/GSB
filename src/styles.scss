@@ -4,24 +4,37 @@ $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
 
-* {
+body {
     background-color:#36393e;
+    margin: 0;
 }
 
 .search-div {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+}
+
+.searches {
+  display: flex;
+  justify-content: center;
+}
+
+.tag_search {
+  width: 20%;
+}
+
+.sum_search {
+  width: 80%;
 }
 
 .search {
   font-family: inherit;
-  width: 50%;
   border: 0;
   border-bottom: 2px solid $gray;
   outline: 0;
   font-size: 1.3rem;
   color: $white;
-  padding: 7px 0;
+  margin: 10px;
   background: transparent;
   transition: border-color 0.2s;
 
