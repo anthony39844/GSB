@@ -10,7 +10,7 @@ CORS(app)
 load_dotenv()
 api_key = os.getenv("API_KEY")
 route = "https://americas.api.riotgames.com"
-
+ddragon_route = "https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US"
 @app.route('/match_ids/<puuid>')
 def get_matches(puuid):
     matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10&api_key={api_key}'
@@ -38,6 +38,15 @@ def get_rank(puuid):
     response = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}?api_key={api_key}").json()
 
     return jsonify(response)
+
+@app.route('/get_champs', methods=["GET"])
+def get_champs():
+    return jsonify(requests.get(f"{ddragon_route}/champion.json").json())
+
+@app.route('/get_items', methods=["GET"])
+def get_items():
+    return jsonify(requests.get(f"{ddragon_route}/item.json").json())
+
 
 
 if __name__ == '__main__':

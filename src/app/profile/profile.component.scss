@@ -127,3 +127,10 @@
 .last-rank-box {
     border: none;
 }
+
+.items {
+    display: flex;
+    .item-img {
+        margin-right: 5px;
+    }
+}

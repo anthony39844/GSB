@@ -29,4 +29,5 @@ export class ApiService {
   getRankData(puuid: string): Observable<any> {
     return this.http.get(`${this.baseUrl}get_rank/${puuid}`)
   }
+
 }

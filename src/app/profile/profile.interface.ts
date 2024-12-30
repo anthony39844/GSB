@@ -5,4 +5,10 @@ export interface MatchData {
     time: number; 
     gameMode: string
     dataLoaded: boolean 
+    kills: number;
+    deaths: number;
+    assists: number;
+    items: number[];
+    lane: string;
+
 }

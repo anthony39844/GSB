@@ -17,6 +17,7 @@ import { type } from 'node:os';
 
 
 export class ProfileComponent {
+  Math = Math;
   puuid = ""
   ids: MatchData[] = []; 
   loaded = false;
@@ -47,13 +48,14 @@ export class ProfileComponent {
     490: "QUICK PLAY"
   }
 
-
+  
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
 
   ngOnInit(): void {
-    this.puuid = this.puuidService.getPuuid();
-    this.getMatchIds();
-    this.getAccountData();
+    // this.puuid = this.puuidService.getPuuid();
+    // this.getMatchIds();
+    // this.getAccountData();
+
   }
 
   getMatchIds() {
@@ -65,7 +67,12 @@ export class ProfileComponent {
           champion: "",
           time: 0,
           gameMode: "",
-          dataLoaded: false
+          dataLoaded: false,
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+          items: [],
+          lane: ""
         }));
         this.getMatchData();
       } else {
@@ -80,20 +87,28 @@ export class ProfileComponent {
         if (matchData) {
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
-          const teams = matchInfo["teams"];
-          const team1 = teams[0]["teamId"];
-          const team1win = teams[0]["win"];
           const gameStart = matchInfo["gameCreation"];
           const currentParticipant = participants.find(
             (participant: { [key: string]: any }) => participant["puuid"] === this.puuid
           );
-          const participantTeam = currentParticipant?.["teamId"];
 
-          match.win = (team1win && participantTeam === team1) || (!team1win && participantTeam !== team1);
+          console.log(currentParticipant)
+          match.win = currentParticipant["win"];
           match.champion = currentParticipant["championName"];
           match.time = gameStart;
           match.dataLoaded = true;
           match.gameMode = this.queueIDMap[matchInfo['queueId']]
+
+          for (let i = 0; i < 7; i++) {
+            let curItem = currentParticipant[`item${i}`]
+            if (curItem != 0) {
+              match.items.push(curItem)
+            }
+          }
+          match.kills = currentParticipant["kills"]
+          match.deaths = currentParticipant["deaths"]
+          match.assists = currentParticipant["assists"]
+          match.lane = currentParticipant["teamPosition"]
 
           this.ids.sort((a, b) => b.time - a.time);
 
@@ -161,7 +176,6 @@ export class ProfileComponent {
           this.soloLP = solo['leaguePoints']
           this.soloWinPercent = +Number(parseFloat(this.soloWins) / (parseFloat(this.soloWins) + parseFloat(this.soloLosses)) * 100).toFixed(1) 
         }
-      
         if (flex) {
           this.flexTier = flex['tier']
           this.flexRank = this.flexTier + " " + flex["rank"]

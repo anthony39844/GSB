@@ -65,12 +65,21 @@
                       <img 
                         [ngStyle]="{'border': match.win ? '8px solid #0BDA51' : '8px solid red'}" 
                         class="champ-img" 
-                        src="/assets/champion/{{match.champion}}.png"
+                        src ='https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/{{match.champion}}.png'
                       >
-                      <p>{{ match.champion }}</p>
+                      <p>{{match.lane}}: {{ match.champion }}</p>
                     </div>
                     <div class="player-info">
-                      <p>you look good today</p>
+                      <p>{{ match.kills }} / {{ match.deaths }} / {{ match.assists }}</p>
+                      <p> {{ ((match.kills + match.assists) / (Math.max(match.deaths, 1))).toFixed(1) }} KDA</p>
+                      <div class="items">
+                      <div *ngFor="let item of match.items"
+                      class="item-img">
+                        <img
+                            src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+                        >
+                      </div>
+                    </div>
                     </div>
                   </div>
                   
