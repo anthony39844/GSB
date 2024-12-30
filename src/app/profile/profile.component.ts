@@ -3,9 +3,7 @@ import { PuuidService } from '../service/puuid/puuid.service';
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 import { MatchData } from './profile.interface';
-import { type } from 'node:os';
 
 @Component({
   selector: 'app-profile',
@@ -52,10 +50,9 @@ export class ProfileComponent {
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
 
   ngOnInit(): void {
-    // this.puuid = this.puuidService.getPuuid();
-    // this.getMatchIds();
-    // this.getAccountData();
-
+    this.puuid = this.puuidService.getPuuid();
+    this.getMatchIds();
+    this.getAccountData();
   }
 
   getMatchIds() {
@@ -92,7 +89,6 @@ export class ProfileComponent {
             (participant: { [key: string]: any }) => participant["puuid"] === this.puuid
           );
 
-          console.log(currentParticipant)
           match.win = currentParticipant["win"];
           match.champion = currentParticipant["championName"];
           match.time = gameStart;
