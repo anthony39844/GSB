@@ -108,69 +108,78 @@ export class ProfileComponent {
     for (const match of this.ids) {
       this.apiService.getMatchData(match.matchId).subscribe(matchData => {
         if (matchData) {
+          match.participants = []
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
           const currTime = Date.now();
           const hoursAgo = Math.floor((currTime - gameStart) / 3600000)
-          const currentParticipant = participants.find(
-            (participant: { [key: string]: any }) => participant["puuid"] === this.puuid
-          );
-          
           match.timeAgo = this.getTimeFromHours(hoursAgo)
-          console.log(match.timeAgo)
-          match.win = currentParticipant["win"];
-          match.champion = currentParticipant["championName"];
           match.time = gameStart;
           match.gameMode = this.queueIDMap[matchInfo['queueId']]
-          match.kills = currentParticipant["kills"]
-          match.deaths = currentParticipant["deaths"]
-          match.assists = currentParticipant["assists"]
-          match.lane = currentParticipant["teamPosition"]
-          match.CSscore = currentParticipant["totalMinionsKilled"] + currentParticipant['neutralMinionsKilled']
-          match.gameLength = Math.floor(currentParticipant['timePlayed'] / 60)
-          match.csPerMin = Math.floor((match.CSscore / match.gameLength) * 10) / 10;
 
-          let rune1style = currentParticipant['perks']['styles'][0]['style']
-          let rune1 = currentParticipant['perks']['styles'][0]['selections'][0]['perk']
-          let rune2 = currentParticipant['perks']['styles'][1]['style']
+          for (const participant of participants) {
+          match.gameLength = Math.floor(participant['timePlayed'] / 60)
 
-          for (let i = 0; i < 7; i++) {
-            let curItem = currentParticipant[`item${i}`]
-            if (curItem != 0) {
-              match.items.push(curItem)
+            let rune1 = participant['perks']['styles'][0]['style']
+            let rune2 = participant['perks']['styles'][1]['style']
+            const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
+            const currentParticipant: ParticipantData = {
+              profilePlayer: participant.puuid === this.puuid,
+              win: participant.win,
+              champion: participant.championName,
+              kills: participant.kills,
+              deaths: participant.deaths,
+              assists: participant.assists,
+              lane: participant.teamPosition,
+              rune1: this.runesService.getRunes(rune1),
+              rune2: this.runesService.getRunes(rune2),
+              items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
+              sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
+              sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
+              CSscore: cs,
+              csPerMin: Math.floor((cs / match.gameLength) * 10) / 10,
+            };
+            if (participant.puuid === this.puuid) {
+              match.profile = currentParticipant;
             }
-          }
+            match.participants.push(currentParticipant)
 
-          for (let i in this.sumSpells['data']) {
-            if (currentParticipant['summoner1Id'] == this.sumSpells['data'][i]['key']) {
-              match.sumSpell1 = this.sumSpells['data'][i]['image']['full']
-            }
-            if (currentParticipant['summoner2Id'] == this.sumSpells['data'][i]['key']) {
-              match.sumSpell2 = this.sumSpells['data'][i]['image']['full']
-            }
-            if (match.sumSpell1 && match.sumSpell2) {
-              break;
-            }
-          }
 
-          const primaryRune = this.runes.find((rune: any) => rune1style === rune.id);
-          if (primaryRune) {
-            const subRune = primaryRune.slots?.[0].runes.find((subrune: any) => rune1 === subrune.id);
-            if (subRune) {
-              match.rune1 = subRune.icon;
-            }
-          }
-          const secondaryRune = this.runes.find((rune: any) => rune2 === rune.id);
-          if (secondaryRune) {
-            match.rune2 = secondaryRune.icon;
-          }
+          // let rune1style = currentParticipant['perks']['styles'][0]['style']
+          // let rune1 = currentParticipant['perks']['styles'][0]['selections'][0]['perk']
+          // let rune2 = currentParticipant['perks']['styles'][1]['style']
+
+          // for (let i in this.sumSpells['data']) {
+          //   if (currentParticipant['summoner1Id'] == this.sumSpells['data'][i]['key']) {
+          //     match.sumSpell1 = this.sumSpells['data'][i]['image']['full']
+          //   }
+          //   if (currentParticipant['summoner2Id'] == this.sumSpells['data'][i]['key']) {
+          //     match.sumSpell2 = this.sumSpells['data'][i]['image']['full']
+          //   }
+          //   if (match.sumSpell1 && match.sumSpell2) {
+          //     break;
+          //   }
+          // }
+
+          // const primaryRune = this.runes.find((rune: any) => rune1style === rune.id);
+          // if (primaryRune) {
+          //   const subRune = primaryRune.slots?.[0].runes.find((subrune: any) => rune1 === subrune.id);
+          //   if (subRune) {
+          //     match.rune1 = subRune.icon;
+          //   }
+          // }
+          // const secondaryRune = this.runes.find((rune: any) => rune2 === rune.id);
+          // if (secondaryRune) {
+          //   match.rune2 = secondaryRune.icon;
+          // }
           
           match.dataLoaded = true;
           this.ids.sort((a, b) => b.time - a.time);
         }
-      });
+      }});
     }
+    
     this.loaded = true;
   }
 
