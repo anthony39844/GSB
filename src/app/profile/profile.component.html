@@ -63,15 +63,19 @@
                   <div class="match-info">
                     <div class="champion">
                       <img 
-                        [ngStyle]="{'border': match.win ? '8px solid #0BDA51' : '8px solid red'}" 
+                        [ngStyle]="{'border': match.win ? '4px solid #0BDA51' : '4px solid red'}" 
                         class="champ-img" 
-                        src ='https://ddragon.leagueoflegends.com/cdn/13.24.1/img/champion/{{match.champion}}.png'
+                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.champion}}.png'
                       >
                       <p>{{match.lane}}: {{ match.champion }}</p>
                     </div>
                     <div class="sum-spells">
                       <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.sumSpell1 }}' alt="Summoner spell 1">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.sumSpell2 }}' alt="Summoner spell 1">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.sumSpell2 }}' alt="Summoner spell 2">
+                    </div>
+                    <div class="runes">
+                      <img src='https://ddragon.canisback.com/img/{{ match.rune1 }}' alt="Rune 1">
+                      <img src='https://ddragon.canisback.com/img/{{ match.rune2 }}' alt="Rune 2">
                     </div>
                     <div class="items">
                       <img 
