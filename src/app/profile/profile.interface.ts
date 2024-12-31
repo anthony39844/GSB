@@ -14,4 +14,6 @@ export interface MatchData {
     sumSpell2: string | null;
     rune1: string | null;
     rune2: string | null;
+    CSscore: number | null;
+    gameLength: number | null;
 }

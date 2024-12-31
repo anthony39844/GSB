@@ -144,8 +144,11 @@
             align-items: center;
             margin-right: 20px;
             img {
-                margin: 10px;
+                margin: 0 5px 8px 5px;
                 width: 40px;
+            }
+            .rune1 {
+                width: 60px;
             }
         }
         .items {

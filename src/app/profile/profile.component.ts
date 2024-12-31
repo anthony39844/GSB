@@ -12,8 +12,6 @@ import { MatchData } from './profile.interface';
   styleUrl: './profile.component.scss'
 })
 
-
-
 export class ProfileComponent {
   Math = Math;
   puuid = ""
@@ -80,7 +78,9 @@ export class ProfileComponent {
           sumSpell1: null,
           sumSpell2: null,
           rune1: null,
-          rune2: null
+          rune2: null,
+          CSscore: null,
+          gameLength: null,
         }));
         this.getMatchData();
       } else {
@@ -115,14 +115,17 @@ export class ProfileComponent {
           match.win = currentParticipant["win"];
           match.champion = currentParticipant["championName"];
           match.time = gameStart;
-          match.dataLoaded = true;
           match.gameMode = this.queueIDMap[matchInfo['queueId']]
           match.kills = currentParticipant["kills"]
           match.deaths = currentParticipant["deaths"]
           match.assists = currentParticipant["assists"]
           match.lane = currentParticipant["teamPosition"]
-            
-          let rune1 = currentParticipant['perks']['styles'][0]['style']
+          match.CSscore = currentParticipant["totalMinionsKilled"]
+          match.gameLength = Math.floor(currentParticipant['timePlayed'] / 60)
+          console.log(match.gameLength)
+          console.log(currentParticipant)
+          let rune1style = currentParticipant['perks']['styles'][0]['style']
+          let rune1 = currentParticipant['perks']['styles'][0]['selections'][0]['perk']
           let rune2 = currentParticipant['perks']['styles'][1]['style']
 
           for (let i = 0; i < 7; i++) {
@@ -144,18 +147,19 @@ export class ProfileComponent {
             }
           }
 
-          for (let rune of this.runes) {
-            if (rune1 == rune['id']) {
-              match.rune1 = rune['icon']
-            }
-            if (rune2 == rune['id']) {
-              match.rune2 = rune['icon']
-            }
-            if (match.rune1 && match.rune2) {
-              break;
+          const primaryRune = this.runes.find((rune: any) => rune1style === rune.id);
+          if (primaryRune) {
+            const subRune = primaryRune.slots?.[0].runes.find((subrune: any) => rune1 === subrune.id);
+            if (subRune) {
+              match.rune1 = subRune.icon;
             }
           }
-
+          const secondaryRune = this.runes.find((rune: any) => rune2 === rune.id);
+          if (secondaryRune) {
+            match.rune2 = secondaryRune.icon;
+          }
+          
+          match.dataLoaded = true;
           this.ids.sort((a, b) => b.time - a.time);
         }
       });
