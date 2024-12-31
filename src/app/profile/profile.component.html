@@ -55,38 +55,38 @@
         <div *ngIf="allDataLoaded() && loaded">
             <div *ngFor="let match of ids">
                 <div [ngClass]="{ 
-                    'won': match.win, 
-                    'lost': !match.win, 
+                    'won': match.profile.win, 
+                    'lost': !match.profile.win, 
                     'match-module': true
                     }">
                   <p class="gameMode">{{ match.gameMode ? match.gameMode : "TRAINING" }} </p>
                   <div class="match-info">
                     <div class="champion">
                       <img 
-                        [ngStyle]="{'border': match.win ? '4px solid #0BDA51' : '4px solid red'}" 
+                        [ngStyle]="{'border': match.profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
                         class="champ-img" 
-                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.champion}}.png'
+                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.profile.champion}}.png'
                       >
-                      <p>{{match.lane}}: {{ match.champion }}</p>
+                      <p>{{match.profile.lane}}: {{ match.profile.champion }}</p>
                     </div>
                     <div class="sum-spells">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.sumSpell1 }}' alt="Summoner spell 1">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.sumSpell2 }}' alt="Summoner spell 2">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell1 }}' alt="Summoner spell 1">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell2 }}' alt="Summoner spell 2">
                     </div>
                     <div class="runes">
-                      <img src='https://ddragon.canisback.com/img/{{ match.rune1 }}' alt="Rune 1">
-                      <img src='https://ddragon.canisback.com/img/{{ match.rune2 }}' alt="Rune 2">
+                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune1 }}' alt="Rune 1">
+                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune2 }}' alt="Rune 2">
                     </div>
                     <div class="items">
                       <img 
-                        *ngFor="let item of match.items; let last = last" 
+                        *ngFor="let item of match.profile.items; let last = last" 
                         src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
                         [ngClass]="{ 'special': last }"
                       >
                     </div>
                     <div class="player-info">
-                      <p class="player-kills">{{ match.kills }} / {{ match.deaths }} / {{ match.assists }}</p>
-                      <p class="player-kda"> {{ ((match.kills + match.assists) / (Math.max(match.deaths, 1))).toFixed(1) }} KDA</p>
+                      <p class="player-kills">{{ match.profile.kills }} / {{ match.profile.deaths }} / {{ match.profile.assists }}</p>
+                      <p class="player-kda"> {{ ((match.profile.kills + match.profile.assists) / (Math.max(match.profile.deaths, 1))).toFixed(1) }} KDA</p>
                     </div>
                   </div>
                   

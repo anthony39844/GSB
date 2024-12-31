@@ -3,7 +3,9 @@ import { PuuidService } from '../service/puuid/puuid.service';
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatchData } from './profile.interface';
+import { MatchData, ParticipantData } from './profile.interface';
+import { RunesService } from '../service/icon/runes.service';
+import { SumSpellsService } from '../service/icon/sum-spells.service';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +38,6 @@ export class ProfileComponent {
   flexLP: string = "";
   flexWinPercent: number = 0;
   flexTier: string = "unrank"
-
   queueIDMap: {[key: number]: string} = {
     400: "NORMAL DRAFT",
     420: "RANKED SOLO",
@@ -50,7 +51,7 @@ export class ProfileComponent {
   runes: any;
 
   
-  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router) {}
+  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private runesService : RunesService, private sumsService : SumSpellsService) {}
 
   ngOnInit(): void {
     if (this.puuidService.getPuuid() != "") {
@@ -108,53 +109,40 @@ export class ProfileComponent {
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
-          const currentParticipant = participants.find(
-            (participant: { [key: string]: any }) => participant["puuid"] === this.puuid
-          );
 
-          match.win = currentParticipant["win"];
-          match.champion = currentParticipant["championName"];
+          
+          match.gameMode = this.queueIDMap[matchInfo["queueId"]]
           match.time = gameStart;
           match.dataLoaded = true;
-          match.gameMode = this.queueIDMap[matchInfo['queueId']]
-          match.kills = currentParticipant["kills"]
-          match.deaths = currentParticipant["deaths"]
-          match.assists = currentParticipant["assists"]
-          match.lane = currentParticipant["teamPosition"]
-            
-          let rune1 = currentParticipant['perks']['styles'][0]['style']
-          let rune2 = currentParticipant['perks']['styles'][1]['style']
+          match.participants = []
+          for (const participant of participants) {
+            let rune1 = participant['perks']['styles'][0]['style']
+            let rune2 = participant['perks']['styles'][1]['style']
+            const currentParticipant: ParticipantData = {
+              profilePlayer: participant.puuid === this.puuid,
+              win: participant.win,
+              champion: participant.championName,
+              kills: participant.kills,
+              deaths: participant.deaths,
+              assists: participant.assists,
+              lane: participant.teamPosition,
+              rune1: this.runesService.getRunes(rune1),
+              rune2: this.runesService.getRunes(rune2),
+              items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
+              sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
+              sumSpell2: this.sumsService.getSums(participant["summoner2Id"])
 
-          for (let i = 0; i < 7; i++) {
-            let curItem = currentParticipant[`item${i}`]
-            if (curItem != 0) {
-              match.items.push(curItem)
+
+
+
+            };
+            console.log(currentParticipant)
+            if (participant.puuid === this.puuid) {
+              match.profile = currentParticipant;
             }
+            match.participants.push(currentParticipant)
           }
 
-          for (let i in this.sumSpells['data']) {
-            if (currentParticipant['summoner1Id'] == this.sumSpells['data'][i]['key']) {
-              match.sumSpell1 = this.sumSpells['data'][i]['image']['full']
-            }
-            if (currentParticipant['summoner2Id'] == this.sumSpells['data'][i]['key']) {
-              match.sumSpell2 = this.sumSpells['data'][i]['image']['full']
-            }
-            if (match.sumSpell1 && match.sumSpell2) {
-              break;
-            }
-          }
-
-          for (let rune of this.runes) {
-            if (rune1 == rune['id']) {
-              match.rune1 = rune['icon']
-            }
-            if (rune2 == rune['id']) {
-              match.rune2 = rune['icon']
-            }
-            if (match.rune1 && match.rune2) {
-              break;
-            }
-          }
 
           this.ids.sort((a, b) => b.time - a.time);
         }
