@@ -37,7 +37,6 @@ def get_account_info(puuid):
 def get_rank(puuid):
     summoner_id = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}?api_key={api_key}").json()['id']
     response = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}?api_key={api_key}").json()
-
     return jsonify(response)
 
 @app.route('/get_sum_spells', methods=["GET"])

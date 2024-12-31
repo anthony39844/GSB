@@ -59,7 +59,12 @@
                     'lost': !match.profile.win, 
                     'match-module': true
                     }">
-                  <p class="gameMode">{{ match.gameMode ? match.gameMode : "TRAINING" }} </p>
+                  <div class="match-header">
+                    <p class="game-mode">{{ match.gameMode ? match.gameMode : "TRAINING" }}</p>
+                    <p class="match-time">{{ match.timeAgo }}</p>
+                    <p style="color: rgb(173, 173, 173);">•</p>
+                    <p class="match-length">{{ match.gameLength }} minutes</p>
+                  </div>
                   <div class="match-info">
                     <div class="champion">
                       <img 
@@ -87,6 +92,17 @@
                     <div class="player-info">
                       <p class="player-kills">{{ match.profile.kills }} / {{ match.profile.deaths }} / {{ match.profile.assists }}</p>
                       <p class="player-kda"> {{ ((match.profile.kills + match.profile.assists) / (Math.max(match.profile.deaths, 1))).toFixed(1) }} KDA</p>
+                    </div>
+                    <div class="CS">
+                      <p class="cs-score">{{ match.profile.CSscore }}&nbsp;</p>
+                      <p 
+                        [ngClass]="{
+                          'good-cs': match.profile.csPerMin >= 7, 
+                          'bad-cs': match.profile.csPerMin < 5
+                        }">
+                        ({{ match.profile.csPerMin }})
+                      </p>
+                      <p>&nbsp;CS</p>
                     </div>
                   </div>
                   

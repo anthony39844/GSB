@@ -3,6 +3,8 @@ export interface MatchData {
     time: number; 
     gameMode: string
     dataLoaded: boolean 
+    gameLength: number;
+    timeAgo: string | null;
     participants: ParticipantData[]
     profile: ParticipantData
 }
@@ -19,4 +21,10 @@ export interface ParticipantData {
     sumSpell2: string | null;
     rune1: string | null;
     rune2: string | null;
+    CSscore: number;
+    csPerMin: number;
+}
+
+export interface ProfileComponent {
+
 }

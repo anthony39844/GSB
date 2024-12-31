@@ -30,7 +30,7 @@
 }
 
 .won {
-    background: linear-gradient(to right, rgba(62, 221, 165, 0.531), #3e886447);
+    background: linear-gradient(to right, rgba(62, 221, 165, 0.5), #3e886447);
     color: white;
   }
   
@@ -99,10 +99,25 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    .gameMode {
-        margin: 0;
+    .match-header {
+        display: inline-flex;  /* Ensures the container shrinks to fit the content */
+        align-items: center;   /* Center text vertically (optional) */
+        padding: 0;            /* Remove any padding */
+        margin: 0;            
         border-bottom: 1px solid rgba(255, 255, 255, 0.568);
-    }
+        height: fit-content;
+        }
+        p {
+            margin: 0px 0px 5px;
+        }
+        .game-mode {
+            margin-right: 10px;
+        }
+        .match-time, .match-length {
+            color: rgb(173, 173, 173);
+            margin-right: 10px;
+            margin-left: 10px;
+        }
     .match-info {
         display: flex;
         flex-direction: row;
@@ -144,8 +159,11 @@
             align-items: center;
             margin-right: 20px;
             img {
-                margin: 10px;
+                margin: 0 5px 8px 5px;
                 width: 40px;
+            }
+            .rune1 {
+                width: 60px;
             }
         }
         .items {
@@ -181,6 +199,19 @@
             }
             .player-kda {
                 font-size: 15px;
+            }
+        }
+        .CS {
+            font-weight: 550;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+            .good-cs {
+                color: rgb(53, 219, 122);
+            }
+            .bad-cs {
+                color: rgb(245, 80, 80);
             }
         }
     }
