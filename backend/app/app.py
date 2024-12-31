@@ -11,6 +11,7 @@ load_dotenv()
 api_key = os.getenv("API_KEY")
 route = "https://americas.api.riotgames.com"
 ddragon_route = "https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US"
+
 @app.route('/match_ids/<puuid>')
 def get_matches(puuid):
     matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10&api_key={api_key}'
@@ -39,14 +40,13 @@ def get_rank(puuid):
 
     return jsonify(response)
 
-@app.route('/get_champs', methods=["GET"])
-def get_champs():
-    return jsonify(requests.get(f"{ddragon_route}/champion.json").json())
+@app.route('/get_sum_spells', methods=["GET"])
+def get_sum_spells():
+    return jsonify(requests.get(f"{ddragon_route}/summoner.json").json())
 
-@app.route('/get_items', methods=["GET"])
-def get_items():
-    return jsonify(requests.get(f"{ddragon_route}/item.json").json())
-
+@app.route('/get_runes', methods=["GET"])
+def get_runes():
+    return jsonify(requests.get(f"{ddragon_route}/runesReforged.json").json())
 
 
 if __name__ == '__main__':

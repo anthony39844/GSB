@@ -25,8 +25,17 @@ export class ApiService {
   getAccountData(puuid: string): Observable<any> {
     return this.http.get(`${this.baseUrl}get_account/${puuid}`)
   }
+
   getRankData(puuid: string): Observable<any> {
     return this.http.get(`${this.baseUrl}get_rank/${puuid}`)
+  }
+
+  getSummonerSpellData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_sum_spells`)
+  }
+
+  getRunes(): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_runes`)
   }
 
 }

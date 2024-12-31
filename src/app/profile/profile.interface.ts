@@ -10,5 +10,8 @@ export interface MatchData {
     assists: number;
     items: number[];
     lane: string;
-
+    sumSpell1: string | null;
+    sumSpell2: string | null;
+    rune1: string | null;
+    rune2: string | null;
 }
