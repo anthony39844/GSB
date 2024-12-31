@@ -79,8 +79,10 @@ export class ProfileComponent {
           sumSpell2: null,
           rune1: null,
           rune2: null,
-          CSscore: null,
-          gameLength: null,
+          CSscore: 0,
+          gameLength: 1,
+          csPerMinute: 0,
+          timeAgo: null,
         }));
         this.getMatchData();
       } else {
@@ -108,10 +110,14 @@ export class ProfileComponent {
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
+          const currTime = Date.now();
+          const hoursAgo = Math.floor((currTime - gameStart) / 3600000)
           const currentParticipant = participants.find(
             (participant: { [key: string]: any }) => participant["puuid"] === this.puuid
           );
-
+          
+          match.timeAgo = this.getTimeFromHours(hoursAgo)
+          console.log(match.timeAgo)
           match.win = currentParticipant["win"];
           match.champion = currentParticipant["championName"];
           match.time = gameStart;
@@ -120,10 +126,10 @@ export class ProfileComponent {
           match.deaths = currentParticipant["deaths"]
           match.assists = currentParticipant["assists"]
           match.lane = currentParticipant["teamPosition"]
-          match.CSscore = currentParticipant["totalMinionsKilled"]
+          match.CSscore = currentParticipant["totalMinionsKilled"] + currentParticipant['neutralMinionsKilled']
           match.gameLength = Math.floor(currentParticipant['timePlayed'] / 60)
-          console.log(match.gameLength)
-          console.log(currentParticipant)
+          match.csPerMin = Math.floor((match.CSscore / match.gameLength) * 10) / 10;
+
           let rune1style = currentParticipant['perks']['styles'][0]['style']
           let rune1 = currentParticipant['perks']['styles'][0]['selections'][0]['perk']
           let rune2 = currentParticipant['perks']['styles'][1]['style']
@@ -165,6 +171,18 @@ export class ProfileComponent {
       });
     }
     this.loaded = true;
+  }
+
+  getTimeFromHours(hours: number): string {
+    if (hours < 1) {
+      const minutes = Math.floor(hours * 60); 
+      return `${minutes}m ago`; 
+    }
+    const days = Math.floor(hours / 24); 
+    if (days === 0) {
+      return `${hours}h ago`;  
+    }
+    return `${days}d ago`;  
   }
 
   allDataLoaded(): boolean {

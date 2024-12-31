@@ -14,6 +14,12 @@ export interface MatchData {
     sumSpell2: string | null;
     rune1: string | null;
     rune2: string | null;
-    CSscore: number | null;
-    gameLength: number | null;
+    CSscore: number;
+    gameLength: number;
+    csPerMin: number;
+    timeAgo: string | null;
+}
+
+export interface ProfileComponent {
+
 }
