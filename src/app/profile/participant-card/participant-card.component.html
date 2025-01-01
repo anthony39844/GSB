@@ -1,1 +1,68 @@
-<p>participant-card works!</p>
+<div class="right">
+  <div>
+      <div *ngFor="let match of objectEntries(matchData)">
+          <div [ngClass]="{ 
+              'won': match[1].profile.win, 
+              'lost': !match[1].profile.win, 
+              'match-module': true
+              }">
+            <div class="match-header">
+              <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
+              <p class="match-time">{{ match[1].timeAgo }}</p>
+              <p style="color: rgb(173, 173, 173);">•</p>
+              <p class="match-length">{{ match[1].gameLength }} minutes</p>
+            </div>
+            <div class="match-info">
+              <div class="champion-info">
+                <div class="champion">  
+                  <img 
+                    [ngStyle]="{'border': match[1].profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
+                    class="champ-img" 
+                    src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match[1].profile.champion}}.png'
+                    alt="{{ match[1].profile.champion }}"
+                  >
+                  <img 
+                  *ngIf="match[1]?.profile?.lane"
+                  class="lane-img" 
+                  src="./assets/role/{{ match[1].profile.lane?.toLowerCase() }}.png" 
+                  alt="{{ match[1].profile.lane }}" 
+                  >
+                </div>
+                <p>{{ match[1].profile.champion }}</p>
+              </div>
+              <div class="sum-spells">
+                <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell1 }}' alt="Summoner spell 1">
+                <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell2 }}' alt="Summoner spell 2">
+              </div>
+              <div class="runes">
+                <img class="rune1" src='https://ddragon.canisback.com/img/{{ match[1].profile.rune1 }}' alt="Rune 1">
+                <img class="rune2" src='https://ddragon.canisback.com/img/{{ match[1].profile.rune2 }}' alt="Rune 2">
+              </div>
+              <div class="items">
+                <img 
+                  *ngFor="let item of match[1].profile.items; let last = last" 
+                  src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+                  [ngClass]="{ 'ward': last }"
+                >
+              </div>
+              <div class="player-info">
+                <p class="player-kills">{{ match[1].profile.kills }} / {{ match[1].profile.deaths }} / {{ match[1].profile.assists }}</p>
+                <p class="player-kda"> {{ ((match[1].profile.kills + match[1].profile.assists) / (Math.max(match[1].profile.deaths, 1))).toFixed(1) }} KDA</p>
+              </div>
+              <div class="CS">
+                <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
+                <p 
+                  [ngClass]="{
+                    'good-cs': match[1].profile.csPerMin >= 7 && match[1].profile.lane != 'SUPPORT', 
+                    'bad-cs': match[1].profile.csPerMin < 5 && match[1].profile.lane != 'SUPPORT'
+                  }">
+                  ({{ match[1].profile.csPerMin }})
+                </p>
+                <p>&nbsp;CS</p>
+              </div>
+   
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

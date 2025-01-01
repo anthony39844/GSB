@@ -3,9 +3,7 @@ import { PuuidService } from '../service/puuid/puuid.service';
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatchData, ParticipantData } from '../interfaces/matchData.interface';
-import { RunesService } from '../service/icon/runes.service';
-import { SumSpellsService } from '../service/icon/sum-spells.service';
+import { MatchData } from '../interfaces/matchData.interface';
 import { ParticipantCardComponent } from './participant-card/participant-card.component';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 
@@ -20,7 +18,7 @@ export class ProfileComponent {
   objectEntries = Object.entries;
   Math = Math;
   puuid = ""
-  ids: {[key: string]: MatchData} = {}; 
+  matchData: {[key: string]: MatchData} = {}; 
   loaded = false;
   summoner: string = "";
   tagLine: string = "";
@@ -58,7 +56,7 @@ export class ProfileComponent {
       this.puuid = this.puuidService.getPuuid();
       this.getMatchIds();
       this.getAccountData();
-      this.ids = this.matchInfoService.getMatchData()
+      this.matchData = this.matchInfoService.getMatchData()
     }
   }
 
@@ -86,7 +84,7 @@ export class ProfileComponent {
   }
 
   toggleExpand(matchId: string) {
-    this.ids[matchId].expanded = !this.ids[matchId].expanded
+    this.matchData[matchId].expanded = !this.matchData[matchId].expanded
   }
 
   getPuuid(summoner: string, tag : string) {
@@ -98,7 +96,7 @@ export class ProfileComponent {
         this.router.navigate(['/summoner', summoner]);
         this.getMatchIds();
         this.getAccountData();
-        this.ids = this.matchInfoService.getMatchData()
+        this.matchData = this.matchInfoService.getMatchData()
       } else {
         console.log("Invalid summoner", data)
       }
@@ -106,7 +104,7 @@ export class ProfileComponent {
   }
 
   allDataLoaded(): boolean {
-    return Object.values(this.ids).every(match => match.dataLoaded);
+    return Object.values(this.matchData).every(match => match.dataLoaded);
   }
 
   getAccountData() {
@@ -165,7 +163,7 @@ export class ProfileComponent {
   
   reset() {
     this.puuid = ""
-    this.ids = {}; 
+    this.matchData = {}; 
     this.loaded = false;
     this.summoner = "";
     this.tagLine = "";
