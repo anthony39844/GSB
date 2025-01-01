@@ -53,59 +53,69 @@
 
     <div class="right">
         <div *ngIf="allDataLoaded() && loaded">
-            <div *ngFor="let match of ids">
+            <div *ngFor="let match of objectEntries(ids)">
                 <div [ngClass]="{ 
-                    'won': match.profile.win, 
-                    'lost': !match.profile.win, 
+                    'won': match[1].profile.win, 
+                    'lost': !match[1].profile.win, 
                     'match-module': true
-                    }">
+                    }"
+                    (click)="toggleExpand(match[0])">
                   <div class="match-header">
-                    <p class="game-mode">{{ match.gameMode ? match.gameMode : "TRAINING" }}</p>
-                    <p class="match-time">{{ match.timeAgo }}</p>
+                    <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
+                    <p class="match-time">{{ match[1].timeAgo }}</p>
                     <p style="color: rgb(173, 173, 173);">•</p>
-                    <p class="match-length">{{ match.gameLength }} minutes</p>
+                    <p class="match-length">{{ match[1].gameLength }} minutes</p>
                   </div>
                   <div class="match-info">
                     <div class="champion">
                       <img 
-                        [ngStyle]="{'border': match.profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
+                        [ngStyle]="{'border': match[1].profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
                         class="champ-img" 
-                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.profile.champion}}.png'
+                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match[1].profile.champion}}.png'
                       >
-                      <p>{{match.profile.lane}}: {{ match.profile.champion }}</p>
+                      <p>{{match[1].profile.lane}}: {{ match[1].profile.champion }}</p>
                     </div>
                     <div class="sum-spells">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell1 }}' alt="Summoner spell 1">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell2 }}' alt="Summoner spell 2">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell1 }}' alt="Summoner spell 1">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell2 }}' alt="Summoner spell 2">
                     </div>
                     <div class="runes">
-                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune1 }}' alt="Rune 1">
-                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune2 }}' alt="Rune 2">
+                      <img src='https://ddragon.canisback.com/img/{{ match[1].profile.rune1 }}' alt="Rune 1">
+                      <img src='https://ddragon.canisback.com/img/{{ match[1].profile.rune2 }}' alt="Rune 2">
                     </div>
                     <div class="items">
                       <img 
-                        *ngFor="let item of match.profile.items; let last = last" 
+                        *ngFor="let item of match[1].profile.items; let last = last" 
                         src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
                         [ngClass]="{ 'special': last }"
                       >
                     </div>
                     <div class="player-info">
-                      <p class="player-kills">{{ match.profile.kills }} / {{ match.profile.deaths }} / {{ match.profile.assists }}</p>
-                      <p class="player-kda"> {{ ((match.profile.kills + match.profile.assists) / (Math.max(match.profile.deaths, 1))).toFixed(1) }} KDA</p>
+                      <p class="player-kills">{{ match[1].profile.kills }} / {{ match[1].profile.deaths }} / {{ match[1].profile.assists }}</p>
+                      <p class="player-kda"> {{ ((match[1].profile.kills + match[1].profile.assists) / (Math.max(match[1].profile.deaths, 1))).toFixed(1) }} KDA</p>
                     </div>
                     <div class="CS">
-                      <p class="cs-score">{{ match.profile.CSscore }}&nbsp;</p>
+                      <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
                       <p 
                         [ngClass]="{
-                          'good-cs': match.profile.csPerMin >= 7, 
-                          'bad-cs': match.profile.csPerMin < 5
+                          'good-cs': match[1].profile.csPerMin >= 7, 
+                          'bad-cs': match[1].profile.csPerMin < 5
                         }">
-                        ({{ match.profile.csPerMin }})
+                        ({{ match[1].profile.csPerMin }})
                       </p>
                       <p>&nbsp;CS</p>
                     </div>
+                    <div *ngFor="let participant of match[1].participants">
+                      <div>
+                        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
+                        <p>{{ participant.gameName }}</p>
+                      </div>
+                    </div>
                   </div>
                   
+                </div>
+                <div *ngIf="match[1].expanded">
+                  <p>HELLO</p>
                 </div>
             </div>
         </div>

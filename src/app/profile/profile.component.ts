@@ -15,9 +15,10 @@ import { SumSpellsService } from '../service/icon/sum-spells.service';
 })
 
 export class ProfileComponent {
+  objectEntries = Object.entries;
   Math = Math;
   puuid = ""
-  ids: MatchData[] = []; 
+  ids: {[key: string]: MatchData} = {}; 
   loaded = false;
   summoner: string = "";
   tagLine: string = "";
@@ -64,27 +65,34 @@ export class ProfileComponent {
   getMatchIds() {
     this.apiService.getMatchIds(this.puuid).subscribe(matchIds => {
       if (matchIds) {
-        this.ids = matchIds.map((id: string)=> ({
-          matchId: id,
-          win: true,
-          champion: "",
-          time: 0,
-          gameMode: "",
-          dataLoaded: false,
-          kills: 0,
-          deaths: 0,
-          assists: 0,
-          items: [],
-          lane: "",
-          sumSpell1: null,
-          sumSpell2: null,
-          rune1: null,
-          rune2: null,
-          CSscore: 0,
-          gameLength: 1,
-          csPerMinute: 0,
-          timeAgo: null,
-        }));
+        for (let matchId in matchIds) {
+          this.ids[matchIds[matchId]] = {
+            time: 0,
+            gameMode: "",
+            dataLoaded: false,
+            gameLength: 1,
+            timeAgo: null,
+            expanded: false,
+            participants: [],
+            profile: {
+              profilePlayer: false,
+              gameName: "",
+              win: true,
+              champion: "",
+              kills: 0,
+              deaths: 0,
+              assists: 0,
+              items: [],
+              lane: "",
+              sumSpell1: null,
+              sumSpell2: null,
+              rune1: null,
+              rune2: null,
+              CSscore: 0,
+              csPerMin: 0
+            }
+          }
+        }
         this.getMatchData();
       } else {
         console.log("Error getting matchIds")
@@ -104,9 +112,15 @@ export class ProfileComponent {
     })
   }
 
+  toggleExpand(matchId: string) {
+    this.ids[matchId].expanded = !this.ids[matchId].expanded
+  }
+
   getMatchData() {
-    for (const match of this.ids) {
-      this.apiService.getMatchData(match.matchId).subscribe(matchData => {
+    for (const matchId in this.ids) {
+
+      let match = this.ids[matchId]
+      this.apiService.getMatchData(matchId).subscribe(matchData => {
         if (matchData) {
           match.participants = []
           const matchInfo = matchData["info"];
@@ -117,6 +131,7 @@ export class ProfileComponent {
           match.timeAgo = this.getTimeFromHours(hoursAgo)
           match.time = gameStart;
           match.gameMode = this.queueIDMap[matchInfo['queueId']]
+          match.expanded = false;
 
           for (const participant of participants) {
           match.gameLength = Math.floor(participant['timePlayed'] / 60)
@@ -125,6 +140,7 @@ export class ProfileComponent {
             let rune2 = participant['perks']['styles'][1]['style']
             const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
             const currentParticipant: ParticipantData = {
+              gameName: participant.riotIdGameName,
               profilePlayer: participant.puuid === this.puuid,
               win: participant.win,
               champion: participant.championName,
@@ -175,7 +191,9 @@ export class ProfileComponent {
           // }
           
           match.dataLoaded = true;
-          this.ids.sort((a, b) => b.time - a.time);
+          this.ids =  Object.fromEntries(
+            Object.entries(this.ids).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
+          );
         }
       }});
     }
@@ -196,7 +214,7 @@ export class ProfileComponent {
   }
 
   allDataLoaded(): boolean {
-    return this.ids.every(match => match.dataLoaded);
+    return Object.values(this.ids).every(match => match.dataLoaded);
   }
 
   getPuuid(summoner: string, tag : string) {

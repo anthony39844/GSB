@@ -1,14 +1,15 @@
 export interface MatchData { 
-    matchId: string; 
     time: number; 
     gameMode: string
     dataLoaded: boolean 
     gameLength: number;
     timeAgo: string | null;
+    expanded: boolean;
     participants: ParticipantData[]
     profile: ParticipantData
 }
 export interface ParticipantData {
+    gameName: string;
     profilePlayer: boolean;
     win: boolean; 
     champion: string; 
