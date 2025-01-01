@@ -114,16 +114,30 @@
                       </p>
                       <p>&nbsp;CS</p>
                     </div>
-                    <div *ngFor="let participant of match[1].participants">
-                      <div>
-                        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
-                        <p>{{ participant.gameName }}</p>
+                    <div *ngIf="!match[1].expanded"class="teammates">
+                      <div class="team1">
+                        <div class="teammate" *ngFor="let participant of match[1].participants | slice:0:(match[1].participants.length / 2)">
+                          <p>{{ participant.gameName }}</p>
+                          <img 
+                            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' 
+                            class="champ-img">
+                        </div>
                       </div>
-                    </div>
+                      <div class="teammate-lanes">
+                        <img *ngFor="let image of laneImages" src="./assets/role/{{ image }}.png">
+                      </div>
+                      <div class="team2">
+                        <div class="teammate" *ngFor="let participant of match[1].participants | slice:(match[1].participants.length / 2):match[1].participants.length">
+                          <img 
+                            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' 
+                            class="champ-img">
+                          <p>{{ participant.gameName }}</p>
+                        </div>
+                      </div>
+                    </div>  
                   </div>
-                  
                 </div>
-                <div *ngIf="match[1].expanded">
+                <div class="more-info" *ngIf="match[1].expanded">
                   <div class="more-info-container">
                     <p>Team 1: {{match[1].participants[0].win ? "WON" : "LOST"}}</p>
                     <div class="more-info-data" *ngFor="let participant of match[1].participants | slice:0:match[1].participants.length / 2">
@@ -139,7 +153,5 @@
                 </div>
             </div>
         </div>
-  
     </div>
-
 </div>

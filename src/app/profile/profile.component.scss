@@ -232,6 +232,55 @@
                 color: rgb(245, 80, 80);
             }
         }
+        .teammates {
+            display: flex;
+            flex-direction: row;
+            margin-left: 20px;
+            .team1 {
+                margin: 0px;
+                margin-right: 10px;
+                display: flex; 
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .team2 {
+                margin: 0;
+                margin-left: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+            .team1, .team2 {
+                .teammate {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: row;
+                    margin: 10px 0 0;
+                    .champ-img {
+                        margin: 0;
+                        width: 30px;
+                    }
+                    p {
+                        white-space: nowrap; /* Prevent text from wrapping to the next line */
+                        overflow: hidden;    /* Hide the overflowing text */
+                        text-overflow: ellipsis;
+                        max-width: 50px;
+                        display: block;  
+                        margin: 0;  
+                        margin: 4px; 
+                    }
+                }
+            }
+            .teammate-lanes {
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                img {
+                    margin-top: 10px;
+                    width: 30px;
+                }
+            }
+        }
     }
 }
 

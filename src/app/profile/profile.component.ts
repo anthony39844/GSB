@@ -45,6 +45,13 @@ export class ProfileComponent {
     450: "ARAM",
     490: "QUICK PLAY"
   }
+  laneImages: string[] = [
+    'top',
+    'jungle',
+    'middle',
+    'bottom',
+    'support',
+  ]
 
   sumSpells: any;
   runes: any;
@@ -137,12 +144,7 @@ export class ProfileComponent {
             match.gameLength = Math.floor(participant['timePlayed'] / 60)
 
             let rune1 = participant['perks']['styles'][0]['selections'][0]['perk']
-            let rune1Child1 = participant['perks']['styles'][0]['selections'][1]['perk']
-            let rune1Child2 = participant['perks']['styles'][0]['selections'][2]['perk']
-            let rune1Child3 = participant['perks']['styles'][0]['selections'][3]['perk']
             let rune2 = participant['perks']['styles'][1]['style']
-            let rune2Child1 = participant['perks']['styles'][1]['selections'][0]['perk']
-            let rune2Child2 = participant['perks']['styles'][1]['selections'][1]['perk']
 
             const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
             const currentParticipant: ParticipantData = {
@@ -155,12 +157,7 @@ export class ProfileComponent {
               assists: participant.assists,
               lane: match.gameMode !== "ARAM" ? participant.individualPosition === "UTILITY" ? "SUPPORT" : participant.individualPosition : "",
               rune1: this.runesService.getRunes(rune1),
-              // rune1Child1: this.runesService.getRunes(rune1Child1),
-              // rune1Child2: this.runesService.getRunes(rune1Child2),
-              // rune1Child3: this.runesService.getRunes(rune1Child3),
               rune2: this.runesService.getRunes(rune2),
-              // rune2Child1: this.runesService.getRunes(rune2Child1),
-              // rune2Child2: this.runesService.getRunes(rune2Child2),
               items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
               sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
               sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
@@ -171,35 +168,6 @@ export class ProfileComponent {
               match.profile = currentParticipant;
             }
             match.participants.push(currentParticipant)
-
-
-          // let rune1style = currentParticipant['perks']['styles'][0]['style']
-          // let rune1 = currentParticipant['perks']['styles'][0]['selections'][0]['perk']
-          // let rune2 = currentParticipant['perks']['styles'][1]['style']
-
-          // for (let i in this.sumSpells['data']) {
-          //   if (currentParticipant['summoner1Id'] == this.sumSpells['data'][i]['key']) {
-          //     match.sumSpell1 = this.sumSpells['data'][i]['image']['full']
-          //   }
-          //   if (currentParticipant['summoner2Id'] == this.sumSpells['data'][i]['key']) {
-          //     match.sumSpell2 = this.sumSpells['data'][i]['image']['full']
-          //   }
-          //   if (match.sumSpell1 && match.sumSpell2) {
-          //     break;
-          //   }
-          // }
-
-          // const primaryRune = this.runes.find((rune: any) => rune1style === rune.id);
-          // if (primaryRune) {
-          //   const subRune = primaryRune.slots?.[0].runes.find((subrune: any) => rune1 === subrune.id);
-          //   if (subRune) {
-          //     match.rune1 = subRune.icon;
-          //   }
-          // }
-          // const secondaryRune = this.runes.find((rune: any) => rune2 === rune.id);
-          // if (secondaryRune) {
-          //   match.rune2 = secondaryRune.icon;
-          // }
           
           match.dataLoaded = true;
           this.ids =  Object.fromEntries(
@@ -229,8 +197,7 @@ export class ProfileComponent {
   }
 
   getPuuid(summoner: string, tag : string) {
-    this.accountLoaded = false;
-    this.loaded = false;
+    this.reset();
     tag = tag.replace("#", "")
     this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
       if (data['puuid']) {
@@ -266,12 +233,12 @@ export class ProfileComponent {
           }
         }
         if (hasSolo && hasFlex) {
-          solo = data[0]
-          flex = data[1]
+          solo = data[1]
+          flex = data[0]
         } else if (hasFlex) {
           flex = data[0]
         } else if (hasSolo) {
-          solo = data[0]
+          solo = data[1]
         }
 
         if (solo) {
@@ -296,5 +263,26 @@ export class ProfileComponent {
 
   sendHome() {
     this.router.navigate(['']);
+  }
+  
+  reset() {
+    this.puuid = ""
+    this.ids = {}; 
+    this.loaded = false;
+    this.summoner = "";
+    this.tagLine = "";
+    this.accountLoaded = false;
+    this.soloRank = "";
+    this.soloLosses = "";
+    this.soloWins = "";
+    this.soloLP = "";
+    this.soloWinPercent = 0;
+    this.soloTier = "unrank"
+    this.flexRank = "";
+    this.flexWins = "";
+    this.flexLosses = "";
+    this.flexLP = "";
+    this.flexWinPercent = 0;
+    this.flexTier = "unrank";
   }
 }
