@@ -123,8 +123,11 @@
                             class="champ-img">
                         </div>
                       </div>
-                      <div class="teammate-lanes">
+                      <div *ngIf="match[1].gameMode != 'ARAM'" class="teammate-lanes">
                         <img *ngFor="let image of laneImages" src="./assets/role/{{ image }}.png">
+                      </div>
+                      <div *ngIf="match[1].gameMode == 'ARAM'" class="aram-lanes">
+                        <p>VS</p>
                       </div>
                       <div class="team2">
                         <div class="teammate" *ngFor="let participant of match[1].participants | slice:(match[1].participants.length / 2):match[1].participants.length">
