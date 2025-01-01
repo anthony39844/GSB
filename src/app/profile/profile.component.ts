@@ -134,10 +134,16 @@ export class ProfileComponent {
           match.expanded = false;
 
           for (const participant of participants) {
-          match.gameLength = Math.floor(participant['timePlayed'] / 60)
+            match.gameLength = Math.floor(participant['timePlayed'] / 60)
 
-            let rune1 = participant['perks']['styles'][0]['style']
+            let rune1 = participant['perks']['styles'][0]['selections'][0]['perk']
+            let rune1Child1 = participant['perks']['styles'][0]['selections'][1]['perk']
+            let rune1Child2 = participant['perks']['styles'][0]['selections'][2]['perk']
+            let rune1Child3 = participant['perks']['styles'][0]['selections'][3]['perk']
             let rune2 = participant['perks']['styles'][1]['style']
+            let rune2Child1 = participant['perks']['styles'][1]['selections'][0]['perk']
+            let rune2Child2 = participant['perks']['styles'][1]['selections'][1]['perk']
+
             const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
             const currentParticipant: ParticipantData = {
               gameName: participant.riotIdGameName,
@@ -147,9 +153,14 @@ export class ProfileComponent {
               kills: participant.kills,
               deaths: participant.deaths,
               assists: participant.assists,
-              lane: participant.teamPosition,
+              lane: match.gameMode !== "ARAM" ? participant.individualPosition === "UTILITY" ? "SUPPORT" : participant.individualPosition : "",
               rune1: this.runesService.getRunes(rune1),
+              // rune1Child1: this.runesService.getRunes(rune1Child1),
+              // rune1Child2: this.runesService.getRunes(rune1Child2),
+              // rune1Child3: this.runesService.getRunes(rune1Child3),
               rune2: this.runesService.getRunes(rune2),
+              // rune2Child1: this.runesService.getRunes(rune2Child1),
+              // rune2Child2: this.runesService.getRunes(rune2Child2),
               items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
               sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
               sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
