@@ -266,8 +266,8 @@ export class ProfileComponent {
           }
         }
         if (hasSolo && hasFlex) {
-          flex = data[0]
-          solo = data[1]
+          solo = data[0]
+          flex = data[1]
         } else if (hasFlex) {
           flex = data[0]
         } else if (hasSolo) {

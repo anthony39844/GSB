@@ -70,14 +70,19 @@
                     <div class="champion-info">
                       <div class="champion">  
                         <img 
-                          [ngStyle]="{'border': match.profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
+                          [ngStyle]="{'border': match[1].profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
                           class="champ-img" 
-                          src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.profile.champion}}.png'
-                          alt="{{ match.profile.champion }}"
+                          src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match[1].profile.champion}}.png'
+                          alt="{{ match[1].profile.champion }}"
                         >
-                        <img class="lane-img" src="./assets/role/{{ match.profile.lane?.toLowerCase() }}.png" alt="{{ match.profile.lane }}">
+                        <img 
+                        *ngIf="match[1]?.profile?.lane"
+                        class="lane-img" 
+                        src="./assets/role/{{ match[1].profile.lane?.toLowerCase() }}.png" 
+                        alt="{{ match[1].profile.lane }}" 
+                        >
                       </div>
-                      <p>{{ match.profile.champion }}</p>
+                      <p>{{ match[1].profile.champion }}</p>
                     </div>
                     <div class="sum-spells">
                       <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell1 }}' alt="Summoner spell 1">
@@ -102,8 +107,8 @@
                       <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
                       <p 
                         [ngClass]="{
-                          'good-cs': match[1].profile.csPerMin >= 7 && match.profile.lane != 'SUPPORT', 
-                          'bad-cs': match[1].profile.csPerMin < 5 && match.profile.lane != 'SUPPORT'
+                          'good-cs': match[1].profile.csPerMin >= 7 && match[1].profile.lane != 'SUPPORT', 
+                          'bad-cs': match[1].profile.csPerMin < 5 && match[1].profile.lane != 'SUPPORT'
                         }">
                         ({{ match[1].profile.csPerMin }})
                       </p>
@@ -119,7 +124,18 @@
                   
                 </div>
                 <div *ngIf="match[1].expanded">
-                  <p>HELLO</p>
+                  <div class="more-info-container">
+                    <p>Team 1: {{match[1].participants[0].win ? "WON" : "LOST"}}</p>
+                    <div class="more-info-data" *ngFor="let participant of match[1].participants | slice:0:match[1].participants.length / 2">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
+                      <p> {{participant.gameName}}</p>
+                    </div>
+                    <p>Team 2: {{match[1].participants[9].win ? "WON" : "LOST"}}</p>
+                    <div class="more-info-data" *ngFor="let participant of match[1].participants | slice:match[1].participants.length / 2:match[1].participants.length">
+                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
+                      <p> {{participant.gameName}}</p>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
