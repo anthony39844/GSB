@@ -121,6 +121,7 @@
     .match-info {
         display: flex;
         flex-direction: row;
+        align-items: center;
         div {
             margin-top: 10px;
         }
@@ -191,9 +192,10 @@
             justify-items: center;
             grid-auto-flow: dense;
             position: relative;
+            height: fit-content;
             img {
                 width: 40px;
-                margin: 0px 5px 0px
+                margin: 5px 5px 0px
             }
             .ward {
                 grid-column: 4 / 5;
