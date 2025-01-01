@@ -20,7 +20,12 @@ export interface ParticipantData {
     sumSpell1: string | null;
     sumSpell2: string | null;
     rune1: string | null;
+    rune1Child1?: string | null;
+    rune1Child2?: string | null;
+    rune1Child3?: string | null;
     rune2: string | null;
+    rune2Child1?: string | null;
+    rune2Child2?: string | null;
     CSscore: number;
     csPerMin: number;
 }

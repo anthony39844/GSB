@@ -66,27 +66,31 @@
                     <p class="match-length">{{ match.gameLength }} minutes</p>
                   </div>
                   <div class="match-info">
-                    <div class="champion">
-                      <img 
-                        [ngStyle]="{'border': match.profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
-                        class="champ-img" 
-                        src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.profile.champion}}.png'
-                      >
-                      <p>{{match.profile.lane}}: {{ match.profile.champion }}</p>
+                    <div class="champion-info">
+                      <div class="champion">  
+                        <img 
+                          [ngStyle]="{'border': match.profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
+                          class="champ-img" 
+                          src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match.profile.champion}}.png'
+                          alt="{{ match.profile.champion }}"
+                        >
+                        <img class="lane-img" src="./assets/role/{{ match.profile.lane?.toLowerCase() }}.png" alt="{{ match.profile.lane }}">
+                      </div>
+                      <p>{{ match.profile.champion }}</p>
                     </div>
                     <div class="sum-spells">
                       <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell1 }}' alt="Summoner spell 1">
                       <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match.profile.sumSpell2 }}' alt="Summoner spell 2">
                     </div>
                     <div class="runes">
-                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune1 }}' alt="Rune 1">
-                      <img src='https://ddragon.canisback.com/img/{{ match.profile.rune2 }}' alt="Rune 2">
+                      <img class="rune1" src='https://ddragon.canisback.com/img/{{ match.profile.rune1 }}' alt="Rune 1">
+                      <img class="rune2" src='https://ddragon.canisback.com/img/{{ match.profile.rune2 }}' alt="Rune 2">
                     </div>
                     <div class="items">
                       <img 
                         *ngFor="let item of match.profile.items; let last = last" 
                         src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-                        [ngClass]="{ 'special': last }"
+                        [ngClass]="{ 'ward': last }"
                       >
                     </div>
                     <div class="player-info">
@@ -97,8 +101,8 @@
                       <p class="cs-score">{{ match.profile.CSscore }}&nbsp;</p>
                       <p 
                         [ngClass]="{
-                          'good-cs': match.profile.csPerMin >= 7, 
-                          'bad-cs': match.profile.csPerMin < 5
+                          'good-cs': match.profile.csPerMin >= 7 && match.profile.lane != 'SUPPORT', 
+                          'bad-cs': match.profile.csPerMin < 5 && match.profile.lane != 'SUPPORT'
                         }">
                         ({{ match.profile.csPerMin }})
                       </p>
