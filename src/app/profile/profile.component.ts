@@ -3,13 +3,15 @@ import { PuuidService } from '../service/puuid/puuid.service';
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatchData, ParticipantData } from './profile.interface';
+import { MatchData, ParticipantData } from '../interfaces/matchData.interface';
 import { RunesService } from '../service/icon/runes.service';
 import { SumSpellsService } from '../service/icon/sum-spells.service';
+import { ParticipantCardComponent } from './participant-card/participant-card.component';
+import { MatchInfoService } from '../service/matchInfo/match-info.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, ParticipantCardComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -37,14 +39,6 @@ export class ProfileComponent {
   flexLP: string = "";
   flexWinPercent: number = 0;
   flexTier: string = "unrank"
-  queueIDMap: {[key: number]: string} = {
-    400: "NORMAL DRAFT",
-    420: "RANKED SOLO",
-    430: "QUICK PLAY",
-    440: "RANKED FLEX",
-    450: "ARAM",
-    490: "QUICK PLAY"
-  }
   laneImages: string[] = [
     'top',
     'jungle',
@@ -57,50 +51,22 @@ export class ProfileComponent {
   runes: any;
 
   
-  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private runesService : RunesService, private sumsService : SumSpellsService) {}
+  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService) {}
 
   ngOnInit(): void {
     if (this.puuidService.getPuuid() != "") {
       this.puuid = this.puuidService.getPuuid();
       this.getMatchIds();
       this.getAccountData();
-      this.getSumSpells();
-      this.getRunes();
+      this.ids = this.matchInfoService.getMatchData()
     }
   }
 
   getMatchIds() {
     this.apiService.getMatchIds(this.puuid).subscribe(matchIds => {
       if (matchIds) {
-        for (let matchId in matchIds) {
-          this.ids[matchIds[matchId]] = {
-            time: 0,
-            gameMode: "",
-            dataLoaded: false,
-            gameLength: 1,
-            timeAgo: null,
-            expanded: false,
-            participants: [],
-            profile: {
-              profilePlayer: false,
-              gameName: "",
-              win: true,
-              champion: "",
-              kills: 0,
-              deaths: 0,
-              assists: 0,
-              items: [],
-              lane: "",
-              sumSpell1: null,
-              sumSpell2: null,
-              rune1: null,
-              rune2: null,
-              CSscore: 0,
-              csPerMin: 0
-            }
-          }
-        }
-        this.getMatchData();
+        this.matchInfoService.setPuuid(this.puuid)
+        this.matchInfoService.setIds(matchIds)
       } else {
         console.log("Error getting matchIds")
       }
@@ -123,79 +89,6 @@ export class ProfileComponent {
     this.ids[matchId].expanded = !this.ids[matchId].expanded
   }
 
-  getMatchData() {
-    for (const matchId in this.ids) {
-
-      let match = this.ids[matchId]
-      this.apiService.getMatchData(matchId).subscribe(matchData => {
-        if (matchData) {
-          match.participants = []
-          const matchInfo = matchData["info"];
-          const participants = matchInfo["participants"];
-          const gameStart = matchInfo["gameCreation"];
-          const currTime = Date.now();
-          const hoursAgo = Math.floor((currTime - gameStart) / 3600000)
-          match.timeAgo = this.getTimeFromHours(hoursAgo)
-          match.time = gameStart;
-          match.gameMode = this.queueIDMap[matchInfo['queueId']]
-          match.expanded = false;
-
-          for (const participant of participants) {
-            match.gameLength = Math.floor(participant['timePlayed'] / 60)
-
-            let rune1 = participant['perks']['styles'][0]['selections'][0]['perk']
-            let rune2 = participant['perks']['styles'][1]['style']
-
-            const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
-            const currentParticipant: ParticipantData = {
-              gameName: participant.riotIdGameName,
-              profilePlayer: participant.puuid === this.puuid,
-              win: participant.win,
-              champion: participant.championName,
-              kills: participant.kills,
-              deaths: participant.deaths,
-              assists: participant.assists,
-              lane: match.gameMode !== "ARAM" ? participant.individualPosition === "UTILITY" ? "SUPPORT" : participant.individualPosition : "",
-              rune1: this.runesService.getRunes(rune1),
-              rune2: this.runesService.getRunes(rune2),
-              items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
-              sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
-              sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
-              CSscore: cs,
-              csPerMin: Math.floor((cs / match.gameLength) * 10) / 10,
-            };
-            if (participant.puuid === this.puuid) {
-              match.profile = currentParticipant;
-            }
-            match.participants.push(currentParticipant)
-          
-          match.dataLoaded = true;
-          this.ids =  Object.fromEntries(
-            Object.entries(this.ids).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
-          );
-        }
-      }});
-    }
-    
-    this.loaded = true;
-  }
-
-  getTimeFromHours(hours: number): string {
-    if (hours < 1) {
-      const minutes = Math.floor(hours * 60); 
-      return `${minutes}m ago`; 
-    }
-    const days = Math.floor(hours / 24); 
-    if (days === 0) {
-      return `${hours}h ago`;  
-    }
-    return `${days}d ago`;  
-  }
-
-  allDataLoaded(): boolean {
-    return Object.values(this.ids).every(match => match.dataLoaded);
-  }
-
   getPuuid(summoner: string, tag : string) {
     this.reset();
     tag = tag.replace("#", "")
@@ -205,10 +98,15 @@ export class ProfileComponent {
         this.router.navigate(['/summoner', summoner]);
         this.getMatchIds();
         this.getAccountData();
+        this.ids = this.matchInfoService.getMatchData()
       } else {
         console.log("Invalid summoner", data)
       }
     })
+  }
+
+  allDataLoaded(): boolean {
+    return Object.values(this.ids).every(match => match.dataLoaded);
   }
 
   getAccountData() {

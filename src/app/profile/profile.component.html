@@ -52,7 +52,7 @@
     </div>  
 
     <div class="right">
-        <div *ngIf="allDataLoaded() && loaded">
+        <div *ngIf="allDataLoaded()">
             <div *ngFor="let match of objectEntries(ids)">
                 <div [ngClass]="{ 
                     'won': match[1].profile.win, 
@@ -141,18 +141,7 @@
                   </div>
                 </div>
                 <div class="more-info" *ngIf="match[1].expanded">
-                  <div class="more-info-container">
-                    <p>Team 1: {{match[1].participants[0].win ? "WON" : "LOST"}}</p>
-                    <div class="more-info-data" *ngFor="let participant of match[1].participants | slice:0:match[1].participants.length / 2">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
-                      <p> {{participant.gameName}}</p>
-                    </div>
-                    <p>Team 2: {{match[1].participants[9].win ? "WON" : "LOST"}}</p>
-                    <div class="more-info-data" *ngFor="let participant of match[1].participants | slice:match[1].participants.length / 2:match[1].participants.length">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' class="champ-img" >
-                      <p> {{participant.gameName}}</p>
-                    </div>
-                  </div>
+                  <app-participant-card></app-participant-card>
                 </div>
             </div>
         </div>
