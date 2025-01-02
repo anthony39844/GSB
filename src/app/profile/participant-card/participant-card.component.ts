@@ -7,9 +7,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-participant-card',
   imports: [CommonModule],
   templateUrl: './participant-card.component.html',
-  styleUrl: './participant-card.component.scss'
+  styleUrl: './participant-card.component.scss',
 })
-
 export class ParticipantCardComponent {
   objectEntries = Object.entries;
   Math = Math;
@@ -17,27 +16,28 @@ export class ParticipantCardComponent {
   matchData: MatchData = {
     dataLoaded: false,
     time: 0,
-    gameMode: "",
+    gameMode: '',
     gameLength: 1,
     timeAgo: null,
     expanded: false,
     teams: [],
     profile: {
       profilePlayer: false,
-      gameName: "",
+      gameName: '',
       win: true,
-      champion: "",
+      champion: '',
       kills: 0,
       deaths: 0,
       assists: 0,
       items: [],
-      lane: "",
+      lane: '',
       sumSpell1: null,
       sumSpell2: null,
       rune1: null,
       rune2: null,
       CSscore: 0,
       csPerMin: 0,
+      Kp: 0,
     }
   }
   @Input() matchId: string = "";
@@ -46,7 +46,7 @@ export class ParticipantCardComponent {
     
   };
 
-  ngOnInit(){
+  ngOnInit() {
     this.matchData = this.matchInfoService.getMatchData()[this.matchId];
   }
 }

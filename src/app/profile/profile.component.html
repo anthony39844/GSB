@@ -9,7 +9,6 @@
   </div>
 </div>
 
-
 <div class="container">
     <div class="left" *ngIf="accountLoaded">
         <div class="summoner">
@@ -108,12 +107,23 @@
                       <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
                       <p 
                         [ngClass]="{
-                          'good-cs': match[1].profile.csPerMin >= 7 && match[1].profile.lane != 'SUPPORT', 
-                          'bad-cs': match[1].profile.csPerMin < 5 && match[1].profile.lane != 'SUPPORT'
+                          'good': match[1].profile.csPerMin >= 7 && match[1].profile.lane != 'SUPPORT', 
+                          'bad': match[1].profile.csPerMin < 5 && match[1].profile.lane != 'SUPPORT'
                         }">
                         ({{ match[1].profile.csPerMin }})
                       </p>
                       <p>&nbsp;CS</p>
+                    </div>
+                    <div class="KP">
+                      <p [ngClass]="{
+                        'good': match[1].profile.Kp > 60,
+                        'bad': match[1].profile.Kp < 40,
+                        'amazing': match[1].profile.Kp > 80
+                        }
+                        ">
+                        {{ match[1].profile.Kp }}%
+                      </p>
+                      <p>&nbsp;KP</p>
                     </div>
                     <div *ngIf="!match[1].expanded" class="teammates">
                       <ng-container *ngFor="let team of match[1].teams; let i = index">

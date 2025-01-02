@@ -43,7 +43,15 @@
         <p>&nbsp;CS</p>
       </div>
       <div class="KP">
-          <p>{{ ((player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))).toFixed(1) }}%</p>
+        <p [ngClass]="{
+          'good': player.Kp > 60,
+          'bad': player.Kp < 40,
+          'amazing': player.Kp > 80,
+          }
+          ">
+          {{ player.Kp }}%
+        </p>
+        <p>&nbsp;KP</p>
       </div>
       <div class="items">
         <img 
@@ -55,4 +63,3 @@
     </div>
   </div>
 </div>
- 

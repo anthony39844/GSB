@@ -24,7 +24,8 @@ export interface ParticipantData {
     rune1: string | null;
     rune2: string | null;
     CSscore: number;
-    csPerMin: number;
+    csPerMin: number;  
+    Kp: number;
 }
 
 export interface TeamData {

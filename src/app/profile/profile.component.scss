@@ -33,10 +33,19 @@
     background: linear-gradient(to right, rgba(62, 221, 165, 0.5), #3e886447);
     color: white;
   }
-  
 .lost {
     background: linear-gradient(to right, rgba(203, 69, 69, 0.593), #8a404046);
     color: white;
+}
+
+.good {
+    color: rgb(53, 219, 122);
+}
+.bad {
+    color: rgb(245, 80, 80);
+}
+.amazing {
+    color: #85d0ff;
 }
 
 .summoner {
@@ -222,17 +231,20 @@
             }
         }
         .CS {
+            font-size: 18px;
             font-weight: 550;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-left: 20px;
-            .good-cs {
-                color: rgb(53, 219, 122);
-            }
-            .bad-cs {
-                color: rgb(245, 80, 80);
-            }
+        }
+        .KP {
+            font-size: 18px;
+            font-weight: 550;
+            margin-left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .teammates {
             display: flex;
@@ -305,4 +317,5 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 12px;
 }
