@@ -125,7 +125,7 @@
                       </p>
                       <p>&nbsp;KP</p>
                     </div>
-                    <div *ngIf="!match[1].expanded" class="teammates">
+                    <div class="teammates">
                       <ng-container *ngFor="let team of match[1].teams; let i = index">
                         <div *ngIf="i === 0" class="team1">
                           <div class="teammate" *ngFor="let player of team.members">

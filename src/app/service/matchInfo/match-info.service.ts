@@ -23,6 +23,9 @@ export class MatchInfoService {
   constructor(private apiService: ApiService, private runesService : RunesService, private sumsService : SumSpellsService) { }
 
   setIds(ids: []) {
+    for (let key in this.matchData) {
+      delete this.matchData[key];
+    }
     this.ids = ids;
     this.setData();
   }
@@ -141,14 +144,13 @@ export class MatchInfoService {
               for (let player of team.members) {
                 player.Kp = parseFloat(((player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))).toFixed(1))
               } 
-            }
-            
-            
+            } 
           }
         }
-      });this.matchData =  Object.fromEntries(
-      Object.entries(this.matchData).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
-    );
+      });
+      this.matchData =  Object.fromEntries(
+        Object.entries(this.matchData).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
+      );
     }
     
   }
