@@ -5,8 +5,8 @@ export interface MatchData {
     gameLength: number;
     timeAgo: string | null;
     expanded: boolean;
-    participants: ParticipantData[]
     profile: ParticipantData
+    teams: TeamData[]
 }
 
 export interface ParticipantData {
@@ -25,4 +25,12 @@ export interface ParticipantData {
     rune2: string | null;
     CSscore: number;
     csPerMin: number;
+}
+
+export interface TeamData {
+    totalKills: number,
+    totalDeaths: number,
+    totalAssists: number,
+    members: ParticipantData[],
+    win: boolean,
 }

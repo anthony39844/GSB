@@ -115,33 +115,28 @@
                       <p>&nbsp;CS</p>
                     </div>
                     <div *ngIf="!match[1].expanded"class="teammates">
-                      <div class="team1">
-                        <div class="teammate" *ngFor="let participant of match[1].participants | slice:0:(match[1].participants.length / 2)">
-                          <p>{{ participant.gameName }}</p>
+                      <div *ngFor="let team of match[1].teams" [ngClass]="{ 
+                        'team1': team.win, 
+                        'team2': !team.win
+                        }">
+                        <div class="teammate" *ngFor="let player of team.members">
+                          <p>{{ player.gameName }}</p>
                           <img 
-                            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' 
+                            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
                             class="champ-img">
                         </div>
-                      </div>
-                      <div *ngIf="match[1].gameMode != 'ARAM'" class="teammate-lanes">
+                         <div *ngIf="match[1].gameMode != 'ARAM'" class="teammate-lanes">
                         <img *ngFor="let image of laneImages" src="./assets/role/{{ image }}.png">
                       </div>
                       <div *ngIf="match[1].gameMode == 'ARAM'" class="aram-lanes">
                         <p>VS</p>
                       </div>
-                      <div class="team2">
-                        <div class="teammate" *ngFor="let participant of match[1].participants | slice:(match[1].participants.length / 2):match[1].participants.length">
-                          <img 
-                            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{participant.champion}}.png' 
-                            class="champ-img">
-                          <p>{{ participant.gameName }}</p>
-                        </div>
                       </div>
                     </div>  
                   </div>
                 </div>
                 <div class="more-info" *ngIf="match[1].expanded">
-                  <app-participant-card></app-participant-card>
+                  <app-participant-card matchId={{match[0]}}></app-participant-card>
                 </div>
             </div>
         </div>

@@ -40,7 +40,22 @@ export class MatchInfoService {
         gameLength: 1,
         timeAgo: null,
         expanded: false,
-        participants: [],
+        teams: [
+          {
+            totalKills: 0,
+            totalDeaths: 0,
+            totalAssists: 0,
+            members: [],
+            win: false
+          },
+          {
+            totalKills: 0,
+            totalDeaths: 0,
+            totalAssists: 0,
+            members: [],
+            win: false
+          },
+        ],
         profile: {
           profilePlayer: false,
           gameName: "",
@@ -64,7 +79,6 @@ export class MatchInfoService {
       let match = this.matchData[matchId]
       this.apiService.getMatchData(matchId).subscribe(matchData => {
         if (matchData) {
-          match.participants = []
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
@@ -74,6 +88,10 @@ export class MatchInfoService {
           match.time = gameStart;
           match.gameMode = this.queueIDMap[matchInfo['queueId']]
           match.expanded = false;
+          const team1 = matchInfo.teams[0].teamId
+          const team2 = matchInfo.teams[1].teamId
+          match.teams[0].win = matchInfo.teams[0].win
+          match.teams[1].win = matchInfo.teams[1].win
 
           for (const participant of participants) {
             match.gameLength = Math.floor(participant['timePlayed'] / 60)
@@ -102,17 +120,21 @@ export class MatchInfoService {
             if (participant.puuid === this.puuid) {
               match.profile = currentParticipant;
             }
-            match.participants.push(currentParticipant)
+            if (participant.teamId == team1) {
+              match.teams[0].members.push(currentParticipant)
+            } else if (participant.teamId == team2) {
+              match.teams[1].members.push(currentParticipant)
+            }
           
             match.dataLoaded = true;
-            this.matchData =  Object.fromEntries(
-              Object.entries(this.matchData).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
-            );
+            
           }
         }
-      });
+      });this.matchData =  Object.fromEntries(
+      Object.entries(this.matchData).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
+    );
     }
-  
+    
   }
 
   getTimeFromHours(hours: number): string {
