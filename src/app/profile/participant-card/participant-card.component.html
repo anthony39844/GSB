@@ -1,5 +1,6 @@
-<div *ngFor="let team of matchData.teams">
-  <div *ngFor="let player of team.members">
+<div class="expanded-cards" *ngFor="let team of matchData.teams">
+  <p> {{ team.win ? "WON" : "LOST" }} | {{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}</p>
+  <div class="expanded-card" *ngFor="let player of team.members">
     <div>
       <img 
        src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
@@ -39,8 +40,9 @@
      </p>
      <p>&nbsp;CS</p>
    </div>
-   
-  
+   <div class="KP">
+      <p>{{ ((player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))).toFixed(1) }}%</p>
+   </div>
  </div>
 </div>
  
