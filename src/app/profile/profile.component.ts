@@ -45,9 +45,6 @@ export class ProfileComponent {
     'support',
   ]
 
-  sumSpells: any;
-  runes: any;
-
   
   constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService) {}
 
@@ -68,18 +65,6 @@ export class ProfileComponent {
       } else {
         console.log("Error getting matchIds")
       }
-    })
-  }
-
-  getSumSpells() {
-    this.apiService.getSummonerSpellData().subscribe(spells => {
-      this.sumSpells = spells;
-    })
-  }
-
-  getRunes() {
-    this.apiService.getRunes().subscribe(runes => {
-      this.runes = runes;
     })
   }
 

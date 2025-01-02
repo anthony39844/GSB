@@ -35,8 +35,8 @@
         <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
         <p 
           [ngClass]="{
-            'good-cs': player.csPerMin >= 7 && player.lane != 'SUPPORT', 
-            'bad-cs': player.csPerMin < 5 && player.lane != 'SUPPORT'
+            'good': player.csPerMin >= 7 && player.lane != 'SUPPORT', 
+            'bad': player.csPerMin < 5 && player.lane != 'SUPPORT'
           }">
           ({{ player.csPerMin }})
         </p>
