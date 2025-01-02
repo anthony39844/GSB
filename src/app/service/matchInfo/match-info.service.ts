@@ -71,7 +71,8 @@ export class MatchInfoService {
           rune1: null,
           rune2: null,
           CSscore: 0,
-          csPerMin: 0
+          csPerMin: 0,
+          KP: 0
         }
       }
     }
@@ -116,6 +117,7 @@ export class MatchInfoService {
               sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
               CSscore: cs,
               csPerMin: Math.floor((cs / match.gameLength) * 10) / 10,
+              KP: 0
             };
             if (participant.puuid === this.puuid) {
               match.profile = currentParticipant;
@@ -135,6 +137,12 @@ export class MatchInfoService {
             }
           
             match.dataLoaded = true;
+            for (let team of match.teams) {
+              for (let player of team.members) {
+                player.KP = (player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))
+              } 
+            }
+            
             
           }
         }
@@ -161,4 +169,5 @@ export class MatchInfoService {
   getMatchData() {
     return this.matchData;
   }
+
 }
