@@ -1,48 +1,58 @@
-<div class="expanded-cards" *ngFor="let team of matchData.teams">
-  <p> {{ team.win ? "WON" : "LOST" }} | {{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}</p>
-  <div class="expanded-card" *ngFor="let player of team.members">
-    <div>
-      <img 
-       src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
-       class="champ-img"
-       >
-   </div>
-   <div class="sum-spells">
-     <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell1 }}' alt="Summoner spell 1">
-     <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell2 }}' alt="Summoner spell 2">
-   </div>
-   <div class="runes">
-     <img class="rune1" src='https://ddragon.canisback.com/img/{{ player.rune1 }}' alt="Rune 1">
-     <img class="rune2" src='https://ddragon.canisback.com/img/{{ player.rune2 }}' alt="Rune 2">
-   </div>
-   <div class="items">
-     <img 
-       *ngFor="let item of player.items; let last = last" 
-       src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-       [ngClass]="{ 'ward': last }"
-     >
-   </div>
-   <div>
-     <p>{{ player.gameName }}</p>
-   </div>
-   <div class="kda-info">
-     <p class="player-kills">{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</p>
-     <p class="player-kda"> {{ ((player.kills + player.assists) / (Math.max(player.deaths, 1))).toFixed(1) }} KDA</p>
-   </div>
-   <div class="CS">
-     <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
-     <p 
-       [ngClass]="{
-         'good-cs': player.csPerMin >= 7 && player.lane != 'SUPPORT', 
-         'bad-cs': player.csPerMin < 5 && player.lane != 'SUPPORT'
-       }">
-       ({{ player.csPerMin }})
-     </p>
-     <p>&nbsp;CS</p>
-   </div>
-   <div class="KP">
-      <p>{{ ((player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))).toFixed(1) }}%</p>
-   </div>
- </div>
+<div class="expanded-card"
+  [ngStyle]="{ 'background-image': 'linear-gradient(0deg, rgba(29, 21, 70, 0.90), rgba(29, 21, 70, 0.90)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + matchData.profile.champion + '_0.jpg)' }">
+  <div *ngFor="let team of matchData.teams; let i = index"
+    [ngStyle]="{'border-bottom': i === 0 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'}"
+    class="team-card">
+    <div class="card-header">
+      <p>TEAM{{ i + 1 }}</p>
+      <p [ngClass]="{'won': team.win, 'lost': !team.win}">{{ team.win ? "WON" : "LOST" }}</p> 
+      <p>•</p>
+      <p>{{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}</p>
+    </div>
+    <div class="player-card" *ngFor="let player of team.members">
+      <div class="champion-info">
+        <img 
+        src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
+        class="champ-img"
+        >
+      </div>
+      <div class="sum-spells">
+        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell1 }}' alt="Summoner spell 1">
+        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell2 }}' alt="Summoner spell 2">
+      </div>
+      <div class="runes">
+        <img class="rune1" src='https://ddragon.canisback.com/img/{{ player.rune1 }}' alt="Rune 1">
+        <img class="rune2" src='https://ddragon.canisback.com/img/{{ player.rune2 }}' alt="Rune 2">
+      </div>
+      <div class="game-name">
+        <p>{{ player.gameName }}</p>
+      </div>
+      <div class="kda-info">
+        <p class="player-kills">{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</p>
+        <p class="player-kda"> {{ ((player.kills + player.assists) / (Math.max(player.deaths, 1))).toFixed(1) }} KDA</p>
+      </div>
+      <div class="CS">
+        <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
+        <p 
+          [ngClass]="{
+            'good-cs': player.csPerMin >= 7 && player.lane != 'SUPPORT', 
+            'bad-cs': player.csPerMin < 5 && player.lane != 'SUPPORT'
+          }">
+          ({{ player.csPerMin }})
+        </p>
+        <p>&nbsp;CS</p>
+      </div>
+      <div class="KP">
+          <p>{{ ((player.kills + player.assists) * 100 / (Math.max(team.totalKills, 1))).toFixed(1) }}%</p>
+      </div>
+      <div class="items">
+        <img 
+          *ngFor="let item of player.items; let last = last" 
+          src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+          [ngClass]="{ 'ward': last }"
+        >
+      </div>
+    </div>
+  </div>
 </div>
  

@@ -300,3 +300,9 @@
 .more-info-data {
     display: flex
 }
+
+.participant-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

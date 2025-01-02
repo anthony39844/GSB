@@ -59,6 +59,7 @@
                     'lost': !match[1].profile.win, 
                     'match-module': true
                     }"
+                    [ngStyle]="{ marginBottom: match[1].expanded ? '0' : '10px' }"
                     (click)="toggleExpand(match[0])">
                   <div class="match-header">
                     <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
@@ -147,7 +148,7 @@
                   </div>  
                 </div>
                 <div class="more-info" *ngIf="match[1].expanded">
-                  <app-participant-card matchId={{match[0]}}></app-participant-card>
+                  <app-participant-card class="participant-card" matchId={{match[0]}}></app-participant-card>
                 </div>
             </div>
         </div>

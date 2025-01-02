@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class ParticipantCardComponent {
   objectEntries = Object.entries;
   Math = Math;
+  puuid: string = ""
   matchData: MatchData = {
     dataLoaded: false,
     time: 0,
@@ -40,10 +41,10 @@ export class ParticipantCardComponent {
     }
   }
   @Input() matchId: string = "";
+
   constructor(private matchInfoService : MatchInfoService) {
     
   };
-
 
   ngOnInit(){
     this.matchData = this.matchInfoService.getMatchData()[this.matchId];
