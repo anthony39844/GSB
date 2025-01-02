@@ -121,9 +121,17 @@ export class MatchInfoService {
               match.profile = currentParticipant;
             }
             if (participant.teamId == team1) {
-              match.teams[0].members.push(currentParticipant)
+              let curTeam = match.teams[0]
+              curTeam.members.push(currentParticipant)
+              curTeam.totalAssists += currentParticipant.assists
+              curTeam.totalDeaths += currentParticipant.deaths
+              curTeam.totalKills += currentParticipant.kills
             } else if (participant.teamId == team2) {
-              match.teams[1].members.push(currentParticipant)
+              let curTeam = match.teams[1]
+              curTeam.members.push(currentParticipant)
+              curTeam.totalAssists += currentParticipant.assists
+              curTeam.totalDeaths += currentParticipant.deaths
+              curTeam.totalKills += currentParticipant.kills
             }
           
             match.dataLoaded = true;
