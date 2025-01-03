@@ -78,6 +78,7 @@ export class ProfileComponent {
     this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
       if (data['puuid']) {
         this.puuid = data['puuid'];
+        this.puuidService.setPuuid(this.puuid)
         this.router.navigate(['/summoner', summoner]);
         this.getMatchIds();
         this.getAccountData();

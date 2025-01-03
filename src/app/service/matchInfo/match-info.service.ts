@@ -3,6 +3,7 @@ import { MatchData, ParticipantData } from '../../interfaces/matchData.interface
 import { ApiService } from '../api/api.service';
 import { RunesService } from '../icon/runes.service';
 import { SumSpellsService } from '../icon/sum-spells.service';
+import { max } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,7 @@ export class MatchInfoService {
           },
         ],
         profile: {
+          puuid: "",
           profilePlayer: false,
           gameName: "",
           win: true,
@@ -75,7 +77,13 @@ export class MatchInfoService {
           rune2: null,
           CSscore: 0,
           csPerMin: 0,
-          Kp: 0 
+          Kp: 0,
+          damageDealt: 0,
+          magicDamage: 0,
+          physicalDamage: 0,
+          trueDamage: 0,
+          damageOrder: [],
+          level: 0,
         }
       }
     }
@@ -83,6 +91,7 @@ export class MatchInfoService {
       let match = this.matchData[matchId]
       this.apiService.getMatchData(matchId).subscribe(matchData => {
         if (matchData) {
+          console.log(matchData)
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
@@ -104,7 +113,15 @@ export class MatchInfoService {
             let rune2 = participant['perks']['styles'][1]['style']
 
             const cs = participant["totalMinionsKilled"] + participant['neutralMinionsKilled']
+            const damages: [string, number][] = [
+              ['magic', participant.magicDamageDealtToChampions],
+              ['physical', participant.physicalDamageDealtToChampions],
+              ['true', participant.trueDamageDealtToChampions]
+            ]
+            const damageOrder: [string, number][] = damages.sort(([, valueA], [, valueB]) => valueB - valueA);
+
             const currentParticipant: ParticipantData = {
+              puuid: participant.puuid,
               gameName: participant.riotIdGameName,
               profilePlayer: participant.puuid === this.puuid,
               win: participant.win,
@@ -120,7 +137,13 @@ export class MatchInfoService {
               sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
               CSscore: cs,
               csPerMin: Math.floor((cs / match.gameLength) * 10) / 10,
-              Kp: 0
+              Kp: 0,
+              damageDealt: participant.totalDamageDealtToChampions,
+              magicDamage: participant.magicDamageDealtToChampions,
+              physicalDamage: participant.physicalDamageDealtToChampions,
+              trueDamage: participant.trueDamageDealtToChampions,
+              damageOrder: damageOrder,
+              level: participant.champLevel,
             };
             if (participant.puuid === this.puuid) {
               match.profile = currentParticipant;
@@ -148,7 +171,7 @@ export class MatchInfoService {
           }
         }
       });
-      this.matchData =  Object.fromEntries(
+      this.matchData = Object.fromEntries(
         Object.entries(this.matchData).sort(([, valueA], [, valueB]) => valueB.time - valueA.time)
       );
     }

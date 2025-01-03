@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatchInfoService } from '../../service/matchInfo/match-info.service';
 import { MatchData } from '../../interfaces/matchData.interface';
 import { CommonModule } from '@angular/common';
+import { PuuidService } from '../../service/puuid/puuid.service';
 
 @Component({
   selector: 'app-participant-card',
@@ -22,6 +23,7 @@ export class ParticipantCardComponent {
     expanded: false,
     teams: [],
     profile: {
+      puuid: "",
       profilePlayer: false,
       gameName: '',
       win: true,
@@ -38,15 +40,28 @@ export class ParticipantCardComponent {
       CSscore: 0,
       csPerMin: 0,
       Kp: 0,
+      damageDealt: 0,
+      magicDamage: 0,
+      physicalDamage: 0,
+      trueDamage: 0,
+      damageOrder: [],
+      level: 0,
     }
   }
   @Input() matchId: string = "";
 
-  constructor(private matchInfoService : MatchInfoService) {
+  constructor(private matchInfoService : MatchInfoService, private puuidService : PuuidService) {
     
   };
 
   ngOnInit() {
     this.matchData = this.matchInfoService.getMatchData()[this.matchId];
+    this.puuid = this.puuidService.getPuuid();
+  }
+
+  getMaxDamage(team: number) {
+    return Math.max(
+      ...this.matchData['teams'][team].members.map(player => player.damageDealt)
+    )
   }
 }

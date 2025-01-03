@@ -24,7 +24,7 @@
 }
 
 .won {
-    color: #3cbdc2;
+    color: rgb(53, 219, 122);
     padding: 4px;
     border-radius: 2px;
     background-color: rgb(25, 19, 61);
@@ -53,13 +53,34 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 20px;
     .champion-info {
+        position: relative;
+        display: inline-block;
         .champ-img {
             margin-top: 10px;
             border-radius: 50%;
             width: 30px;
             object-fit: cover; 
             border: 3px solid rgb(200,172,110);
+        }
+        p {
+            position: absolute;
+            bottom: 0;
+            right: 0;          
+            color: rgb(200,172,110);      
+            background-color: rgb(59, 45, 106); 
+            border-radius: 50%;
+            border: 2px solid rgb(200,172,110);
+            margin: 0;
+            font-size: 11px; 
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            text-align: center;
+        }
+        .user-champ-img {
+            border: 3px solid #3cbdc2;
         }
     }
     .sum-spells {
@@ -68,9 +89,9 @@
         justify-content: center;
         align-items: center;
         img {
-            border: 3px solid rgb(45, 31, 52);
+            border: 2px solid rgb(45, 31, 52);
             border-radius: 20%;
-            margin: 0 10px;
+            margin: 5px 10px;
             width: 15px;
         }
     }
@@ -80,7 +101,7 @@
         justify-content: center;
         align-items: center;
         img {
-            margin: 0 5px 5px;
+            margin: 0 5px 5px 0;
             width: 15px;
         }
         .rune1 {
@@ -88,6 +109,7 @@
         }
     }
     .game-name {
+        margin-left: 10px;
         width: 100px;
         p {
             text-overflow: ellipsis;
@@ -122,10 +144,43 @@
         margin-left: 20px;
     }
     .KP {
+        width: 100px;
         margin-left: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .damage {
+        width: 150px;
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        .damage-info {
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            .total-damage-bar, .physical-bar, .magic-bar, .true-bar {
+                height: 6px;
+                border-radius: 3px;
+            }
+            .total-damage-bar {
+                background: #3cbdc2;
+            }
+            .physical-bar {
+                background: rgb(247, 141, 19);
+            }
+            .magic-bar {
+                background: #623cc2;
+            }
+            .true-bar {
+                background: white;
+            }
+            p {
+                margin: 0;
+                font-size: 11px;
+            }
+        }
     }
     .items {
         margin-left: 20px;

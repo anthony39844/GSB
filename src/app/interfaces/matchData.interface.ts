@@ -10,6 +10,7 @@ export interface MatchData {
 }
 
 export interface ParticipantData {
+    puuid: string;
     gameName: string;
     profilePlayer: boolean;
     win: boolean; 
@@ -26,6 +27,12 @@ export interface ParticipantData {
     CSscore: number;
     csPerMin: number;  
     Kp: number;
+    damageDealt: number;
+    magicDamage: number;
+    physicalDamage: number;
+    trueDamage: number;
+    damageOrder: [string, number][];
+    level: number;
 }
 
 export interface TeamData {

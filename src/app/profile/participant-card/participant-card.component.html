@@ -13,8 +13,9 @@
       <div class="champion-info">
         <img 
         src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
-        class="champ-img"
+        [ngClass]="{'champ-img': true, 'user-champ-img': puuid == player.puuid}"
         >
+        <p>{{ player.level }}</p>
       </div>
       <div class="sum-spells">
         <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell1 }}' alt="Summoner spell 1">
@@ -52,6 +53,29 @@
           {{ player.Kp }}%
         </p>
         <p>&nbsp;KP</p>
+      </div>
+      <div class="damage">
+        <div class="damage-info">
+          <div
+            class="total-damage-bar"
+            [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
+          >
+          </div>
+          <p>{{ player.damageDealt }}</p>
+        </div>
+        <ng-container *ngFor="let damageType of player.damageOrder">
+          <div *ngIf="damageType[1]" class="damage-info">
+            <div 
+              [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
+            >
+              <div 
+                class="{{ damageType[0] }}-bar"
+                [style.width.%]="(damageType[1] / player.damageDealt) * 100">
+              </div>
+            </div>
+            <p>{{ damageType[1] }}</p>
+          </div>
+        </ng-container>
       </div>
       <div class="items">
         <img 
