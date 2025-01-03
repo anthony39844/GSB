@@ -203,11 +203,15 @@
         grid-auto-flow: dense;
         position: relative;
         height: fit-content;
-        img {
+        .item {
             border: 2px solid #382f66;
             border-radius: 4px;
             width: 24px;
-            margin: 5px 5px 0px
+            height: 24px;
+            margin-left: 5px;
+            img {
+                width: 24px;
+            }
         }
         .ward {
             grid-column: 4 / 5;

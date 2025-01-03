@@ -93,11 +93,12 @@
                       <img class="rune2" src='https://ddragon.canisback.com/img/{{ match[1].profile.rune2 }}' alt="Rune 2">
                     </div>
                     <div class="items">
-                      <img 
-                        *ngFor="let item of match[1].profile.items; let last = last" 
-                        src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-                        [ngClass]="{ 'ward': last }"
-                      >
+                      <div class="item" *ngFor="let item of match[1].profile.items; let last = last" [ngClass]="{ 'ward': last }">
+                        <img 
+                          *ngIf="item != 0"
+                          src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+                        >
+                      </div>
                     </div>
                     <div class="player-info">
                       <p class="player-kills">{{ match[1].profile.kills }} / {{ match[1].profile.deaths }} / {{ match[1].profile.assists }}</p>
