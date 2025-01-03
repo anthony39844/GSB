@@ -82,6 +82,8 @@ export class ProfileComponent {
         this.router.navigate(['/summoner', summoner]);
         this.getMatchIds();
         this.getAccountData();
+        this.summoner = data["gameName"]
+        this.tagLine = data["tagLine"]
         this.matchData = this.matchInfoService.getMatchData()
       } else {
         console.log("Invalid summoner", data)
@@ -94,13 +96,7 @@ export class ProfileComponent {
   }
 
   getAccountData() {
-    this.apiService.getAccountData(this.puuid).subscribe(data => {
-      if (data) {
-        this.summoner = data['gameName']
-        this.tagLine = data['tagLine']
-        this.accountLoaded = true;
-      }
-    })
+    this.accountLoaded = true;
     this.apiService.getRankData(this.puuid).subscribe(data => {
       if (data) {
         let hasFlex = true

@@ -28,11 +28,6 @@ def get_match_info(match_id):
     response = requests.get(f"{route}/lol/match/v5/matches/{match_id}?api_key={api_key}").json()
     return jsonify(response)
 
-@app.route('/get_account/<puuid>', methods=['GET'])
-def get_account_info(puuid):
-    response = requests.get(f"{route}/riot/account/v1/accounts/by-puuid/{puuid}?api_key={api_key}").json()
-    return jsonify(response)
-
 @app.route('/get_rank/<puuid>', methods=["GET"])
 def get_rank(puuid):
     summoner_id = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}?api_key={api_key}").json()['id']
