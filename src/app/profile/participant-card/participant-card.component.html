@@ -40,7 +40,15 @@
       </div>
       <div class="kda-info">
         <p class="player-kills">{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</p>
-        <p class="player-kda"> {{ ((player.kills + player.assists) / (Math.max(player.deaths, 1))).toFixed(1) }} KDA</p>
+        <p [ngClass]="{
+          'good': player.kda > 3.5, 
+          'bad': player.kda <= 2,
+          'amazing': player.kda > 5,
+          'player-kda': true
+          }"
+        > 
+          {{ player.kda }} KDA
+        </p>
       </div>
       <div class="CS">
         <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
@@ -73,26 +81,30 @@
           </div>
           <p>{{ player.damageDealt }}</p>
         </div>
-        <ng-container *ngFor="let damageType of player.damageOrder">
-          <div *ngIf="damageType[1]" class="damage-info">
-            <div 
-              [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
-            >
+        <div class="damage-hover">
+          <ng-container *ngFor="let damageType of player.damageOrder">
+            <div *ngIf="damageType[1]" class="damage-info">
               <div 
-                class="{{ damageType[0] }}-bar"
-                [style.width.%]="(damageType[1] / player.damageDealt) * 100">
+                [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
+              >
+                <div 
+                  class="{{ damageType[0] }}-bar"
+                  [style.width.%]="(damageType[1] / player.damageDealt) * 100">
+                </div>
               </div>
+              <p>{{ damageType[1] }}</p>
             </div>
-            <p>{{ damageType[1] }}</p>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
       <div class="items">
-        <img 
-          *ngFor="let item of player.items; let last = last" 
-          src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-          [ngClass]="{ 'ward': last }"
-        >
+        <div class="item" *ngFor="let item of player.items; let last = last">
+          <img 
+            *ngIf="item != 0"
+            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
+            [ngClass]="{ 'ward': last }"
+          >
+        </div>
       </div>
     </div>
   </div>

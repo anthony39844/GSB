@@ -4,6 +4,7 @@ import { ApiService } from '../api/api.service';
 import { RunesService } from '../icon/runes.service';
 import { SumSpellsService } from '../icon/sum-spells.service';
 import { max } from 'rxjs';
+import { ParseFlags } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,7 @@ export class MatchInfoService {
           kills: 0,
           deaths: 0,
           assists: 0,
+          kda: 0,
           items: [],
           lane: "",
           sumSpell1: null,
@@ -133,6 +135,7 @@ export class MatchInfoService {
               ['true', participant.trueDamageDealtToChampions]
             ]
             const damageOrder: [string, number][] = damages.sort(([, valueA], [, valueB]) => valueB - valueA);
+            const kda = parseFloat(((participant.kills + participant.assists) / (Math.max(participant.deaths, 1))).toFixed(1))
 
             const currentParticipant: ParticipantData = {
               puuid: participant.puuid,
@@ -143,10 +146,11 @@ export class MatchInfoService {
               kills: participant.kills,
               deaths: participant.deaths,
               assists: participant.assists,
+              kda: kda,
               lane: match.gameMode !== "ARAM" ? participant.individualPosition === "UTILITY" ? "SUPPORT" : participant.individualPosition : "",
               rune1: this.runesService.getRunes(rune1),
               rune2: this.runesService.getRunes(rune2),
-              items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]).filter(curItem => curItem !== 0),
+              items: Array.from({ length: 7 }, (_, i) => participant[`item${i}`]),
               sumSpell1: this.sumsService.getSums(participant["summoner1Id"]),
               sumSpell2: this.sumsService.getSums(participant["summoner2Id"]),
               CSscore: cs,

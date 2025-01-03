@@ -139,7 +139,7 @@
             font-weight: 550;
         }
         .player-kda {
-            font-size: 10px;
+            font-size: 14px;
         }
     }
     .CS {
@@ -158,6 +158,7 @@
         align-items: center;
     }
     .damage {
+        height: auto;
         width: 150px;
         margin-left: 20px;
         display: flex;
@@ -168,8 +169,8 @@
             align-items: center;
             margin: 0;
             .total-damage-bar, .physical-bar, .magic-bar, .true-bar {
-                height: 6px;
-                border-radius: 3px;
+                height: 10px;
+                border-radius: 5px;
             }
             .total-damage-bar {
                 background: #3cbdc2;
@@ -185,8 +186,19 @@
             }
             p {
                 margin: 0;
-                font-size: 11px;
+                font-size: 12px;
             }
+        }
+        .damage-info:hover + .damage-hover {
+            display: block;
+            opacity: 1;
+        }
+        .damage-hover {
+            position: absolute;
+            transform: translate(0%, 40%);
+            width: 150px;
+            display: none; 
+            z-index: 1;
         }
     }
     .items {
@@ -198,11 +210,15 @@
         grid-auto-flow: dense;
         position: relative;
         height: fit-content;
-        img {
+        .item {
             border: 2px solid #382f66;
             border-radius: 4px;
             width: 24px;
-            margin: 5px 5px 0px
+            height: 24px;
+            margin-left: 5px;
+            img {
+                width: 24px;
+            }
         }
         .ward {
             grid-column: 4 / 5;
