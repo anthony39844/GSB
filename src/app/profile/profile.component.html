@@ -143,7 +143,7 @@
                       <ng-container *ngFor="let team of match[1].teams; let i = index">
                         <div *ngIf="i === 0" class="team1">
                           <div class="teammate" *ngFor="let player of team.members">
-                            <p>{{ player.gameName }}</p>
+                            <p (click)="getPuuid(player.gameName, player.tagLine)">{{ player.gameName }} </p>
                             <img 
                               src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png" 
                               class="champ-img">
@@ -171,8 +171,8 @@
                     </div>
                   </div>  
                 </div>
-                <div class="more-info" *ngIf="match[1].expanded">
-                  <app-participant-card class="participant-card" matchId={{match[0]}}></app-participant-card>
+                <div  class="more-info" *ngIf="match[1].expanded">
+                  <app-participant-card [getPuuid]="getPuuid.bind(this)" class="participant-card" matchId={{match[0]}}></app-participant-card>
                 </div>
             </div>
         </div>

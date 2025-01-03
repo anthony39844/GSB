@@ -93,7 +93,8 @@ export class MatchInfoService {
           wardsPlaced: 0,
           wardsCleared: 0,
           RedWardsPlace: 0,
-          gold: 0
+          gold: 0,
+          tagLine: ""
         }
       }
     }
@@ -136,9 +137,9 @@ export class MatchInfoService {
             ]
             const damageOrder: [string, number][] = damages.sort(([, valueA], [, valueB]) => valueB - valueA);
             const kda = parseFloat(((participant.kills + participant.assists) / (Math.max(participant.deaths, 1))).toFixed(1))
-
             const currentParticipant: ParticipantData = {
               puuid: participant.puuid,
+              tagLine: participant.riotIdTagline,
               gameName: participant.riotIdGameName,
               profilePlayer: participant.puuid === this.puuid,
               win: participant.win,

@@ -36,7 +36,7 @@
         <img class="rune2" src='https://ddragon.canisback.com/img/{{ player.rune2 }}' alt="Rune 2">
       </div>
       <div class="game-name">
-        <p>{{ player.gameName }}</p>
+        <p (click)="getPuuid(player.gameName, player.tagLine)">{{ player.gameName }}</p>
       </div>
       <div class="kda-info">
         <p class="player-kills">{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</p>

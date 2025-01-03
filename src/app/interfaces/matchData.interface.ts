@@ -12,6 +12,7 @@ export interface MatchData {
 export interface ParticipantData {
     puuid: string;
     gameName: string;
+    tagLine: string,
     profilePlayer: boolean;
     win: boolean; 
     champion: string; 

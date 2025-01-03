@@ -50,10 +50,12 @@ export class ParticipantCardComponent {
       wardsPlaced: 0,
       wardsCleared: 0,
       RedWardsPlace: 0,
-      gold: 0
+      gold: 0,
+      tagLine: ""
     }
   }
   @Input() matchId: string = "";
+  @Input() getPuuid!: (param1: string, param2: string) => void;
 
   constructor(private matchInfoService : MatchInfoService, private puuidService : PuuidService) {
     
@@ -69,4 +71,6 @@ export class ParticipantCardComponent {
       ...this.matchData['teams'][team].members.map(player => player.damageDealt)
     )
   }
+
+  
 }
