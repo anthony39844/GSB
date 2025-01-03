@@ -46,6 +46,10 @@ export class ParticipantCardComponent {
       trueDamage: 0,
       damageOrder: [],
       level: 0,
+      wardsPlaced: 0,
+      wardsCleared: 0,
+      RedWardsPlace: 0,
+      gold: 0
     }
   }
   @Input() matchId: string = "";

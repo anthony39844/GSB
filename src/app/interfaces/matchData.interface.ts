@@ -6,7 +6,7 @@ export interface MatchData {
     timeAgo: string | null;
     expanded: boolean;
     profile: ParticipantData
-    teams: TeamData[]
+    teams: TeamData[],
 }
 
 export interface ParticipantData {
@@ -33,6 +33,10 @@ export interface ParticipantData {
     trueDamage: number;
     damageOrder: [string, number][];
     level: number;
+    gold: number,
+    wardsPlaced: number,
+    wardsCleared: number,
+    RedWardsPlace: number,
 }
 
 export interface TeamData {
@@ -41,4 +45,6 @@ export interface TeamData {
     totalAssists: number,
     members: ParticipantData[],
     win: boolean,
+    totalGold: number
+    objectives: {[key: string]: {first: boolean, kills: number}}
 }

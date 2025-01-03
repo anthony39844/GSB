@@ -50,14 +50,18 @@ export class MatchInfoService {
             totalDeaths: 0,
             totalAssists: 0,
             members: [],
-            win: false
+            win: false,
+            totalGold: 0,
+            objectives: {}
           },
           {
             totalKills: 0,
             totalDeaths: 0,
             totalAssists: 0,
             members: [],
-            win: false
+            win: false,
+            totalGold: 0,
+            objectives: {}
           },
         ],
         profile: {
@@ -84,6 +88,10 @@ export class MatchInfoService {
           trueDamage: 0,
           damageOrder: [],
           level: 0,
+          wardsPlaced: 0,
+          wardsCleared: 0,
+          RedWardsPlace: 0,
+          gold: 0
         }
       }
     }
@@ -91,7 +99,6 @@ export class MatchInfoService {
       let match = this.matchData[matchId]
       this.apiService.getMatchData(matchId).subscribe(matchData => {
         if (matchData) {
-          console.log(matchData)
           const matchInfo = matchData["info"];
           const participants = matchInfo["participants"];
           const gameStart = matchInfo["gameCreation"];
@@ -105,6 +112,13 @@ export class MatchInfoService {
           const team2 = matchInfo.teams[1].teamId
           match.teams[0].win = matchInfo.teams[0].win
           match.teams[1].win = matchInfo.teams[1].win
+          
+          match.teams[0].objectives["baron"] = matchInfo.teams[0].objectives["baron"]
+          match.teams[0].objectives["dragon"] = matchInfo.teams[0].objectives["dragon"]
+          match.teams[0].objectives["tower"] = matchInfo.teams[0].objectives["tower"]
+          match.teams[1].objectives["baron"] = matchInfo.teams[1].objectives["baron"]
+          match.teams[1].objectives["dragon"] = matchInfo.teams[1].objectives["dragon"]
+          match.teams[1].objectives["tower"] = matchInfo.teams[1].objectives["tower"]
 
           for (const participant of participants) {
             match.gameLength = Math.floor(participant['timePlayed'] / 60)
@@ -144,6 +158,10 @@ export class MatchInfoService {
               trueDamage: participant.trueDamageDealtToChampions,
               damageOrder: damageOrder,
               level: participant.champLevel,
+              wardsPlaced: participant.wardsPlaced - participant.detectorWardsPlaced,
+              wardsCleared: participant.wardsKilled,
+              RedWardsPlace: participant.detectorWardsPlaced,
+              gold: participant.goldEarned,
             };
             if (participant.puuid === this.puuid) {
               match.profile = currentParticipant;
@@ -154,12 +172,14 @@ export class MatchInfoService {
               curTeam.totalAssists += currentParticipant.assists
               curTeam.totalDeaths += currentParticipant.deaths
               curTeam.totalKills += currentParticipant.kills
+              curTeam.totalGold += currentParticipant.gold
             } else if (participant.teamId == team2) {
               let curTeam = match.teams[1]
               curTeam.members.push(currentParticipant)
               curTeam.totalAssists += currentParticipant.assists
               curTeam.totalDeaths += currentParticipant.deaths
               curTeam.totalKills += currentParticipant.kills
+              curTeam.totalGold += currentParticipant.gold
             }
           
             match.dataLoaded = true;

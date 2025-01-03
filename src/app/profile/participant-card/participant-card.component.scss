@@ -18,8 +18,15 @@
     align-items: center;
     margin-left: 20px;
     color: white;
+
+    div {
+        display: flex;
+    }
     p {
         margin-right: 20px;
+    }
+    img {
+        margin-right: 10px
     }
 }
 

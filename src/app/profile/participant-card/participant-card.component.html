@@ -8,6 +8,16 @@
       <p [ngClass]="{'won': team.win, 'lost': !team.win}">{{ team.win ? "WON" : "LOST" }}</p> 
       <p>•</p>
       <p>{{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}</p>
+      <p>•</p>
+      <img src="./assets/icons/gold.svg">
+      <p> {{ team.totalGold }}</p>
+      <div *ngFor="let obj of objectEntries(team.objectives)" >
+        <p *ngIf="obj[1]['kills'] > 0">•</p>
+        <img *ngIf="obj[1]['kills'] > 0" src="./assets/icons/{{obj[0]}}.svg">
+        <p *ngIf="obj[1]['kills'] > 0">
+          {{ obj[1]['kills']}}
+        </p>
+          </div>
     </div>
     <div class="player-card" *ngFor="let player of team.members">
       <div class="champion-info">

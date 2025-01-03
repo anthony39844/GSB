@@ -114,16 +114,21 @@
                       </p>
                       <p>&nbsp;CS</p>
                     </div>
-                    <div class="KP">
-                      <p [ngClass]="{
-                        'good': match[1].profile.Kp > 60,
-                        'bad': match[1].profile.Kp < 40,
-                        'amazing': match[1].profile.Kp > 80
-                        }
-                        ">
-                        {{ match[1].profile.Kp }}%
-                      </p>
-                      <p>&nbsp;KP</p>
+                    <div class="KP-Vison">
+                      <div class="KP">
+                        <p [ngClass]="{
+                          'good': match[1].profile.Kp > 60,
+                          'bad': match[1].profile.Kp < 40,
+                          'amazing': match[1].profile.Kp > 80
+                          }
+                          ">
+                          {{ match[1].profile.Kp }}%
+                        </p>
+                        <p>&nbsp;KP</p>
+                      </div>
+                      <div  *ngIf="match[1].gameMode != 'ARAM'" class="vision">
+                        <p> {{ match[1].profile.wardsPlaced }} ({{ match[1].profile.RedWardsPlace }}) / {{ match[1].profile.wardsCleared }}</p>
+                      </div>
                     </div>
                     <div class="teammates">
                       <ng-container *ngFor="let team of match[1].teams; let i = index">
