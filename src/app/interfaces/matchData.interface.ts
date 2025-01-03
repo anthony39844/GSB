@@ -18,6 +18,7 @@ export interface ParticipantData {
     kills: number;
     deaths: number;
     assists: number;
+    kda: number;
     items: number[];
     lane: string | null;
     sumSpell1: string | null;

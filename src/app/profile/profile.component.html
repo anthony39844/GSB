@@ -101,7 +101,15 @@
                     </div>
                     <div class="player-info">
                       <p class="player-kills">{{ match[1].profile.kills }} / {{ match[1].profile.deaths }} / {{ match[1].profile.assists }}</p>
-                      <p class="player-kda"> {{ ((match[1].profile.kills + match[1].profile.assists) / (Math.max(match[1].profile.deaths, 1))).toFixed(1) }} KDA</p>
+                      <p [ngClass]="{
+                        'good': match[1].profile.kda > 3.5, 
+                        'bad': match[1].profile.kda <= 2,
+                        'amazing': match[1].profile.kda > 5,
+                        'player-kda': true
+                        }"
+                      > 
+                        {{ match[1].profile.kda }} KDA
+                      </p>
                     </div>
                     <div class="CS">
                       <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>

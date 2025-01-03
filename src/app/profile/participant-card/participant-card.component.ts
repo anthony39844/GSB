@@ -31,6 +31,7 @@ export class ParticipantCardComponent {
       kills: 0,
       deaths: 0,
       assists: 0,
+      kda: 0,
       items: [],
       lane: '',
       sumSpell1: null,
