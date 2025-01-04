@@ -14,13 +14,6 @@ export class HomeComponent {
   getPuuid(summoner: string, tag: string) {
     tag = tag.replace("#", "");
     tag =  tag ? tag : "NA1"
-    this.apiService.getPuuid(summoner, tag).subscribe(data => {
-      if (data['puuid']) {
-        this.puuidService.setPuuid(data['puuid']);
-        this.router.navigate(['/summoner', `${summoner}-${tag}`]);
-      } else {
-        console.log("Invalid summoner", data)
-      }
-    })
+    this.router.navigate(['/summoner', `${summoner}-${tag}`]);
   }
 }
