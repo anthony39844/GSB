@@ -60,7 +60,6 @@ export class ProfileComponent {
         this.matchData = this.matchInfoService.getMatchData();
         this.accountLoaded = true
       });
-      this.matchData = this.matchInfoService.getMatchData()
     }
   }
 
