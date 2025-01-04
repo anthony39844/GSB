@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PuuidService } from '../service/puuid/puuid.service';  
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatchData } from '../interfaces/matchData.interface';
 import { ParticipantCardComponent } from './participant-card/participant-card.component';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
@@ -46,15 +46,17 @@ export class ProfileComponent {
   ]
 
   
-  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService) {}
+  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService, private route: ActivatedRoute) {}
 
   
   ngOnInit(): void {
+    const summonerTag = this.route.snapshot.paramMap.get('summoner');
+    if (summonerTag) {
+      let [summoner, tag] = summonerTag.split('-');
+      this.getPuuid(summoner, tag)
+    }
     if (this.puuidService.getPuuid() != "") {
       this.puuid = this.puuidService.getPuuid();
-      this.getMatchIds();
-      this.getAccountData();
-      this.matchData = this.matchInfoService.getMatchData()
     }
   }
 
@@ -76,11 +78,12 @@ export class ProfileComponent {
   getPuuid(summoner: string, tag : string) {
     this.reset();
     tag = tag.replace("#", "")
+    tag = tag ? tag : "NA1"
     this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
       if (data['puuid']) {
         this.puuid = data['puuid'];
         this.puuidService.setPuuid(this.puuid)
-        this.router.navigate(['/summoner', summoner]);
+        this.router.navigate(['/summoner', `${summoner}-${tag}`]);
         this.getMatchIds();
         this.getAccountData();
         this.summoner = data["gameName"]
@@ -163,5 +166,6 @@ export class ProfileComponent {
     this.flexLP = "";
     this.flexWinPercent = 0;
     this.flexTier = "unrank";
+    console.log(this.matchData)
   }
 }
