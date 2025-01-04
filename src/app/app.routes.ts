@@ -8,6 +8,7 @@ export const routes: Routes = [
         loadComponent: () => { return import('./home/home.component').then((m) => m.HomeComponent)}
     },
     {
-        path: 'summoner/:summoner', component: ProfileComponent,
+        path: 'summoner/:summoner', component: ProfileComponent,   
+
     }
 ];
