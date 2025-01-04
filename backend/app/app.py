@@ -45,6 +45,9 @@ def get_sum_spells():
 def get_runes():
     return jsonify(requests.get(f"{ddragon_route}/runesReforged.json").json())
 
+@app.route('/get_champs', methods=["GET"])
+def get_champs():
+    return jsonify(requests.get(f"{ddragon_route}/champion.json").json())
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

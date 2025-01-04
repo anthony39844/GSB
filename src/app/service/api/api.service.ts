@@ -33,4 +33,8 @@ export class ApiService {
   getRunes(): Observable<any> {
     return this.http.get(`${this.baseUrl}get_runes`)
   }
+
+  getChamps(): Observable<any> {
+    return this.http.get(`${this.baseUrl}get_champs`)
+  }
 }
