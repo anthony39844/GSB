@@ -23,6 +23,8 @@ export class ProfileComponent {
   loaded = false;
   summoner: string = "";
   tagLine: string = "";
+  profileIcon: number = 0;
+  profileLevel: string = "";
   accountLoaded: boolean = false;
 
   hasSolo: boolean = true;
@@ -119,24 +121,25 @@ export class ProfileComponent {
     try {
       const data = await firstValueFrom(this.apiService.getRankData(this.puuid));
       if (data) {
+        console.log(data)
         this.hasFlex = true
         this.hasSolo = true
         let solo = null;
         let flex = null;
-        if (data.length == 1) {
-          if (data[0]['queueType'] == 'RANKED_FLEX_SR') {
+        if (data.rank.length == 1) {
+          if (data.rank[0]['queueType'] == 'RANKED_FLEX_SR') {
             this.hasSolo = false
           } else {
             this.hasFlex = false
           }
         }
         if (this.hasSolo && this.hasFlex) {
-          solo = data[1]
-          flex = data[0]
+          solo = data.rank[1]
+          flex = data.rank[0]
         } else if (this.hasFlex) {
-          flex = data[0]
+          flex = data.rank[0]
         } else if (this.hasSolo) {
-          solo = data[0]
+          solo = data.rank[0]
         }
 
         if (solo) {
@@ -155,6 +158,9 @@ export class ProfileComponent {
           this.flexLP = flex['leaguePoints']
           this.flexWinPercent = +Number(parseFloat(this.flexWins) / (parseFloat(this.flexWins) + parseFloat(this.flexLosses)) * 100).toFixed(1)
         }
+
+        this.profileIcon = data.summoner.profileIconId;
+        this.profileLevel = data.summoner.summonerLevel
       }
     } catch (error) {
       console.error('Error fetching rank data:', error);

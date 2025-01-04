@@ -11,8 +11,14 @@
 
 <div class="container">
     <div class="left" *ngIf="accountLoaded">
-        <div class="summoner">
-            <p>{{ summoner }} #{{ tagLine }}</p>
+      <div class="profile-info">
+        <div class="profile-img">
+          <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/{{ profileIcon }}.png" alt="Profile Icon">
+          <p>{{ profileLevel }}</p>
+        </div>
+          <div class="summoner">
+            <p>{{ summoner }}</p>
+            <p>&nbsp;#{{ tagLine }}</p>
         </div>
         <div class="rank">
           <div class="tierImg">
@@ -52,6 +58,7 @@
             </ng-container>
           </div>
         </div>
+      </div>
     </div>  
 
     <div class="right">

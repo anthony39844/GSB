@@ -30,9 +30,12 @@ def get_match_info(match_id):
 
 @app.route('/get_rank/<puuid>', methods=["GET"])
 def get_rank(puuid):
-    summoner_id = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}?api_key={api_key}").json()['id']
-    response = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}?api_key={api_key}").json()
-    return jsonify(response)
+    summoner = requests.get(f"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}?api_key={api_key}").json()
+    rank = requests.get(f"https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner['id']}?api_key={api_key}").json()
+    return {
+        'summoner': summoner,
+        'rank': rank
+    }
 
 @app.route('/get_sum_spells', methods=["GET"])
 def get_sum_spells():
