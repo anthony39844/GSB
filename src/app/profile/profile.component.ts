@@ -117,11 +117,14 @@ export class ProfileComponent {
     });
   }
 
+  matchDetails(matchId: string) {
+    this.router.navigate(['/summoner', `${this.summoner}-${this.tagLine}`, matchId]);
+  }
+
   async getAccountData() {
     try {
       const data = await firstValueFrom(this.apiService.getRankData(this.puuid));
       if (data) {
-        console.log(data)
         this.hasFlex = true
         this.hasSolo = true
         let solo = null;

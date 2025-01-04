@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
+import { MatchDetailsComponent } from './match-details/match-details.component';
 
 export const routes: Routes = [
     {
@@ -9,5 +10,8 @@ export const routes: Routes = [
     },
     {
         path: 'summoner/:summoner', component: ProfileComponent,
+    },
+    {
+        path: 'summoner/:summoner/:match-id', component: MatchDetailsComponent,
     }
 ];

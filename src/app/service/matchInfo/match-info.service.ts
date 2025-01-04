@@ -3,15 +3,13 @@ import { MatchData, ParticipantData } from '../../interfaces/matchData.interface
 import { ApiService } from '../api/api.service';
 import { RunesService } from '../icon/runes.service';
 import { SumSpellsService } from '../icon/sum-spells.service';
-import { max } from 'rxjs';
-import { ParseFlags } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchInfoService {
-  ids: [] = [];
-  puuid: string = "";
+  ids: string[] = [];
+  puuid: string | null= "";
   matchData: {[key: string]: MatchData} = {}; 
   queueIDMap: {[key: number]: string} = {
     400: "NORMAL DRAFT",
@@ -24,7 +22,7 @@ export class MatchInfoService {
 
   constructor(private apiService: ApiService, private runesService : RunesService, private sumsService : SumSpellsService) { }
 
-  setIds(ids: []) {
+  setIds(ids: string[]) {
     for (let key in this.matchData) {
       delete this.matchData[key];
     }

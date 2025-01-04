@@ -72,10 +72,13 @@
                     [ngStyle]="{ marginBottom: match[1].expanded ? '0' : '10px' }"
                     (click)="toggleExpand(match[0])">
                   <div class="match-header">
-                    <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
-                    <p class="match-time">{{ match[1].timeAgo }}</p>
-                    <p style="color: rgb(173, 173, 173);">•</p>
-                    <p class="match-length">{{ match[1].gameLength }} minutes</p>
+                    <div class="header-details">
+                      <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
+                      <p class="match-time">{{ match[1].timeAgo }}</p>
+                      <p style="color: rgb(173, 173, 173);">•</p>
+                      <p class="match-length">{{ match[1].gameLength }} minutes</p>
+                    </div>
+                    <p (click)="matchDetails(match[0])">Match Details</p>
                   </div>
                   <div class="match-info">
                     <div class="champion-info">
