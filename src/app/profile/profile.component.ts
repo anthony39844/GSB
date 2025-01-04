@@ -60,11 +60,6 @@ export class ProfileComponent {
     }
     if (this.puuidService.getPuuid() != "") {
       this.puuid = this.puuidService.getPuuid();
-      this.getMatchIds();
-      this.getAccountData().then(() => {
-        this.matchData = this.matchInfoService.getMatchData();
-        this.accountLoaded = true
-      });
     }
   }
 
@@ -87,20 +82,21 @@ export class ProfileComponent {
     this.resetDataLoaded();
     this.reset();
     tag = tag.replace("#", "")
+    tag = tag ? tag : "NA1"
     try {
       const data = await firstValueFrom(
         this.apiService.getPuuid(summoner, tag || 'NA1')
       );
       if (data['puuid']) {
-        this.matchData = this.matchInfoService.getMatchData();
         this.puuid = data['puuid'];
         this.puuidService.setPuuid(this.puuid);
+        this.router.navigate(['/summoner', `${summoner}-${tag}`]);
         this.getMatchIds();
         await this.getAccountData();
         this.accountLoaded = true;
         this.summoner = data['gameName'];
         this.tagLine = data['tagLine'];
-        this.router.navigate(['/summoner', summoner]);
+        this.matchData = this.matchInfoService.getMatchData();
       } else {
         console.log('Invalid summoner', data);
       }
@@ -188,6 +184,5 @@ export class ProfileComponent {
     this.flexLP = "";
     this.flexWinPercent = 0;
     this.flexTier = "unrank";
-    console.log(this.matchData)
   }
 }
