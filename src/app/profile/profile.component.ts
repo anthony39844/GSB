@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PuuidService } from '../service/puuid/puuid.service';  
 import { ApiService } from '../service/api/api.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatchData } from '../interfaces/matchData.interface';
 import { ParticipantCardComponent } from './participant-card/participant-card.component';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
@@ -49,10 +49,15 @@ export class ProfileComponent {
   ]
 
   
-  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService) {}
+  constructor(private apiService: ApiService, private puuidService: PuuidService, private router: Router, private matchInfoService : MatchInfoService, private route: ActivatedRoute) {}
 
   
   ngOnInit(): void {
+    const summonerTag = this.route.snapshot.paramMap.get('summoner');
+    if (summonerTag) {
+      let [summoner, tag] = summonerTag.split('-');
+      this.getPuuid(summoner, tag)
+    }
     if (this.puuidService.getPuuid() != "") {
       this.puuid = this.puuidService.getPuuid();
       this.getMatchIds();
@@ -183,5 +188,6 @@ export class ProfileComponent {
     this.flexLP = "";
     this.flexWinPercent = 0;
     this.flexTier = "unrank";
+    console.log(this.matchData)
   }
 }
