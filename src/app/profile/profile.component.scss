@@ -78,7 +78,6 @@
         img {
             width: 100%;
             height: 100%; 
-            padding-bottom: 20px;
         }
     }
     .rank-info {
@@ -281,6 +280,7 @@
             }
             .team1, .team2 {
                 .teammate {
+                    cursor: pointer;
                     display: flex;
                     align-items: center;
                     flex-direction: row;
@@ -289,8 +289,7 @@
                         margin: 0;
                         width: 20px;
                     }
-                    p {
-                        cursor: pointer;
+                    .name {
                         white-space: nowrap;
                         overflow: hidden; 
                         text-overflow: ellipsis;
@@ -298,6 +297,9 @@
                         display: block;  
                         margin: 0;  
                         margin: 4px; 
+                    }
+                    .name:hover {
+                        text-decoration: underline;
                     }
                 }
             }

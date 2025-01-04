@@ -116,12 +116,16 @@
         }
     }
     .game-name {
+        cursor: pointer;
         margin-left: 10px;
         width: 100px;
-        p {
+        .name {
             text-overflow: ellipsis;
             margin: 0;
             color: rgb(200,172,110);
+        }
+        .name:hover {
+            text-decoration: underline;
         }
     }
     .kda-info {

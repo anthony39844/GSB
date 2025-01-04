@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatchData } from '../interfaces/matchData.interface';
 import { ParticipantCardComponent } from './participant-card/participant-card.component';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ export class ProfileComponent {
   tagLine: string = "";
   accountLoaded: boolean = false;
 
+  hasSolo: boolean = true;
   soloRank: string = "";
   soloLosses: string = "";
   soloWins: string = "";
@@ -31,6 +33,7 @@ export class ProfileComponent {
   soloWinPercent: number = 0;
   soloTier: string = "unrank"
 
+  hasFlex: boolean = true;
   flexRank: string = "";
   flexWins: string = "";
   flexLosses: string = "";
@@ -53,7 +56,10 @@ export class ProfileComponent {
     if (this.puuidService.getPuuid() != "") {
       this.puuid = this.puuidService.getPuuid();
       this.getMatchIds();
-      this.getAccountData();
+      this.getAccountData().then(() => {
+        this.matchData = this.matchInfoService.getMatchData();
+        this.accountLoaded = true
+      });
       this.matchData = this.matchInfoService.getMatchData()
     }
   }
@@ -73,51 +79,64 @@ export class ProfileComponent {
     this.matchData[matchId].expanded = !this.matchData[matchId].expanded
   }
 
-  getPuuid(summoner: string, tag : string) {
+  async getPuuid(summoner: string, tag : string) {
+    this.resetDataLoaded();
     this.reset();
     tag = tag.replace("#", "")
-    this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
+    try {
+      const data = await firstValueFrom(
+        this.apiService.getPuuid(summoner, tag || 'NA1')
+      );
       if (data['puuid']) {
+        this.matchData = this.matchInfoService.getMatchData();
         this.puuid = data['puuid'];
-        this.puuidService.setPuuid(this.puuid)
-        this.router.navigate(['/summoner', summoner]);
+        this.puuidService.setPuuid(this.puuid);
         this.getMatchIds();
-        this.getAccountData();
-        this.summoner = data["gameName"]
-        this.tagLine = data["tagLine"]
-        this.matchData = this.matchInfoService.getMatchData()
+        await this.getAccountData();
+        this.accountLoaded = true;
+        this.summoner = data['gameName'];
+        this.tagLine = data['tagLine'];
+        this.router.navigate(['/summoner', summoner]);
       } else {
-        console.log("Invalid summoner", data)
+        console.log('Invalid summoner', data);
       }
-    })
+    } catch (error) {
+      console.error('Error fetching PUUID:', error);
+    }
   }
 
   allDataLoaded(): boolean {
     return Object.values(this.matchData).every(match => match.dataLoaded);
   }
 
-  getAccountData() {
-    this.accountLoaded = true;
-    this.apiService.getRankData(this.puuid).subscribe(data => {
+  resetDataLoaded(): void {
+    Object.values(this.matchData).forEach(match => {
+      match.dataLoaded = false;
+    });
+  }
+
+  async getAccountData() {
+    try {
+      const data = await firstValueFrom(this.apiService.getRankData(this.puuid));
       if (data) {
-        let hasFlex = true
-        let hasSolo = true
+        this.hasFlex = true
+        this.hasSolo = true
         let solo = null;
         let flex = null;
         if (data.length == 1) {
           if (data[0]['queueType'] == 'RANKED_FLEX_SR') {
-            hasSolo = false
+            this.hasSolo = false
           } else {
-            hasFlex = false
+            this.hasFlex = false
           }
         }
-        if (hasSolo && hasFlex) {
+        if (this.hasSolo && this.hasFlex) {
           solo = data[1]
           flex = data[0]
-        } else if (hasFlex) {
+        } else if (this.hasFlex) {
           flex = data[0]
-        } else if (hasSolo) {
-          solo = data[1]
+        } else if (this.hasSolo) {
+          solo = data[0]
         }
 
         if (solo) {
@@ -137,7 +156,9 @@ export class ProfileComponent {
           this.flexWinPercent = +Number(parseFloat(this.flexWins) / (parseFloat(this.flexWins) + parseFloat(this.flexLosses)) * 100).toFixed(1)
         }
       }
-    })
+    } catch (error) {
+      console.error('Error fetching rank data:', error);
+    }
   }
 
   sendHome() {

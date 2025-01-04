@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { SumSpellsService } from './service/icon/sum-spells.service';
 import { RunesService } from './service/icon/runes.service';
 import { ApiService } from './service/api/api.service';
-import { run } from 'node:test';
 
 @Component({
   selector: 'app-root',

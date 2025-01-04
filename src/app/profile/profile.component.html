@@ -20,15 +20,17 @@
           </div>
           <div class="rank-info">
             <h3>Ranked Solo/Duo</h3>
-            <p>{{ soloRank }} • {{ soloLP }}LP</p>
-            <div class="win-loss">
-              <p>{{ soloWins }}W {{ soloLosses }}L</p>
-              <p [ngStyle]="{
-                'color': soloWinPercent >= 50 ? 'green' : 'red'
-              }">
-                {{ soloWinPercent }}%
-              </p>
-            </div>
+            <ng-container *ngIf="hasSolo">
+              <p>{{ soloRank }} • {{ soloLP }}LP</p>
+              <div class="win-loss">
+                <p>{{ soloWins }}W {{ soloLosses }}L</p>
+                <p [ngStyle]="{
+                  'color': soloWinPercent >= 50 ? 'green' : 'red'
+                }">
+                  {{ soloWinPercent }}%
+                </p>
+              </div>
+            </ng-container>
           </div>
         </div>
         <div class="rank last-rank-box">
@@ -37,15 +39,17 @@
           </div>
           <div class="rank-info">
             <h3>Ranked Flex</h3>
-            <p>{{ flexRank }} • {{ flexLP }}LP</p>
-            <div class="win-loss">
-              <p>{{ flexWins }}W {{ flexLosses }}L</p>
-              <p [ngStyle]="{
-                'color': flexWinPercent >= 50 ? 'green' : 'red'
-              }">
-                {{ flexWinPercent }}%
-              </p>
-            </div>
+            <ng-container *ngIf="hasFlex">
+              <p>{{ flexRank }} • {{ flexLP }}LP</p>
+              <div class="win-loss">
+                <p>{{ flexWins }}W {{ flexLosses }}L</p>
+                <p [ngStyle]="{
+                  'color': flexWinPercent >= 50 ? 'green' : 'red'
+                }">
+                  {{ flexWinPercent }}%
+                </p>
+              </div>
+            </ng-container>
           </div>
         </div>
     </div>  
@@ -142,8 +146,8 @@
                     <div class="teammates">
                       <ng-container *ngFor="let team of match[1].teams; let i = index">
                         <div *ngIf="i === 0" class="team1">
-                          <div class="teammate" *ngFor="let player of team.members">
-                            <p (click)="getPuuid(player.gameName, player.tagLine)">{{ player.gameName }} </p>
+                          <div class="teammate" *ngFor="let player of team.members" (click)="getPuuid(player.gameName, player.tagLine)">
+                            <p class="name">{{ player.gameName }} </p>
                             <img 
                               src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png" 
                               class="champ-img">
@@ -160,11 +164,11 @@
                     
                       <ng-container *ngFor="let team of match[1].teams; let i = index">
                         <div *ngIf="i === 1" class="team2">
-                          <div class="teammate" *ngFor="let player of team.members">
+                          <div class="teammate" *ngFor="let player of team.members" (click)="getPuuid(player.gameName, player.tagLine)">
                             <img 
                               src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png" 
                               class="champ-img">
-                            <p>{{ player.gameName }}</p>
+                            <p class="name">{{ player.gameName }}</p>
                           </div>
                         </div>
                       </ng-container>
