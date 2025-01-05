@@ -58,11 +58,14 @@ export class MatchDetailsComponent {
   constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService) {}
 
   ngOnInit() {
-    this.matchId = this.route.snapshot.paramMap.get('match-id')!;
-    this.puuid = this.puuidService.getPuuid();
-    this.matchInfoService.setPuuid(this.puuid);
-    this.matchInfoService.setIds([this.matchId])
-    this.matchData = this.matchInfoService.getMatchData()[this.matchId];
+    this.route.paramMap.subscribe((params) => {
+      let match = params.get('match-id');
+      if (match) {
+        this.matchId = match;
+        this.matchData = this.matchInfoService.getMatchData()[this.matchId];
+        this.puuid = this.puuidService.getPuuid()
+      }
+    });
   }
 
 }

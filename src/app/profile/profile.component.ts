@@ -20,25 +20,25 @@ export class ProfileComponent {
   puuid = '';
   matchData: { [key: string]: MatchData } = {};
   loaded = false;
-  summoner: string = "";
-  tagLine: string = "";
+  summoner: string = '';
+  tagLine: string = '';
   profileIcon: number = 0;
-  profileLevel: string = "";
+  profileLevel: string = '';
   accountLoaded: boolean = false;
 
   hasSolo: boolean = true;
-  soloRank: string = "";
-  soloLosses: string = "";
-  soloWins: string = "";
-  soloLP: string = "";
+  soloRank: string = '';
+  soloLosses: string = '';
+  soloWins: string = '';
+  soloLP: string = '';
   soloWinPercent: number = 0;
   soloTier: string = 'unrank';
 
   hasFlex: boolean = true;
-  flexRank: string = "";
-  flexWins: string = "";
-  flexLosses: string = "";
-  flexLP: string = "";
+  flexRank: string = '';
+  flexWins: string = '';
+  flexLosses: string = '';
+  flexLP: string = '';
   flexWinPercent: number = 0;
   flexTier: string = 'unrank';
   laneImages: string[] = ['top', 'jungle', 'middle', 'bottom', 'support'];
@@ -76,21 +76,23 @@ export class ProfileComponent {
     this.matchData[matchId].expanded = !this.matchData[matchId].expanded;
   }
 
-  async getPuuid(summoner: string, tag : string) {
-    this.resetDataLoaded();
-    this.reset();
-    tag = tag.replace("#", "")
-    tag = tag ? tag : "NA1"
+  async getPuuid(summoner: string, tag: string) {
+    tag = tag.replace('#', '');
+    tag = tag ? tag : 'NA1';
     try {
       const data = await firstValueFrom(
         this.apiService.getPuuid(summoner, tag || 'NA1')
       );
       if (data['puuid']) {
-        this.puuid = data['puuid'];
-        this.puuidService.setPuuid(this.puuid);
-        this.puuidService.setPuuid(this.puuid);
+        this.puuid = this.puuidService.getPuuid();
+        if (data['puuid'] != this.puuidService.getPuuid()) {
+          this.resetDataLoaded();
+          this.reset();
+          this.puuidService.setPuuid(data.puuid);
+          this.puuid = this.puuidService.getPuuid();
+          this.getMatchIds();
+        }
         this.router.navigate(['/summoner', `${summoner}-${tag}`]);
-        this.getMatchIds();
         await this.getAccountData();
         this.accountLoaded = true;
         this.summoner = data['gameName'];
@@ -109,37 +111,43 @@ export class ProfileComponent {
   }
 
   resetDataLoaded(): void {
-    Object.values(this.matchData).forEach(match => {
+    Object.values(this.matchData).forEach((match) => {
       match.dataLoaded = false;
     });
   }
 
   matchDetails(matchId: string) {
-    this.router.navigate(['/summoner', `${this.summoner}-${this.tagLine}`, matchId]);
+    this.router.navigate([
+      '/summoner',
+      `${this.summoner}-${this.tagLine}`,
+      matchId,
+    ]);
   }
 
   async getAccountData() {
     try {
-      const data = await firstValueFrom(this.apiService.getRankData(this.puuid));
+      const data = await firstValueFrom(
+        this.apiService.getRankData(this.puuid)
+      );
       if (data) {
-        this.hasFlex = true
-        this.hasSolo = true
+        this.hasFlex = true;
+        this.hasSolo = true;
         let solo = null;
         let flex = null;
         if (data.rank.length == 1) {
           if (data.rank[0]['queueType'] == 'RANKED_FLEX_SR') {
-            this.hasSolo = false
+            this.hasSolo = false;
           } else {
-            this.hasFlex = false
+            this.hasFlex = false;
           }
         }
         if (this.hasSolo && this.hasFlex) {
-          solo = data.rank[1]
-          flex = data.rank[0]
+          solo = data.rank[1];
+          flex = data.rank[0];
         } else if (this.hasFlex) {
-          flex = data.rank[0]
+          flex = data.rank[0];
         } else if (this.hasSolo) {
-          solo = data.rank[0]
+          solo = data.rank[0];
         }
 
         if (solo) {
@@ -168,7 +176,7 @@ export class ProfileComponent {
         }
 
         this.profileIcon = data.summoner.profileIconId;
-        this.profileLevel = data.summoner.summonerLevel
+        this.profileLevel = data.summoner.summonerLevel;
       }
     } catch (error) {
       console.error('Error fetching rank data:', error);
@@ -197,6 +205,6 @@ export class ProfileComponent {
     this.flexLosses = '';
     this.flexLP = '';
     this.flexWinPercent = 0;
-    this.flexTier = "unrank";
+    this.flexTier = 'unrank';
   }
 }

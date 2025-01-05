@@ -18,11 +18,11 @@ export class HomeComponent {
   ngOnInit() {
     this.apiService.getChamps().subscribe((champs) => {
       this.championsList = Object.keys(champs.data);
+      if (this.championsList.length > 0) {
+        const randomNum = Math.floor(Math.random() * this.championsList.length);
+        this.backgroundUrl = `url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${this.championsList[randomNum]}_0.jpg)`;
+      }
     });
-    if (this.championsList.length > 0) {
-      const randomNum = Math.floor(Math.random() * this.championsList.length);
-      this.backgroundUrl = `url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${this.championsList[randomNum]}_0.jpg)`;
-    }
   }
 
   getPuuid(summoner: string, tag: string) {
