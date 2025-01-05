@@ -182,15 +182,6 @@
     div {
       margin-top: 10px;
     }
-    .items {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      align-items: center;
-      justify-items: center;
-      grid-auto-flow: dense;
-      position: relative;
-      height: fit-content;
-    }
     .player-info {
       width: 100px;
       display: flex;

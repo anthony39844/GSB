@@ -15,3 +15,13 @@
   justify-self: center;
   align-self: center;
 }
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+  grid-auto-flow: dense;
+  position: relative;
+  height: fit-content;
+}

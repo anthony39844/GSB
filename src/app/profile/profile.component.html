@@ -88,7 +88,9 @@
               <p style="color: rgb(173, 173, 173)">•</p>
               <p class="match-length">{{ match[1].gameLength }} minutes</p>
             </div>
-            <p (click)="matchDetails(match[0])">Match Details</p>
+            <p class="match-details-btn" (click)="matchDetails(match[0])">
+              Match Details
+            </p>
           </div>
           <div class="match-info">
             <app-champ-info [profile]="match[1].profile"></app-champ-info>
@@ -100,20 +102,7 @@
               rune1="{{ match[1].profile.rune1 }}"
               rune2="{{ match[1].profile.rune2 }}"
             ></app-runes>
-            <div class="items">
-              <div
-                class="item"
-                *ngFor="let item of match[1].profile.items; let last = last"
-                [ngClass]="{ ward: last }"
-              >
-                <img
-                  *ngIf="item != 0"
-                  src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
-                    item
-                  }}.png"
-                />
-              </div>
-            </div>
+            <app-items [items]="match[1].profile.items"></app-items>
             <div class="player-info">
               <p class="player-kills">
                 {{ match[1].profile.kills }} / {{ match[1].profile.deaths }} /
@@ -173,7 +162,7 @@
                   <div
                     class="teammate"
                     *ngFor="let player of team.members"
-                    (click)="getPuuid(player.gameName, player.tagLine)"
+                    (click)="newNavigate(player.gameName, player.tagLine)"
                   >
                     <p class="name">{{ player.gameName }}</p>
                     <img
@@ -201,7 +190,7 @@
                   <div
                     class="teammate"
                     *ngFor="let player of team.members"
-                    (click)="getPuuid(player.gameName, player.tagLine)"
+                    (click)="newNavigate(player.gameName, player.tagLine)"
                   >
                     <img
                       src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
@@ -218,7 +207,7 @@
         </div>
         <div class="more-info" *ngIf="match[1].expanded">
           <app-participant-card
-            [getPuuid]="getPuuid.bind(this)"
+            [getPuuid]="newNavigate.bind(this)"
             class="participant-card"
             matchId="{{ match[0] }}"
           ></app-participant-card>

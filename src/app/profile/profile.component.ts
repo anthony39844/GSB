@@ -8,14 +8,22 @@ import { ParticipantCardComponent } from './participant-card/participant-card.co
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { firstValueFrom } from 'rxjs';
 import { HeaderComponent } from './header/header.component';
-import { ChampInfoComponent } from "./champ-info/champ-info.component";
-import { SumSpellsComponent } from "./sum-spells/sum-spells.component";
-import { RunesComponent } from "./runes/runes.component";
-import { ItemsComponent } from "./items/items.component";
+import { ChampInfoComponent } from './champ-info/champ-info.component';
+import { SumSpellsComponent } from './sum-spells/sum-spells.component';
+import { RunesComponent } from './runes/runes.component';
+import { ItemsComponent } from './items/items.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, ParticipantCardComponent, HeaderComponent, ChampInfoComponent, SumSpellsComponent, RunesComponent, ItemsComponent],
+  imports: [
+    CommonModule,
+    ParticipantCardComponent,
+    HeaderComponent,
+    ChampInfoComponent,
+    SumSpellsComponent,
+    RunesComponent,
+    ItemsComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -80,6 +88,11 @@ export class ProfileComponent {
 
   toggleExpand(matchId: string) {
     this.matchData[matchId].expanded = !this.matchData[matchId].expanded;
+  }
+
+  newNavigate(newSummoner: string, newTag: string) {
+    console.log("nav")
+    this.router.navigate(['/summoner', `${newSummoner}-${newTag}`]);
   }
 
   async getPuuid(summoner: string, tag: string) {
