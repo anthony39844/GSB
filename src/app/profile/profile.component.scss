@@ -1,381 +1,385 @@
+@use "./../../variables" as vars;
+
 .container {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    .left {
-        width: 25%;
-        border-radius: 10px;
-        border: 2px solid black;
-        height: fit-content;
-        padding: 5px;
-        margin-right: 20px;
-        background-color: #382f66;
-    }
-    
-    .right {
-        width: 70%;
-    }
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  .left {
+    width: 25%;
+    border-radius: 10px;
+    border: 2px solid black;
+    height: fit-content;
+    padding: 5px;
+    margin-right: 20px;
+    background-color: vars.$borderColor;
+  }
+
+  .right {
+    width: 70%;
+  }
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: #7289da;
-    padding: 0px 25px;
-    margin-bottom: 20px;
-    .homeBtn {
-        cursor: pointer;
-        color: white;
-    }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: vars.$primary;
+  padding: 0px 25px;
+  margin-bottom: 20px;
+  .homeBtn {
+    cursor: pointer;
+    color: white;
+  }
 }
 
 .won {
-    background: linear-gradient(to right, rgba(62, 221, 165, 0.5), #3e886447);
-    color: white;
-  }
+  background: linear-gradient(to right, rgba(62, 221, 165, 0.5), #3e886447);
+  color: white;
+}
 .lost {
-    background: linear-gradient(to right, rgba(203, 69, 69, 0.593), #8a404046);
-    color: white;
+  background: linear-gradient(to right, rgba(203, 69, 69, 0.593), #8a404046);
+  color: white;
 }
 
 .good {
-    color: rgb(53, 219, 122);
+  color: vars.$winColor;
 }
 .bad {
-    color: rgb(245, 80, 80);
+  color: vars.$loseColor;
 }
 .amazing {
-    color: #85d0ff;
+  color: vars.$amazingColor;
 }
 
 .profile-info {
-    justify-items: center;
-    .profile-img {
-        position: relative;
-        img {
-            margin-top: 10px;
-            border-radius: 50%;
-            width: 100px;
-            object-fit: cover; 
-            border: 3px solid #f2bf43;
-        }
-        p {
-            position: absolute;
-            bottom: 0;
-            right: 0;          
-            color: #f2bf43;      
-            background-color: rgb(59, 45, 106); 
-            border-radius: 50%;
-            border: 2px solid #f2bf43;
-            margin: 0;
-            font-size: 16px; 
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-        }
+  justify-items: center;
+  .profile-img {
+    position: relative;
+    img {
+      margin-top: 10px;
+      border-radius: 50%;
+      width: 100px;
+      object-fit: cover;
+      border: 3px solid vars.$profileBorders;
     }
-    .summoner {
-        width: calc(100%);
-        padding: 0;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.371);
-        display: flex;
-        justify-content: center;
-        p {
-            font-weight: 800;
-            font-size: 24px;
-            color: white;
-        }
+    p {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      color: vars.$profileBorders;
+      background-color: vars.$bgColor2;
+      border-radius: 50%;
+      border: 2px solid vars.$profileBorders;
+      margin: 0;
+      font-size: 16px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
     }
-    .rank {
-        padding: 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.371);
-        p {
-            margin: 8px;
-        }
-        h3 {
-            margin: 8px;
-        }
-        .tierImg {
-            width: 30%;
-            img {
-                width: 100%;
-                height: 100%; 
-            }
-        }
-        .rank-info {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .win-loss {
-            display: flex;
-            flex-direction: row;
-            p {
-                margin: 8px 4px;
-                color: rgb(173, 189, 204);
-            }
-        }
+  }
+  .summoner {
+    width: calc(100%);
+    padding: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.371);
+    display: flex;
+    justify-content: center;
+    p {
+      font-weight: 800;
+      font-size: 24px;
+      color: white;
     }
-    .last-rank-box {
-        border: none;
+  }
+  .rank {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.371);
+    p {
+      margin: 8px;
     }
+    h3 {
+      margin: 8px;
+    }
+    .tierImg {
+      width: 30%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .rank-info {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .win-loss {
+      display: flex;
+      flex-direction: row;
+      p {
+        margin: 8px 4px;
+        color: rgb(173, 189, 204);
+      }
+    }
+  }
+  .last-rank-box {
+    border: none;
+  }
 }
 
 .match-module {
-    height: fit-content;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+  height: fit-content;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  .match-header {
     display: flex;
-    flex-direction: column;
-    .match-header {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.568);
-        .header-details {
-            display: inline-flex;  
-            align-items: center;  
-            padding: 0; 
-            margin: 0;            
-            height: fit-content;
-            p {
-                margin: 0px 0px 5px;
-            }
-            .game-mode {
-                color: white;
-                margin-right: 10px;
-            }
-            .match-time, .match-length {
-                color: rgb(173, 173, 173);
-                margin-right: 10px;
-                margin-left: 10px;
-            }
-        }
-        p {
-            margin: 0;
-            margin-right: 10px;
-            color: #f2bf43;
-            cursor: pointer;
-        }
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.568);
+    .header-details {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+      height: fit-content;
+      p {
+        margin: 0px 0px 5px;
+      }
+      .game-mode {
+        color: vars.$white;
+        margin-right: 10px;
+      }
+      .match-time,
+      .match-length {
+        color: rgb(173, 173, 173);
+        margin-right: 10px;
+        margin-left: 10px;
+      }
     }
-    .match-info {
+    p {
+      margin: 0;
+      margin-right: 10px;
+      color: vars.$profileBorders;
+      cursor: pointer;
+    }
+  }
+  .match-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    div {
+      margin-top: 10px;
+    }
+    .champion-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 10%;
+      margin-right: 15px;
+      .champion {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border-radius: 50%;
+        .champ-img {
+          margin-top: 10px;
+          border-radius: 50%;
+          width: 70px;
+          object-fit: cover;
+        }
+        .lane-img {
+          position: absolute;
+          bottom: 0%;
+          right: 0%;
+          width: 20px;
+          border-radius: 50%;
+          background-color: rgb(0, 0, 0);
+          padding: 4px;
+          object-fit: cover;
+        }
+      }
+      p {
+        margin: 10px 0px 0px;
+        text-align: center;
+      }
+    }
+    .sum-spells {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      img {
+        border: 3px solid vars.$blackBorders;
+        border-radius: 20%;
+        margin: 5px;
+        width: 40px;
+      }
+    }
+    .runes {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 20px;
+      img {
+        margin: 0 5px 8px 5px;
+        width: 35px;
+      }
+      .rune1 {
+        width: 55px;
+      }
+    }
+    .items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+      justify-items: center;
+      grid-auto-flow: dense;
+      position: relative;
+      height: fit-content;
+      .item {
+        border: 2px solid vars.$borderColor;
+        border-radius: 4px;
+        width: 40px;
+        height: 40px;
+        margin-left: 5px;
+        img {
+          width: 40px;
+        }
+      }
+      .ward {
+        grid-column: 4 / 5;
+        grid-row: 1 / span 2;
+        justify-self: center;
+        align-self: center;
+      }
+    }
+    .player-info {
+      width: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+      p {
+        margin: 3px;
+      }
+      .player-kills {
+        font-size: 20px;
+        font-weight: 550;
+      }
+      .player-kda {
+        font-size: 15px;
+      }
+    }
+    .KP-Vison {
+      display: flex;
+      flex-direction: column;
+      width: 100px;
+      font-size: 18px;
+      font-weight: 550;
+      margin-left: 20px;
+      justify-content: center;
+      align-items: center;
+      .KP {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        div {
-            margin-top: 10px;
-        }
-        .champion-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 10%;
-            margin-right: 15px;
-            .champion {
-                display: flex; 
-                justify-content: center; 
-                align-items: center;
-                position: relative; 
-                border-radius: 50%; 
-                .champ-img {
-                    margin-top: 10px;
-                    border-radius: 50%;
-                    width: 70px;
-                    object-fit: cover; 
-                }
-                .lane-img {
-                    position: absolute; 
-                    bottom: 0%; 
-                    right: 0%;  
-                    width: 20px; 
-                    border-radius: 50%; 
-                    background-color: rgb(0, 0, 0); 
-                    padding: 4px; 
-                    object-fit: cover;
-                }
-            }
-            p {
-                margin: 10px 0px 0px;
-                text-align: center;
-            }
-        }
-        .sum-spells {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            img {
-                border: 3px solid rgb(45, 31, 52);
-                border-radius: 20%;
-                margin: 5px;
-                width: 40px;
-            }
-        }
-        .runes {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-right: 20px;
-            img {
-                margin: 0 5px 8px 5px;
-                width: 35px;
-            }
-            .rune1 {
-                width: 55px;
-            }
-        }
-        .items {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            align-items: center;
-            justify-items: center;
-            grid-auto-flow: dense;
-            position: relative;
-            height: fit-content;
-            .item {
-                border: 2px solid #382f66;
-                border-radius: 4px;
-                width: 40px;
-                height: 40px;
-                margin-left: 5px;
-                img {
-                    width: 40px;
-                }
-            }
-            .ward {
-                grid-column: 4 / 5;
-                grid-row: 1 / span 2; 
-                justify-self: center; 
-                align-self: center; 
-              }
-        }
-        .player-info {
-            width: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-left: 20px;
-            p {
-                margin: 3px;
-            }
-            .player-kills {
-                font-size: 20px;
-                font-weight: 550;
-            }
-            .player-kda {
-                font-size: 15px;
-            }
-        }
-        .KP-Vison {
-            display: flex;
-            flex-direction: column;
-            width: 100px;
-            font-size: 18px;
-            font-weight: 550;
-            margin-left: 20px;
-            justify-content: center;
-            align-items: center;
-            .KP {
-                display: flex;
-                flex-direction: row;
-            }
-            p {
-                margin: 0;
-            }
-        }
-        .CS {
-            width: 100px;
-            font-size: 18px;
-            font-weight: 550;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-left: 20px;
-        }
-        .teammates {
-            display: flex;
-            flex-direction: row;
-            margin-left: 20px;
-            .team1 {
-                margin: 0px;
-                margin-right: 10px;
-                display: flex; 
-                flex-direction: column;
-                align-items: flex-end;
-            }
-            .team2 {
-                margin: 0;
-                margin-left: 10px;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-            }
-            .team1, .team2 {
-                .teammate {
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    flex-direction: row;
-                    margin: 1px 0 0;
-                    .champ-img {
-                        margin: 0;
-                        width: 20px;
-                    }
-                    .name {
-                        white-space: nowrap;
-                        overflow: hidden; 
-                        text-overflow: ellipsis;
-                        max-width: 50px;
-                        display: block;  
-                        margin: 0;  
-                        margin: 4px; 
-                    }
-                    .name:hover {
-                        text-decoration: underline;
-                    }
-                }
-            }
-            .teammate-lanes {
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                img {
-                    margin: 4px;
-                    width: 20px;
-                }
-            }
-            .aram-lanes {
-                display: flex;
-                align-items: center;
-                color: rgb(200,172,110);
-            }
-        }
+      }
+      p {
+        margin: 0;
+      }
     }
+    .CS {
+      width: 100px;
+      font-size: 18px;
+      font-weight: 550;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+    }
+    .teammates {
+      display: flex;
+      flex-direction: row;
+      margin-left: 20px;
+      .team1 {
+        margin: 0px;
+        margin-right: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .team2 {
+        margin: 0;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .team1,
+      .team2 {
+        .teammate {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          margin: 1px 0 0;
+          .champ-img {
+            margin: 0;
+            width: 20px;
+          }
+          .name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 50px;
+            display: block;
+            margin: 0;
+            margin: 4px;
+          }
+          .name:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .teammate-lanes {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        img {
+          margin: 4px;
+          width: 20px;
+        }
+      }
+      .aram-lanes {
+        display: flex;
+        align-items: center;
+        color: rgb(200, 172, 110);
+      }
+    }
+  }
 }
 
 .champ-img {
-    margin-top: 10px;
-    border-radius: 50%;
-    width: 70px;
+  margin-top: 10px;
+  border-radius: 50%;
+  width: 70px;
 }
 
 .more-info-data {
-    display: flex
+  display: flex;
 }
 
 .participant-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
 }

@@ -1,9 +1,10 @@
+@use "./../../variables" as vars;
 .home {
   position: relative;
-  height: 100vh; 
+  height: 100vh;
   width: 100%;
-  background-size: cover; 
-  background-position: center; 
+  background-size: cover;
+  background-position: center;
   transition: background-image 1s ease-in-out;
   .home:hover {
     background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg);
