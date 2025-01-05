@@ -1,0 +1,36 @@
+@use "./../../../variables" as vars;
+
+.champion-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  margin-right: 15px;
+  .champion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 50%;
+    .champ-img {
+      margin-top: 10px;
+      border-radius: 50%;
+      width: 70px;
+      object-fit: cover;
+    }
+    .lane-img {
+      position: absolute;
+      bottom: 0%;
+      right: 0%;
+      width: 20px;
+      border-radius: 50%;
+      background-color: rgb(0, 0, 0);
+      padding: 4px;
+      object-fit: cover;
+    }
+  }
+  p {
+    margin: 10px 0px 0px;
+    text-align: center;
+  }
+}

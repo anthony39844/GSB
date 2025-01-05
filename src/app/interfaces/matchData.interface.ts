@@ -41,6 +41,39 @@ export interface ParticipantData {
     RedWardsPlace: number,
 }
 
+export const defaultParticipantData: ParticipantData = {
+    puuid: '',
+    gameName: '',
+    tagLine: '',
+    profilePlayer: false,
+    win: false,
+    champion: '',
+    kills: 0,
+    deaths: 0,
+    assists: 0,
+    kda: 0,
+    items: [],
+    lane: null,
+    sumSpell1: null,
+    sumSpell2: null,
+    rune1: null,
+    rune2: null,
+    CSscore: 0,
+    csPerMin: 0,
+    Kp: 0,
+    damageDealt: 0,
+    magicDamage: 0,
+    physicalDamage: 0,
+    trueDamage: 0,
+    damageOrder: [],
+    level: 0,
+    gold: 0,
+    wardsPlaced: 0,
+    wardsCleared: 0,
+    RedWardsPlace: 0,
+  };
+  
+
 export interface TeamData {
     totalKills: number,
     totalDeaths: number,

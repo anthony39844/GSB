@@ -1,0 +1,17 @@
+@use "./../../../variables" as vars;
+.item {
+  border: 2px solid vars.$borderColor;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+  img {
+    width: 40px;
+  }
+}
+.ward {
+  grid-column: 4 / 5;
+  grid-row: 1 / span 2;
+  justify-self: center;
+  align-self: center;
+}

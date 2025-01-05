@@ -18,18 +18,21 @@
     width: 70%;
   }
 }
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: vars.$primary;
-  padding: 0px 25px;
-  margin-bottom: 20px;
-  .homeBtn {
-    cursor: pointer;
-    color: white;
+.item {
+  border: 2px solid vars.$borderColor;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+  img {
+    width: 40px;
   }
+}
+.ward {
+  grid-column: 4 / 5;
+  grid-row: 1 / span 2;
+  justify-self: center;
+  align-self: center;
 }
 
 .won {
@@ -176,66 +179,6 @@
     div {
       margin-top: 10px;
     }
-    .champion-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 10%;
-      margin-right: 15px;
-      .champion {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        border-radius: 50%;
-        .champ-img {
-          margin-top: 10px;
-          border-radius: 50%;
-          width: 70px;
-          object-fit: cover;
-        }
-        .lane-img {
-          position: absolute;
-          bottom: 0%;
-          right: 0%;
-          width: 20px;
-          border-radius: 50%;
-          background-color: rgb(0, 0, 0);
-          padding: 4px;
-          object-fit: cover;
-        }
-      }
-      p {
-        margin: 10px 0px 0px;
-        text-align: center;
-      }
-    }
-    .sum-spells {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      img {
-        border: 3px solid vars.$blackBorders;
-        border-radius: 20%;
-        margin: 5px;
-        width: 40px;
-      }
-    }
-    .runes {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-right: 20px;
-      img {
-        margin: 0 5px 8px 5px;
-        width: 35px;
-      }
-      .rune1 {
-        width: 55px;
-      }
-    }
     .items {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -244,22 +187,6 @@
       grid-auto-flow: dense;
       position: relative;
       height: fit-content;
-      .item {
-        border: 2px solid vars.$borderColor;
-        border-radius: 4px;
-        width: 40px;
-        height: 40px;
-        margin-left: 5px;
-        img {
-          width: 40px;
-        }
-      }
-      .ward {
-        grid-column: 4 / 5;
-        grid-row: 1 / span 2;
-        justify-self: center;
-        align-self: center;
-      }
     }
     .player-info {
       width: 100px;

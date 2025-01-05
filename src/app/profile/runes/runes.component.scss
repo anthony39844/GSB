@@ -1,0 +1,14 @@
+.runes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  img {
+    margin: 0 5px 8px 5px;
+    width: 35px;
+  }
+  .rune1 {
+    width: 55px;
+  }
+}

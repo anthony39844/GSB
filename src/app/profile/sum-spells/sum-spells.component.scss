@@ -1,0 +1,14 @@
+@use "./../../../variables" as vars;
+
+.sum-spells {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      border: 3px solid vars.$blackBorders;
+      border-radius: 20%;
+      margin: 5px;
+      width: 40px;
+    }
+  }

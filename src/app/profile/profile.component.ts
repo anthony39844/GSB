@@ -7,10 +7,15 @@ import { MatchData } from '../interfaces/matchData.interface';
 import { ParticipantCardComponent } from './participant-card/participant-card.component';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { firstValueFrom } from 'rxjs';
+import { HeaderComponent } from './header/header.component';
+import { ChampInfoComponent } from "./champ-info/champ-info.component";
+import { SumSpellsComponent } from "./sum-spells/sum-spells.component";
+import { RunesComponent } from "./runes/runes.component";
+import { ItemsComponent } from "./items/items.component";
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, ParticipantCardComponent],
+  imports: [CommonModule, ParticipantCardComponent, HeaderComponent, ChampInfoComponent, SumSpellsComponent, RunesComponent, ItemsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -62,6 +67,7 @@ export class ProfileComponent {
   }
 
   getMatchIds() {
+    console.log(this.puuid);
     this.apiService.getMatchIds(this.puuid).subscribe((matchIds) => {
       if (matchIds) {
         this.matchInfoService.setPuuid(this.puuid);
@@ -77,33 +83,27 @@ export class ProfileComponent {
   }
 
   async getPuuid(summoner: string, tag: string) {
-    tag = tag.replace('#', '');
-    tag = tag ? tag : 'NA1';
     try {
       const data = await firstValueFrom(
-        this.apiService.getPuuid(summoner, tag || 'NA1')
+        this.apiService.getPuuid(summoner, tag)
       );
       if (data['puuid']) {
-        this.puuid = this.puuidService.getPuuid();
-        if (data['puuid'] != this.puuidService.getPuuid()) {
-          this.resetDataLoaded();
-          this.reset();
-          this.puuidService.setPuuid(data.puuid);
-          this.puuid = this.puuidService.getPuuid();
-          this.getMatchIds();
-        }
-        this.router.navigate(['/summoner', `${summoner}-${tag}`]);
-        await this.getAccountData();
-        this.accountLoaded = true;
-        this.summoner = data['gameName'];
-        this.tagLine = data['tagLine'];
-        this.matchData = this.matchInfoService.getMatchData();
-      } else {
-        console.log('Invalid summoner', data);
+        this.puuidService.setPuuid(data.puuid);
       }
-    } catch (error) {
-      console.error('Error fetching PUUID:', error);
-    }
+      if (this.puuidService.getPuuid() != this.matchInfoService.getPuuid()) {
+        this.resetDataLoaded();
+        this.reset();
+        this.puuid = this.puuidService.getPuuid();
+        this.getMatchIds();
+      }
+      this.puuid = this.puuidService.getPuuid();
+
+      await this.getAccountData();
+      this.accountLoaded = true;
+      this.summoner = data.gameName;
+      this.tagLine = data.tagLine;
+      this.matchData = this.matchInfoService.getMatchData();
+    } catch {}
   }
 
   allDataLoaded(): boolean {
@@ -181,10 +181,6 @@ export class ProfileComponent {
     } catch (error) {
       console.error('Error fetching rank data:', error);
     }
-  }
-
-  sendHome() {
-    this.router.navigate(['']);
   }
 
   reset() {

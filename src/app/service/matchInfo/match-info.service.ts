@@ -28,6 +28,9 @@ export class MatchInfoService {
     private runesService: RunesService,
     private sumsService: SumSpellsService
   ) {}
+  getPuuid() {
+    return this.puuid;
+  }
 
   setIds(ids: string[]) {
     for (let key in this.matchData) {

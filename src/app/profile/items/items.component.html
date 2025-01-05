@@ -1,0 +1,14 @@
+<div class="items">
+    <div
+      class="item"
+      *ngFor="let item of items; let last = last"
+      [ngClass]="{ ward: last }"
+    >
+      <img
+        *ngIf="item != 0"
+        src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+          item
+        }}.png"
+      />
+    </div>
+  </div>

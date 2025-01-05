@@ -1,194 +1,229 @@
-
-<div class="header">
-  <h1 class="homeBtn" (click)="sendHome()">GSB</h1>
-  <div class="search-div"> 
-    <div class="searches">
-      <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value , tagLineRef.value)"class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
-      <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"class="search tag_search" placeholder="#NA1" name="name" id='tag' required />
-    </div>
-  </div>
-</div>
+<app-header></app-header>
 
 <div class="container">
-    <div class="left" *ngIf="accountLoaded">
-      <div class="profile-info">
-        <div class="profile-img">
-          <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/{{ profileIcon }}.png" alt="Profile Icon">
-          <p>{{ profileLevel }}</p>
+  <div class="left" *ngIf="accountLoaded">
+    <div class="profile-info">
+      <div class="profile-img">
+        <img
+          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/profileicon/{{
+            profileIcon
+          }}.png"
+          alt="Profile Icon"
+        />
+        <p>{{ profileLevel }}</p>
+      </div>
+      <div class="summoner">
+        <p>{{ summoner }}</p>
+        <p>&nbsp;#{{ tagLine }}</p>
+      </div>
+      <div class="rank">
+        <div class="tierImg">
+          <img
+            src="/assets/rank/{{ soloTier.toLowerCase() }}.png"
+            alt="Tier image"
+          />
         </div>
-          <div class="summoner">
-            <p>{{ summoner }}</p>
-            <p>&nbsp;#{{ tagLine }}</p>
-        </div>
-        <div class="rank">
-          <div class="tierImg">
-            <img src="/assets/rank/{{ soloTier.toLowerCase() }}.png" alt="Tier image"/>
-          </div>
-          <div class="rank-info">
-            <h3>Ranked Solo/Duo</h3>
-            <ng-container *ngIf="hasSolo">
-              <p>{{ soloRank }} • {{ soloLP }}LP</p>
-              <div class="win-loss">
-                <p>{{ soloWins }}W {{ soloLosses }}L</p>
-                <p [ngStyle]="{
-                  'color': soloWinPercent >= 50 ? 'green' : 'red'
-                }">
-                  {{ soloWinPercent }}%
-                </p>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-        <div class="rank last-rank-box">
-          <div class="tierImg">
-            <img src="/assets/rank/{{ flexTier.toLowerCase() }}.png" alt="Tier image"/>
-          </div>
-          <div class="rank-info">
-            <h3>Ranked Flex</h3>
-            <ng-container *ngIf="hasFlex">
-              <p>{{ flexRank }} • {{ flexLP }}LP</p>
-              <div class="win-loss">
-                <p>{{ flexWins }}W {{ flexLosses }}L</p>
-                <p [ngStyle]="{
-                  'color': flexWinPercent >= 50 ? 'green' : 'red'
-                }">
-                  {{ flexWinPercent }}%
-                </p>
-              </div>
-            </ng-container>
-          </div>
+        <div class="rank-info">
+          <h3>Ranked Solo/Duo</h3>
+          <ng-container *ngIf="hasSolo">
+            <p>{{ soloRank }} • {{ soloLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ soloWins }}W {{ soloLosses }}L</p>
+              <p
+                [ngStyle]="{
+                  color: soloWinPercent >= 50 ? 'green' : 'red'
+                }"
+              >
+                {{ soloWinPercent }}%
+              </p>
+            </div>
+          </ng-container>
         </div>
       </div>
-    </div>  
-
-    <div class="right">
-        <div *ngIf="allDataLoaded()">
-            <div *ngFor="let match of objectEntries(matchData)">
-                <div [ngClass]="{ 
-                    'won': match[1].profile.win, 
-                    'lost': !match[1].profile.win, 
-                    'match-module': true
-                    }"
-                    [ngStyle]="{ marginBottom: match[1].expanded ? '0' : '10px' }"
-                    (click)="toggleExpand(match[0])">
-                  <div class="match-header">
-                    <div class="header-details">
-                      <p class="game-mode">{{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}</p>
-                      <p class="match-time">{{ match[1].timeAgo }}</p>
-                      <p style="color: rgb(173, 173, 173);">•</p>
-                      <p class="match-length">{{ match[1].gameLength }} minutes</p>
-                    </div>
-                    <p (click)="matchDetails(match[0])">Match Details</p>
-                  </div>
-                  <div class="match-info">
-                    <div class="champion-info">
-                      <div class="champion">  
-                        <img 
-                          [ngStyle]="{'border': match[1].profile.win ? '4px solid #0BDA51' : '4px solid red'}" 
-                          class="champ-img" 
-                          src ='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{match[1].profile.champion}}.png'
-                          alt="{{ match[1].profile.champion }}"
-                        >
-                        <img 
-                        *ngIf="match[1]?.profile?.lane"
-                        class="lane-img" 
-                        src="./assets/role/{{ match[1].profile.lane?.toLowerCase() }}.png" 
-                        alt="{{ match[1].profile.lane }}" 
-                        >
-                      </div>
-                      <p>{{ match[1].profile.champion }}</p>
-                    </div>
-                    <div class="sum-spells">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell1 }}' alt="Summoner spell 1">
-                      <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ match[1].profile.sumSpell2 }}' alt="Summoner spell 2">
-                    </div>
-                    <div class="runes">
-                      <img class="rune1" src='https://ddragon.canisback.com/img/{{ match[1].profile.rune1 }}' alt="Rune 1">
-                      <img class="rune2" src='https://ddragon.canisback.com/img/{{ match[1].profile.rune2 }}' alt="Rune 2">
-                    </div>
-                    <div class="items">
-                      <div class="item" *ngFor="let item of match[1].profile.items; let last = last" [ngClass]="{ 'ward': last }">
-                        <img 
-                          *ngIf="item != 0"
-                          src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-                        >
-                      </div>
-                    </div>
-                    <div class="player-info">
-                      <p class="player-kills">{{ match[1].profile.kills }} / {{ match[1].profile.deaths }} / {{ match[1].profile.assists }}</p>
-                      <p [ngClass]="{
-                        'good': match[1].profile.kda > 3.5, 
-                        'bad': match[1].profile.kda <= 2,
-                        'amazing': match[1].profile.kda > 5,
-                        'player-kda': true
-                        }"
-                      > 
-                        {{ match[1].profile.kda }} KDA
-                      </p>
-                    </div>
-                    <div class="CS">
-                      <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
-                      <p 
-                        [ngClass]="{
-                          'good': match[1].profile.csPerMin >= 7 && match[1].profile.lane != 'SUPPORT', 
-                          'bad': match[1].profile.csPerMin < 5 && match[1].profile.lane != 'SUPPORT'
-                        }">
-                        ({{ match[1].profile.csPerMin }})
-                      </p>
-                      <p>&nbsp;CS</p>
-                    </div>
-                    <div class="KP-Vison">
-                      <div class="KP">
-                        <p [ngClass]="{
-                          'good': match[1].profile.Kp > 60,
-                          'bad': match[1].profile.Kp < 40,
-                          'amazing': match[1].profile.Kp > 80
-                          }
-                          ">
-                          {{ match[1].profile.Kp }}%
-                        </p>
-                        <p>&nbsp;KP</p>
-                      </div>
-                      <div  *ngIf="match[1].gameMode != 'ARAM'" class="vision">
-                        <p> {{ match[1].profile.wardsPlaced }} ({{ match[1].profile.RedWardsPlace }}) / {{ match[1].profile.wardsCleared }}</p>
-                      </div>
-                    </div>
-                    <div class="teammates">
-                      <ng-container *ngFor="let team of match[1].teams; let i = index">
-                        <div *ngIf="i === 0" class="team1">
-                          <div class="teammate" *ngFor="let player of team.members" (click)="getPuuid(player.gameName, player.tagLine)">
-                            <p class="name">{{ player.gameName }} </p>
-                            <img 
-                              src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png" 
-                              class="champ-img">
-                          </div>
-                        </div>
-                      </ng-container>
-                    
-                      <div *ngIf="match[1].gameMode != 'ARAM'" class="teammate-lanes">
-                        <img *ngFor="let image of laneImages" src="./assets/role/{{ image }}.png">
-                      </div>
-                      <div *ngIf="match[1].gameMode == 'ARAM'" class="aram-lanes">
-                        <p>VS</p>
-                      </div>
-                    
-                      <ng-container *ngFor="let team of match[1].teams; let i = index">
-                        <div *ngIf="i === 1" class="team2">
-                          <div class="teammate" *ngFor="let player of team.members" (click)="getPuuid(player.gameName, player.tagLine)">
-                            <img 
-                              src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png" 
-                              class="champ-img">
-                            <p class="name">{{ player.gameName }}</p>
-                          </div>
-                        </div>
-                      </ng-container>
-                    </div>
-                  </div>  
-                </div>
-                <div  class="more-info" *ngIf="match[1].expanded">
-                  <app-participant-card [getPuuid]="getPuuid.bind(this)" class="participant-card" matchId={{match[0]}}></app-participant-card>
-                </div>
-            </div>
+      <div class="rank last-rank-box">
+        <div class="tierImg">
+          <img
+            src="/assets/rank/{{ flexTier.toLowerCase() }}.png"
+            alt="Tier image"
+          />
         </div>
+        <div class="rank-info">
+          <h3>Ranked Flex</h3>
+          <ng-container *ngIf="hasFlex">
+            <p>{{ flexRank }} • {{ flexLP }}LP</p>
+            <div class="win-loss">
+              <p>{{ flexWins }}W {{ flexLosses }}L</p>
+              <p
+                [ngStyle]="{
+                  color: flexWinPercent >= 50 ? 'green' : 'red'
+                }"
+              >
+                {{ flexWinPercent }}%
+              </p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div class="right">
+    <div *ngIf="allDataLoaded()">
+      <div *ngFor="let match of objectEntries(matchData)">
+        <div
+          [ngClass]="{
+            won: match[1].profile.win,
+            lost: !match[1].profile.win,
+            'match-module': true
+          }"
+          [ngStyle]="{ marginBottom: match[1].expanded ? '0' : '10px' }"
+          (click)="toggleExpand(match[0])"
+        >
+          <div class="match-header">
+            <div class="header-details">
+              <p class="game-mode">
+                {{ match[1].gameMode ? match[1].gameMode : "TRAINING" }}
+              </p>
+              <p class="match-time">{{ match[1].timeAgo }}</p>
+              <p style="color: rgb(173, 173, 173)">•</p>
+              <p class="match-length">{{ match[1].gameLength }} minutes</p>
+            </div>
+            <p (click)="matchDetails(match[0])">Match Details</p>
+          </div>
+          <div class="match-info">
+            <app-champ-info [profile]="match[1].profile"></app-champ-info>
+            <app-sum-spells
+              sumSpell1="{{ match[1].profile.sumSpell1 }}"
+              sumSpell2="{{ match[1].profile.sumSpell2 }}"
+            ></app-sum-spells>
+            <app-runes
+              rune1="{{ match[1].profile.rune1 }}"
+              rune2="{{ match[1].profile.rune2 }}"
+            ></app-runes>
+            <div class="items">
+              <div
+                class="item"
+                *ngFor="let item of match[1].profile.items; let last = last"
+                [ngClass]="{ ward: last }"
+              >
+                <img
+                  *ngIf="item != 0"
+                  src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+                    item
+                  }}.png"
+                />
+              </div>
+            </div>
+            <div class="player-info">
+              <p class="player-kills">
+                {{ match[1].profile.kills }} / {{ match[1].profile.deaths }} /
+                {{ match[1].profile.assists }}
+              </p>
+              <p
+                [ngClass]="{
+                  good: match[1].profile.kda > 3.5,
+                  bad: match[1].profile.kda <= 2,
+                  amazing: match[1].profile.kda > 5,
+                  'player-kda': true
+                }"
+              >
+                {{ match[1].profile.kda }} KDA
+              </p>
+            </div>
+            <div class="CS">
+              <p class="cs-score">{{ match[1].profile.CSscore }}&nbsp;</p>
+              <p
+                [ngClass]="{
+                  good:
+                    match[1].profile.csPerMin >= 7 &&
+                    match[1].profile.lane != 'SUPPORT',
+                  bad:
+                    match[1].profile.csPerMin < 5 &&
+                    match[1].profile.lane != 'SUPPORT'
+                }"
+              >
+                ({{ match[1].profile.csPerMin }})
+              </p>
+              <p>&nbsp;CS</p>
+            </div>
+            <div class="KP-Vison">
+              <div class="KP">
+                <p
+                  [ngClass]="{
+                    good: match[1].profile.Kp > 60,
+                    bad: match[1].profile.Kp < 40,
+                    amazing: match[1].profile.Kp > 80
+                  }"
+                >
+                  {{ match[1].profile.Kp }}%
+                </p>
+                <p>&nbsp;KP</p>
+              </div>
+              <div *ngIf="match[1].gameMode != 'ARAM'" class="vision">
+                <p>
+                  {{ match[1].profile.wardsPlaced }} ({{
+                    match[1].profile.RedWardsPlace
+                  }}) / {{ match[1].profile.wardsCleared }}
+                </p>
+              </div>
+            </div>
+            <div class="teammates">
+              <ng-container *ngFor="let team of match[1].teams; let i = index">
+                <div *ngIf="i === 0" class="team1">
+                  <div
+                    class="teammate"
+                    *ngFor="let player of team.members"
+                    (click)="getPuuid(player.gameName, player.tagLine)"
+                  >
+                    <p class="name">{{ player.gameName }}</p>
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+                        player.champion
+                      }}.png"
+                      class="champ-img"
+                    />
+                  </div>
+                </div>
+              </ng-container>
+
+              <div *ngIf="match[1].gameMode != 'ARAM'" class="teammate-lanes">
+                <img
+                  *ngFor="let image of laneImages"
+                  src="./assets/role/{{ image }}.png"
+                />
+              </div>
+              <div *ngIf="match[1].gameMode == 'ARAM'" class="aram-lanes">
+                <p>VS</p>
+              </div>
+
+              <ng-container *ngFor="let team of match[1].teams; let i = index">
+                <div *ngIf="i === 1" class="team2">
+                  <div
+                    class="teammate"
+                    *ngFor="let player of team.members"
+                    (click)="getPuuid(player.gameName, player.tagLine)"
+                  >
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+                        player.champion
+                      }}.png"
+                      class="champ-img"
+                    />
+                    <p class="name">{{ player.gameName }}</p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="more-info" *ngIf="match[1].expanded">
+          <app-participant-card
+            [getPuuid]="getPuuid.bind(this)"
+            class="participant-card"
+            matchId="{{ match[0] }}"
+          ></app-participant-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
