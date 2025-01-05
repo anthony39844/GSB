@@ -33,23 +33,23 @@
 }
 
 .won {
-  color: vars.$winColor;
+  color: vars.$goodColor;
   padding: 4px;
   border-radius: 2px;
   background-color: vars.$blackBackground;
 }
 .lost {
-  color: vars.$loseColor;
+  color: vars.$badColor;
   padding: 4px;
   border-radius: 2px;
   background-color: vars.$blackBackground;
 }
 
 .good {
-  color: vars.$winColor;
+  color: vars.$goodColor;
 }
 .bad {
-  color: vars.$loseColor;
+  color: vars.$badColor;
 }
 .amazing {
   color: vars.$amazingColor;
