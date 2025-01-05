@@ -72,7 +72,6 @@ export const defaultParticipantData: ParticipantData = {
     wardsCleared: 0,
     RedWardsPlace: 0,
   };
-  
 
 export interface TeamData {
     totalKills: number,

@@ -246,7 +246,6 @@ export class MatchInfoService {
             ([, valueA], [, valueB]) => valueB.time - valueA.time
           )
         );
-        console.log(matchId);
       }, 100 * i);
     }
   }
