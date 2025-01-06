@@ -16,12 +16,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './match-details.component.scss',
 })
 export class MatchDetailsComponent {
-  matchId: string = '';
-  puuid: string = '';
-  mostCsPlayer: ParticipantData = defaultParticipantData;
-  mostKdaPlayer: ParticipantData = defaultParticipantData;
-  mostDamagePlayer: ParticipantData = defaultParticipantData;
-  mostGoldPlayer: ParticipantData = defaultParticipantData;
+  matchId: string = ""
+  puuid: string = ""
+  mostStatPlayers: [ParticipantData, string][] = [];
+  statKeyOrder: string[] = ['CSscore', 'damageDealt', 'gold', 'kda']
+  laneImages: string[] = ['top', 'jungle', 'middle', 'bottom', 'support'];
   matchData: MatchData = {
     dataLoaded: false,
     time: 0,
@@ -30,14 +29,10 @@ export class MatchDetailsComponent {
     timeAgo: null,
     expanded: false,
     teams: [],
-    profile: defaultParticipantData,
-  };
+    profile: defaultParticipantData
+  }
 
-  constructor(
-    private route: ActivatedRoute,
-    private matchInfoService: MatchInfoService,
-    private puuidService: PuuidService
-  ) {}
+  constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -60,10 +55,10 @@ export class MatchDetailsComponent {
 
       return allPlayers.find((member) => member[scoreType] === maxScore);
     };
-
-    this.mostGoldPlayer = findTopPlayer(this.matchData.teams, 'gold');
-    this.mostCsPlayer = findTopPlayer(this.matchData.teams, 'CSscore');
-    this.mostKdaPlayer = findTopPlayer(this.matchData.teams, 'kda');
-    this.mostDamagePlayer = findTopPlayer(this.matchData.teams, 'damageDealt');
+    
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'CSscore'), 'CS']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'damageDealt'), 'DAMAGE']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'gold'), 'GOLD']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'kda'), 'KDA']);
   }
 }
