@@ -10,6 +10,7 @@ export interface MatchData {
 }
 
 export interface ParticipantData {
+    [key: string]: any;
     puuid: string;
     gameName: string;
     tagLine: string,

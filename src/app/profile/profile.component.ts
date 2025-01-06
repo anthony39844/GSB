@@ -75,7 +75,6 @@ export class ProfileComponent {
   }
 
   getMatchIds() {
-    console.log(this.puuid);
     this.apiService.getMatchIds(this.puuid).subscribe((matchIds) => {
       if (matchIds) {
         this.matchInfoService.setPuuid(this.puuid);

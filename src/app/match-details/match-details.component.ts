@@ -14,10 +14,9 @@ import { CommonModule } from '@angular/common';
 export class MatchDetailsComponent {
   matchId: string = ""
   puuid: string = ""
-  mostCsPlayer: ParticipantData = defaultParticipantData;
-  mostKdaPlayer: ParticipantData = defaultParticipantData;
-  mostDamagePlayer: ParticipantData = defaultParticipantData;
-  mostGoldPlayer: ParticipantData = defaultParticipantData;
+  mostStatPlayers: [ParticipantData, string][] = [];
+  statKeyOrder: string[] = ['CSscore', 'damageDealt', 'gold', 'kda']
+  laneImages: string[] = ['top', 'jungle', 'middle', 'bottom', 'support'];
   matchData: MatchData = {
     dataLoaded: false,
     time: 0,
@@ -26,37 +25,7 @@ export class MatchDetailsComponent {
     timeAgo: null,
     expanded: false,
     teams: [],
-    profile: {
-      puuid: "",
-      profilePlayer: false,
-      gameName: '',
-      win: true,
-      champion: '',
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      kda: 0,
-      items: [],
-      lane: '',
-      sumSpell1: null,
-      sumSpell2: null,
-      rune1: null,
-      rune2: null,
-      CSscore: 0,
-      csPerMin: 0,
-      Kp: 0,
-      damageDealt: 0,
-      magicDamage: 0,
-      physicalDamage: 0,
-      trueDamage: 0,
-      damageOrder: [],
-      level: 0,
-      wardsPlaced: 0,
-      wardsCleared: 0,
-      RedWardsPlace: 0,
-      gold: 0,
-      tagLine: ""
-    }
+    profile: defaultParticipantData
   }
 
   constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService) {}
@@ -81,11 +50,10 @@ export class MatchDetailsComponent {
       return allPlayers.find(member => member[scoreType] === maxScore);
     };
     
-    this.mostGoldPlayer = findTopPlayer(this.matchData.teams, 'gold');
-    this.mostCsPlayer = findTopPlayer(this.matchData.teams, 'CSscore');
-    this.mostKdaPlayer = findTopPlayer(this.matchData.teams, 'kda');
-    this.mostDamagePlayer = findTopPlayer(this.matchData.teams, 'damageDealt');
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'CSscore'), 'CS']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'damageDealt'), 'DAMAGE']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'gold'), 'GOLD']);
+    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'kda'), 'KDA']);
   }
-
 }
 
