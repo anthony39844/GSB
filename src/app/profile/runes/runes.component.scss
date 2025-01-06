@@ -4,11 +4,21 @@
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+
   img {
     margin: 0 5px 8px 5px;
     width: 35px;
   }
   .rune1 {
     width: 55px;
+  }
+  .rune1-tooltip, .rune2-tooltip {
+    display: none;
+  }
+  .rune1:hover + .rune1-tooltip {
+    display: block
+  }
+  .rune2:hover + .rune2-tooltip {
+    display: block
   }
 }

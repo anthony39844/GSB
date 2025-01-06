@@ -1,14 +1,16 @@
 <div class="items">
-    <div
-      class="item"
-      *ngFor="let item of items; let last = last"
-      [ngClass]="{ ward: last }"
-    >
-      <img
-        *ngIf="item != 0"
-        src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
-          item
-        }}.png"
-      />
-    </div>
+  <div
+    class="item"
+    *ngFor="let item of items; let i = index; let last = last"
+    [ngClass]="{ ward: last }"
+  >
+    <img
+      class="item-img"
+      *ngIf="item != 0"
+      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+        item
+      }}.png"
+    />
+    <app-hover-tooltip class="tooltip" type="item" [info]="item"></app-hover-tooltip>
   </div>
+</div>

@@ -37,4 +37,8 @@ export class ApiService {
   getChamps(): Observable<any> {
     return this.http.get(`${this.baseUrl}get_champs`)
   }
+
+  getItems() :Observable<any> {
+    return this.http.get(`${this.baseUrl}get_items`)
+  }
 }

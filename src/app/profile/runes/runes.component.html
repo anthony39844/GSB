@@ -1,4 +1,22 @@
 <div class="runes">
-    <img class="rune1" src='https://ddragon.canisback.com/img/{{ rune1 }}' alt="Rune 1">
-    <img class="rune2" src='https://ddragon.canisback.com/img/{{ rune2 }}' alt="Rune 2">
-  </div>
+  <img
+    class="rune1"
+    src="https://ddragon.leagueoflegends.com/cdn/img/{{ rune1Icon }}"
+    alt="Rune 1"
+  />
+  <app-hover-tooltip
+    class="rune1-tooltip"
+    type="rune"
+    [info]="rune1"
+  ></app-hover-tooltip>
+  <img
+    class="rune2"
+    src="https://ddragon.leagueoflegends.com/cdn/img/{{ rune2Icon }}"
+    alt="Rune 2"
+  />
+  <app-hover-tooltip
+    class="rune2-tooltip"
+    type="rune"
+    [info]="rune2"
+  ></app-hover-tooltip>
+</div>

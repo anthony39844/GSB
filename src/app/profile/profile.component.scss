@@ -179,6 +179,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    .champ-info-component {
+      position: relative;
+    }
     div {
       margin-top: 10px;
     }

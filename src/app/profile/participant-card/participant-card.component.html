@@ -1,73 +1,111 @@
-<div class="expanded-card"
-  [ngStyle]="{ 'background-image': 'linear-gradient(0deg, rgba(29, 21, 70, 0.90), rgba(29, 21, 70, 0.90)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + matchData.profile.champion + '_0.jpg)' }">
-  <div *ngFor="let team of matchData.teams; let i = index"
-    [ngStyle]="{'border-bottom': i === 0 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'}"
-    class="team-card">
+<div
+  class="expanded-card"
+  [ngStyle]="{
+    'background-image':
+      'linear-gradient(0deg, rgba(29, 21, 70, 0.90), rgba(29, 21, 70, 0.90)), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+      matchData.profile.champion +
+      '_0.jpg)'
+  }"
+>
+  <div
+    *ngFor="let team of matchData.teams; let i = index"
+    [ngStyle]="{
+      'border-bottom': i === 0 ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
+    }"
+    class="team-card"
+  >
     <div class="card-header">
       <p>TEAM{{ i + 1 }}</p>
-      <p [ngClass]="{'won': team.win, 'lost': !team.win}">{{ team.win ? "WON" : "LOST" }}</p> 
+      <p [ngClass]="{ won: team.win, lost: !team.win }">
+        {{ team.win ? "WON" : "LOST" }}
+      </p>
       <p>•</p>
-      <p>{{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}</p>
+      <p>
+        {{ team.totalKills }} / {{ team.totalDeaths }} / {{ team.totalAssists }}
+      </p>
       <p>•</p>
-      <img src="./assets/icons/gold.svg">
-      <p> {{ team.totalGold }}</p>
-      <div *ngFor="let obj of objectEntries(team.objectives)" >
+      <img src="./assets/icons/gold.svg" />
+      <p>{{ team.totalGold }}</p>
+      <div *ngFor="let obj of objectEntries(team.objectives)">
         <p *ngIf="obj[1]['kills'] > 0">•</p>
-        <img *ngIf="obj[1]['kills'] > 0" src="./assets/icons/{{obj[0]}}.svg">
+        <img
+          *ngIf="obj[1]['kills'] > 0"
+          src="./assets/icons/{{ obj[0] }}.svg"
+        />
         <p *ngIf="obj[1]['kills'] > 0">
-          {{ obj[1]['kills']}}
+          {{ obj[1]["kills"] }}
         </p>
       </div>
     </div>
     <div class="player-card" *ngFor="let player of team.members">
       <div class="champion-info">
-        <img 
-        src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{player.champion}}.png' 
-        [ngClass]="{'champ-img': true, 'user-champ-img': puuid == player.puuid}"
-        >
+        <img
+          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+            player.champion
+          }}.png"
+          [ngClass]="{
+            'champ-img': true,
+            'user-champ-img': puuid == player.puuid
+          }"
+        />
         <p>{{ player.level }}</p>
       </div>
       <div class="sum-spells">
-        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell1 }}' alt="Summoner spell 1">
-        <img src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{ player.sumSpell2 }}' alt="Summoner spell 2">
+        <img
+          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+            player.sumSpell1
+          }}"
+          alt="Summoner spell 1"
+        />
+        <img
+          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+            player.sumSpell2
+          }}"
+          alt="Summoner spell 2"
+        />
       </div>
-      <div class="runes">
-        <img class="rune1" src='https://ddragon.canisback.com/img/{{ player.rune1 }}' alt="Rune 1">
-        <img class="rune2" src='https://ddragon.canisback.com/img/{{ player.rune2 }}' alt="Rune 2">
-      </div>
+      <app-runes [rune1]="player.rune1" [rune2]="player.rune2"></app-runes>
       <div class="game-name">
-        <p class="name" (click)="getPuuid(player.gameName, player.tagLine)">{{ player.gameName }}</p>
+        <p class="name" (click)="getPuuid(player.gameName, player.tagLine)">
+          {{ player.gameName }}
+        </p>
       </div>
       <div class="kda-info">
-        <p class="player-kills">{{ player.kills }} / {{ player.deaths }} / {{ player.assists }}</p>
-        <p [ngClass]="{
-          'good': player.kda > 3.5, 
-          'bad': player.kda <= 2,
-          'amazing': player.kda > 5,
-          'player-kda': true
+        <p class="player-kills">
+          {{ player.kills }} / {{ player.deaths }} / {{ player.assists }}
+        </p>
+        <p
+          [ngClass]="{
+            good: player.kda > 3.5,
+            bad: player.kda <= 2,
+            amazing: player.kda > 5,
+            'player-kda': true
           }"
-        > 
+        >
           {{ player.kda }} KDA
         </p>
       </div>
       <div class="CS">
         <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
-        <p 
+        <p
           [ngClass]="{
-            'good': player.csPerMin >= 7 && player.lane != 'SUPPORT', 
-            'bad': player.csPerMin < 5 && player.lane != 'SUPPORT'
-          }">
+            good: player.csPerMin >= 7 && player.lane != 'SUPPORT',
+            bad: player.csPerMin < 5 && player.lane != 'SUPPORT'
+          }"
+        >
           ({{ player.csPerMin }})
         </p>
         <p>&nbsp;CS</p>
       </div>
       <div class="KP">
-        <p [ngClass]="{
+        <p
+          [ngClass]="{
           'good': player.Kp > 60,
           'bad': player.Kp < 40,
           'amazing': player.Kp > 80,
           }
-          ">
+          "
+        >
           {{ player.Kp }}%
         </p>
         <p>&nbsp;KP</p>
@@ -77,20 +115,19 @@
           <div
             class="total-damage-bar"
             [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
-          >
-          </div>
+          ></div>
           <p>{{ player.damageDealt }}</p>
         </div>
         <div class="damage-hover">
           <ng-container *ngFor="let damageType of player.damageOrder">
             <div *ngIf="damageType[1]" class="damage-info">
-              <div 
+              <div
                 [style.width.%]="(player.damageDealt / getMaxDamage(i)) * 75"
               >
-                <div 
+                <div
                   class="{{ damageType[0] }}-bar"
-                  [style.width.%]="(damageType[1] / player.damageDealt) * 100">
-                </div>
+                  [style.width.%]="(damageType[1] / player.damageDealt) * 100"
+                ></div>
               </div>
               <p>{{ damageType[1] }}</p>
             </div>
@@ -99,11 +136,13 @@
       </div>
       <div class="items">
         <div class="item" *ngFor="let item of player.items; let last = last">
-          <img 
+          <img
             *ngIf="item != 0"
-            src='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{ item }}.png'
-            [ngClass]="{ 'ward': last }"
-          >
+            src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+              item
+            }}.png"
+            [ngClass]="{ ward: last }"
+          />
         </div>
       </div>
     </div>

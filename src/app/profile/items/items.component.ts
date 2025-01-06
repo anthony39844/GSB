@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { HoverTooltipComponent } from '../hover-tooltip/hover-tooltip.component';
 
 @Component({
   selector: 'app-items',
-  imports: [CommonModule],
+  imports: [CommonModule, HoverTooltipComponent],
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss',
 })

@@ -1,0 +1,11 @@
+@use "./../../../variables" as vars;
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  background-color: vars.$bgColor2;
+  width: 200px;
+  p {
+    width: 100%;
+  }
+}

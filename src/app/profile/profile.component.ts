@@ -12,6 +12,8 @@ import { ChampInfoComponent } from './champ-info/champ-info.component';
 import { SumSpellsComponent } from './sum-spells/sum-spells.component';
 import { RunesComponent } from './runes/runes.component';
 import { ItemsComponent } from './items/items.component';
+import { ItemsService } from '../service/items/items.service';
+import { RunesService } from '../service/icon/runes.service';
 
 @Component({
   selector: 'app-profile',
@@ -61,10 +63,12 @@ export class ProfileComponent {
     private puuidService: PuuidService,
     private router: Router,
     private matchInfoService: MatchInfoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private items: ItemsService
   ) {}
 
   ngOnInit(): void {
+    this.items.setData();
     this.route.paramMap.subscribe((params) => {
       let summonerTag = params.get('summoner');
       if (summonerTag) {
@@ -75,7 +79,6 @@ export class ProfileComponent {
   }
 
   getMatchIds() {
-    console.log(this.puuid);
     this.apiService.getMatchIds(this.puuid).subscribe((matchIds) => {
       if (matchIds) {
         this.matchInfoService.setPuuid(this.puuid);
@@ -91,7 +94,6 @@ export class ProfileComponent {
   }
 
   newNavigate(newSummoner: string, newTag: string) {
-    console.log("nav")
     this.router.navigate(['/summoner', `${newSummoner}-${newTag}`]);
   }
 

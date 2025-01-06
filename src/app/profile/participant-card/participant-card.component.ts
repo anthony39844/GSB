@@ -1,19 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { MatchInfoService } from '../../service/matchInfo/match-info.service';
-import { MatchData } from '../../interfaces/matchData.interface';
+import { defaultParticipantData, MatchData } from '../../interfaces/matchData.interface';
 import { CommonModule } from '@angular/common';
 import { PuuidService } from '../../service/puuid/puuid.service';
+import { RunesComponent } from "../runes/runes.component";
 
 @Component({
   selector: 'app-participant-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RunesComponent],
   templateUrl: './participant-card.component.html',
   styleUrl: './participant-card.component.scss',
 })
 export class ParticipantCardComponent {
   objectEntries = Object.entries;
   Math = Math;
-  puuid: string = ""
+  puuid: string = '';
   matchData: MatchData = {
     dataLoaded: false,
     time: 0,
@@ -22,44 +23,15 @@ export class ParticipantCardComponent {
     timeAgo: null,
     expanded: false,
     teams: [],
-    profile: {
-      puuid: "",
-      profilePlayer: false,
-      gameName: '',
-      win: true,
-      champion: '',
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      kda: 0,
-      items: [],
-      lane: '',
-      sumSpell1: null,
-      sumSpell2: null,
-      rune1: null,
-      rune2: null,
-      CSscore: 0,
-      csPerMin: 0,
-      Kp: 0,
-      damageDealt: 0,
-      magicDamage: 0,
-      physicalDamage: 0,
-      trueDamage: 0,
-      damageOrder: [],
-      level: 0,
-      wardsPlaced: 0,
-      wardsCleared: 0,
-      RedWardsPlace: 0,
-      gold: 0,
-      tagLine: ""
-    }
-  }
-  @Input() matchId: string = "";
+    profile: defaultParticipantData,
+  };
+  @Input() matchId: string = '';
   @Input() getPuuid!: (param1: string, param2: string) => void;
 
-  constructor(private matchInfoService : MatchInfoService, private puuidService : PuuidService) {
-    
-  };
+  constructor(
+    private matchInfoService: MatchInfoService,
+    private puuidService: PuuidService
+  ) {}
 
   ngOnInit() {
     this.matchData = this.matchInfoService.getMatchData()[this.matchId];
@@ -68,9 +40,9 @@ export class ParticipantCardComponent {
 
   getMaxDamage(team: number) {
     return Math.max(
-      ...this.matchData['teams'][team].members.map(player => player.damageDealt)
-    )
+      ...this.matchData['teams'][team].members.map(
+        (player) => player.damageDealt
+      )
+    );
   }
-
-  
 }

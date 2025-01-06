@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  defaultParticipantData,
   MatchData,
   ParticipantData,
 } from '../../interfaces/matchData.interface';
@@ -73,37 +74,7 @@ export class MatchInfoService {
             objectives: {},
           },
         ],
-        profile: {
-          puuid: '',
-          profilePlayer: false,
-          gameName: '',
-          win: true,
-          champion: '',
-          kills: 0,
-          deaths: 0,
-          assists: 0,
-          kda: 0,
-          items: [],
-          lane: '',
-          sumSpell1: null,
-          sumSpell2: null,
-          rune1: null,
-          rune2: null,
-          CSscore: 0,
-          csPerMin: 0,
-          Kp: 0,
-          damageDealt: 0,
-          magicDamage: 0,
-          physicalDamage: 0,
-          trueDamage: 0,
-          damageOrder: [],
-          level: 0,
-          wardsPlaced: 0,
-          wardsCleared: 0,
-          RedWardsPlace: 0,
-          gold: 0,
-          tagLine: '',
-        },
+        profile: defaultParticipantData,
       };
     }
     let i = 0;
@@ -185,8 +156,10 @@ export class MatchInfoService {
                       ? 'SUPPORT'
                       : participant.individualPosition
                     : '',
-                rune1: this.runesService.getRunes(rune1),
-                rune2: this.runesService.getRunes(rune2),
+                rune1: rune1,
+                // this.runesService.getRunes(rune1).icon,
+                rune2: rune2,
+                // this.runesService.getRunes(rune2).icon,
                 items: Array.from(
                   { length: 7 },
                   (_, i) => participant[`item${i}`]
