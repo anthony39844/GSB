@@ -14,7 +14,7 @@ ddragon_route = "https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US"
 
 @app.route('/match_ids/<puuid>')
 def get_matches(puuid):
-    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10&api_key={api_key}'
+    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=2&api_key={api_key}'
     response = requests.get(matches_route).json()
     return response
 

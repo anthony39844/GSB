@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatchData, ParticipantData, defaultParticipantData } from '../interfaces/matchData.interface';
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { PuuidService } from '../service/puuid/puuid.service';
@@ -28,7 +28,9 @@ export class MatchDetailsComponent {
     profile: defaultParticipantData
   }
 
-  constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService) {}
+  @Input() getPuuid!: (param1: string, param2: string) => void;
+
+  constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService, private router: Router,) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -54,6 +56,11 @@ export class MatchDetailsComponent {
     this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'damageDealt'), 'DAMAGE']);
     this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'gold'), 'GOLD']);
     this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'kda'), 'KDA']);
+  }
+
+  newNavigate(newSummoner: string, newTag: string) {
+    console.log("nav")
+    this.router.navigate(['/summoner', `${newSummoner}-${newTag}`]);
   }
 }
 
