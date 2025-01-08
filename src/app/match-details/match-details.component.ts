@@ -8,21 +8,28 @@ import {
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { PuuidService } from '../service/puuid/puuid.service';
 import { CommonModule } from '@angular/common';
-import { SumSpellsComponent } from "../profile/sum-spells/sum-spells.component";
-import { RunesComponent } from "../profile/runes/runes.component";
-import { ChampInfoComponent } from "../profile/champ-info/champ-info.component";
+import { SumSpellsComponent } from '../profile/sum-spells/sum-spells.component';
+import { RunesComponent } from '../profile/runes/runes.component';
+import { ChampInfoComponent } from '../profile/champ-info/champ-info.component';
+import { RunesService } from '../service/icon/runes.service';
+import { SumSpellsService } from '../service/icon/sum-spells.service';
 
 @Component({
   selector: 'app-match-details',
-  imports: [CommonModule, SumSpellsComponent, RunesComponent, ChampInfoComponent],
+  imports: [
+    CommonModule,
+    SumSpellsComponent,
+    RunesComponent,
+    ChampInfoComponent,
+  ],
   templateUrl: './match-details.component.html',
   styleUrl: './match-details.component.scss',
 })
 export class MatchDetailsComponent {
-  matchId: string = ""
-  puuid: string = ""
+  matchId: string = '';
+  puuid: string = '';
   mostStatPlayers: [ParticipantData, string][] = [];
-  statKeyOrder: string[] = ['CSscore', 'damageDealt', 'gold', 'kda']
+  statKeyOrder: string[] = ['CSscore', 'damageDealt', 'gold', 'kda'];
   laneImages: string[] = ['top', 'jungle', 'middle', 'bottom', 'support'];
   matchData: MatchData = {
     dataLoaded: false,
@@ -32,12 +39,19 @@ export class MatchDetailsComponent {
     timeAgo: null,
     expanded: false,
     teams: [],
-    profile: defaultParticipantData
-  }
+    profile: defaultParticipantData,
+  };
 
   @Input() getPuuid!: (param1: string, param2: string) => void;
 
-  constructor(private route: ActivatedRoute, private matchInfoService : MatchInfoService, private puuidService : PuuidService, private router: Router,) {}
+  constructor(
+    private route: ActivatedRoute,
+    private matchInfoService: MatchInfoService,
+    private puuidService: PuuidService,
+    private router: Router,
+    private runeService: RunesService,
+    private spellService: SumSpellsService
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -51,6 +65,13 @@ export class MatchDetailsComponent {
     });
   }
 
+  getRune(key: number) {
+    return this.runeService.getRunes(key).icon;
+  }
+  getSpell(key: number) {
+    return this.spellService.getSums(key).icon;
+  }
+
   mostStats() {
     const findTopPlayer = (teams: any[], scoreType: string) => {
       const allPlayers = teams.flatMap((team) => team.members);
@@ -60,15 +81,27 @@ export class MatchDetailsComponent {
 
       return allPlayers.find((member) => member[scoreType] === maxScore);
     };
-    
-    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'CSscore'), 'CS']);
-    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'damageDealt'), 'DAMAGE']);
-    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'gold'), 'GOLD']);
-    this.mostStatPlayers.push([findTopPlayer(this.matchData.teams, 'kda'), 'KDA']);
+
+    this.mostStatPlayers.push([
+      findTopPlayer(this.matchData.teams, 'CSscore'),
+      'CS',
+    ]);
+    this.mostStatPlayers.push([
+      findTopPlayer(this.matchData.teams, 'damageDealt'),
+      'DAMAGE',
+    ]);
+    this.mostStatPlayers.push([
+      findTopPlayer(this.matchData.teams, 'gold'),
+      'GOLD',
+    ]);
+    this.mostStatPlayers.push([
+      findTopPlayer(this.matchData.teams, 'kda'),
+      'KDA',
+    ]);
   }
 
   newNavigate(newSummoner: string, newTag: string) {
-    console.log("nav")
+    console.log('nav');
     this.router.navigate(['/summoner', `${newSummoner}-${newTag}`]);
   }
 }

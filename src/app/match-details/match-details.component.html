@@ -75,14 +75,36 @@
                   </p>
                 </div>
                 <div class="spells-runes">
-                  <app-sum-spells
-                    [sumSpell1]="player.sumSpell1"
-                    [sumSpell2]="player.sumSpell2"
-                  ></app-sum-spells>
-                  <app-runes
-                    [rune1]="player.rune1"
-                    [rune2]="player.rune2"
-                  ></app-runes>
+                  <div class="sum-spells">
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+                        getSpell(player.sumSpell1)
+                      }}"
+                      alt="Summoner spell 1"
+                    />
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+                        getSpell(player.sumSpell2)
+                      }}"
+                      alt="Summoner spell 2"
+                    />
+                  </div>
+                  <div class="runes">
+                    <img
+                      class="rune1"
+                      src="https://ddragon.canisback.com/img/{{
+                        getRune(player.rune1)
+                      }}"
+                      alt="Rune 1"
+                    />
+                    <img
+                      class="rune2"
+                      src="https://ddragon.canisback.com/img/{{
+                        getRune(player.rune2)
+                      }}"
+                      alt="Rune 2"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="kda-cs-kp-items">
