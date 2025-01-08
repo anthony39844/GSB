@@ -8,12 +8,10 @@ import {
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { PuuidService } from '../service/puuid/puuid.service';
 import { CommonModule } from '@angular/common';
-import { SumSpellsComponent } from '../profile/sum-spells/sum-spells.component';
-import { RunesComponent } from '../profile/runes/runes.component';
-import { ChampInfoComponent } from '../profile/champ-info/champ-info.component';
 import { RunesService } from '../service/icon/runes.service';
 import { SumSpellsService } from '../service/icon/sum-spells.service';
 import { HeaderComponent } from '../profile/header/header.component';
+import { ApiService } from '../service/api/api.service';
 
 @Component({
   selector: 'app-match-details',
@@ -50,17 +48,40 @@ export class MatchDetailsComponent {
     private puuidService: PuuidService,
     private router: Router,
     private runeService: RunesService,
-    private spellService: SumSpellsService
+    private spellService: SumSpellsService,
+    private apiService: ApiService
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       let match = params.get('match-id');
+      let summonerTag = params.get('summoner');
+      let summoner, tag;
+      if (summonerTag) {
+        [summoner, tag] = summonerTag.split('-');
+        this.setPuuid(summoner, tag);
+      }
       if (match) {
         this.matchId = match;
         this.matchData = this.matchInfoService.getMatchData()[this.matchId];
+
+        if (!this.matchData) {
+          this.matchInfoService.setIds([match]);
+          this.matchInfoService.setPuuid(this.puuidService.getPuuid());
+          console.log(this.matchInfoService.getMatchData()[this.matchId]);
+          this.matchData = this.matchInfoService.getMatchData()[this.matchId];
+        }
+
         this.puuid = this.puuidService.getPuuid();
         this.mostStats();
+      }
+    });
+  }
+
+  setPuuid(summoner: string, tag: string) {
+    this.apiService.getPuuid(summoner, tag).subscribe((data) => {
+      if (data['puuid']) {
+        this.puuidService.setPuuid(data.puuid);
       }
     });
   }
@@ -75,6 +96,8 @@ export class MatchDetailsComponent {
   mostStats() {
     const findTopPlayer = (teams: any[], scoreType: string) => {
       const allPlayers = teams.flatMap((team) => team.members);
+      console.log(teams[0]);
+      console.log(teams[0].members);
       const maxScore = Math.max(
         ...allPlayers.map((member) => member[scoreType])
       );
@@ -101,7 +124,6 @@ export class MatchDetailsComponent {
   }
 
   newNavigate(newSummoner: string, newTag: string) {
-    console.log('nav');
     this.router.navigate(['/summoner', `${newSummoner}-${newTag}`]);
   }
 }
