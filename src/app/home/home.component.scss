@@ -5,10 +5,7 @@
   width: 100%;
   background-size: cover;
   background-position: center;
-  transition: background-image 1s ease-in-out;
-  .home:hover {
-    background-image: url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg);
-  }
+  background-repeat: no-repeat;
   .header {
     display: flex;
     flex-direction: column;
@@ -22,30 +19,5 @@
   }
   p {
     font-size: 40px;
-  }
-  .background {
-    height: 100vh;
-    width: 100%;
-
-    background-size: cover;
-    position: absolute;
-    animation: backgroundRotation 12s infinite; /* Rotate every 12 seconds */
-    @keyframes backgroundRotation {
-      0% {
-        opacity: 1;
-      }
-      25% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      75% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
   }
 }

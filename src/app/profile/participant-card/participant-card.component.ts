@@ -6,12 +6,12 @@ import {
 } from '../../interfaces/matchData.interface';
 import { CommonModule } from '@angular/common';
 import { PuuidService } from '../../service/puuid/puuid.service';
-import { RunesComponent } from '../runes/runes.component';
-import { SumSpellsComponent } from "../sum-spells/sum-spells.component";
+import { RunesService } from '../../service/icon/runes.service';
+import { SumSpellsService } from '../../service/icon/sum-spells.service';
 
 @Component({
   selector: 'app-participant-card',
-  imports: [CommonModule, RunesComponent, SumSpellsComponent],
+  imports: [CommonModule],
   templateUrl: './participant-card.component.html',
   styleUrl: './participant-card.component.scss',
 })
@@ -34,12 +34,21 @@ export class ParticipantCardComponent {
 
   constructor(
     private matchInfoService: MatchInfoService,
-    private puuidService: PuuidService
+    private puuidService: PuuidService,
+    private runeService: RunesService,
+    private spellService: SumSpellsService
   ) {}
 
   ngOnInit() {
     this.matchData = this.matchInfoService.getMatchData()[this.matchId];
     this.puuid = this.puuidService.getPuuid();
+  }
+
+  getRune(key: number) {
+    return this.runeService.getRunes(key).icon;
+  }
+  getSpell(key: number) {
+    return this.spellService.getSums(key).icon;
   }
 
   getMaxDamage(team: number) {

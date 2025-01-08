@@ -13,14 +13,14 @@ import { RunesComponent } from '../profile/runes/runes.component';
 import { ChampInfoComponent } from '../profile/champ-info/champ-info.component';
 import { RunesService } from '../service/icon/runes.service';
 import { SumSpellsService } from '../service/icon/sum-spells.service';
+import { HeaderComponent } from '../profile/header/header.component';
 
 @Component({
   selector: 'app-match-details',
   imports: [
     CommonModule,
-    SumSpellsComponent,
-    RunesComponent,
-    ChampInfoComponent,
+    HeaderComponent
+
   ],
   templateUrl: './match-details.component.html',
   styleUrl: './match-details.component.scss',

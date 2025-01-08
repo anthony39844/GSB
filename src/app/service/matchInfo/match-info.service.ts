@@ -7,6 +7,7 @@ import {
 import { ApiService } from '../api/api.service';
 import { RunesService } from '../icon/runes.service';
 import { SumSpellsService } from '../icon/sum-spells.service';
+import { min } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -92,8 +93,8 @@ export class MatchInfoService {
             const participants = matchInfo['participants'];
             const gameStart = matchInfo['gameCreation'];
             const currTime = Date.now();
-            const hoursAgo = Math.floor((currTime - gameStart) / 3600000);
-            match.timeAgo = this.getTimeFromHours(hoursAgo);
+            const minutesAgo = Math.floor((currTime - gameStart) / 60000);
+            match.timeAgo = this.getTimeFromMinutes(minutesAgo);
             match.time = gameStart;
             match.gameMode = this.queueIDMap[matchInfo['queueId']];
             match.expanded = false;
@@ -221,16 +222,17 @@ export class MatchInfoService {
     }
   }
 
-  getTimeFromHours(hours: number): string {
-    if (hours < 1) {
-      const minutes = Math.floor(hours * 60);
+  getTimeFromMinutes(minutes: number): string {
+    console.log(minutes)
+    if (minutes < 60) {
       return `${minutes}m ago`;
     }
-    const days = Math.floor(hours / 24);
-    if (days === 0) {
-      return `${hours}h ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours > 23) {
+      const days = Math.floor(hours / 24);
+      return `${days}d ago`;
     }
-    return `${days}d ago`;
+    return `${hours}h ago`;
   }
 
   getMatchData() {

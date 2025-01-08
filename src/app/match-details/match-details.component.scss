@@ -121,6 +121,7 @@
     display: grid;
     grid-template-columns: 1fr 100px 1fr;
     grid-template-rows: auto;
+    background-color: rgba(100, 166, 208, 0.15);
     .team {
       display: grid;
       grid-template-columns: 1fr;
@@ -259,10 +260,11 @@
             height: fit-content;
             .item {
               border: 2px solid vars.$borderColor;
-              border-radius: 4px;
+              border-radius: 5px;
               width: 30px;
               height: 30px;
               margin-left: 5px;
+              background-color: vars.$bgColor;
               img {
                 width: 30px;
               }
