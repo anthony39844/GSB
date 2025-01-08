@@ -146,7 +146,7 @@
           }
           p {
             position: absolute;
-            bottom: 20px;
+            bottom: 150px;
             right: 0;
             color: vars.$profileBorders;
             background-color: vars.$bgColor2;
@@ -164,7 +164,7 @@
           }
         }
         .name-spells-runes {
-          display: grid;
+          display: flex;
           grid-template-columns: 1fr;
           grid-template-rows: 1fr 1fr;
           .game-name {

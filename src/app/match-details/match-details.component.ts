@@ -8,10 +8,13 @@ import {
 import { MatchInfoService } from '../service/matchInfo/match-info.service';
 import { PuuidService } from '../service/puuid/puuid.service';
 import { CommonModule } from '@angular/common';
+import { SumSpellsComponent } from "../profile/sum-spells/sum-spells.component";
+import { RunesComponent } from "../profile/runes/runes.component";
+import { ChampInfoComponent } from "../profile/champ-info/champ-info.component";
 
 @Component({
   selector: 'app-match-details',
-  imports: [CommonModule],
+  imports: [CommonModule, SumSpellsComponent, RunesComponent, ChampInfoComponent],
   templateUrl: './match-details.component.html',
   styleUrl: './match-details.component.scss',
 })
