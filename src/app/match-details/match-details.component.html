@@ -25,7 +25,7 @@
             player[0].champion
           }}.png"
         />
-        <p>{{ player[0].gameName }}</p>
+        <p (click)="newNavigate(player[0].gameName, player[0].tagLine)">{{ player[0].gameName }}</p>
       </div>
     </div>
   </div>

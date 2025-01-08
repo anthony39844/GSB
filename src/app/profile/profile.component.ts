@@ -13,7 +13,6 @@ import { SumSpellsComponent } from './sum-spells/sum-spells.component';
 import { RunesComponent } from './runes/runes.component';
 import { ItemsComponent } from './items/items.component';
 import { ItemsService } from '../service/items/items.service';
-import { RunesService } from '../service/icon/runes.service';
 
 @Component({
   selector: 'app-profile',
