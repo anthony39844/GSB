@@ -1,2 +1,8 @@
-<div class="tooltip" [innerHTML]="displayContent">
+<div class="tooltip">
+  <div>
+    <img src="{{ route }}" />
+    <p class="name">{{ name }}</p>
+  </div>
+
+  <p [innerHTML]="description"></p>
 </div>

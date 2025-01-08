@@ -17,6 +17,5 @@ export class RunesComponent {
   ngOnInit() {
     this.rune1Icon = this.runesService.getRunes(this.rune1).icon;
     this.rune2Icon = this.runesService.getRunes(this.rune2).icon;
-    console.log('RUN1');
   }
 }

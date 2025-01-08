@@ -19,13 +19,20 @@ export class AppComponent {
   ngOnInit(): void {
     this.apiService.getRunes().subscribe((runes) => {
       for (let rune_page of runes) {
-        this.runeService.setRunes(rune_page['id'], {icon: rune_page['icon'], description : "", name: rune_page.name});
-        console.log(rune_page.name)
+        this.runeService.setRunes(rune_page['id'], {
+          icon: rune_page['icon'],
+          description: '',
+          name: rune_page.name,
+        });
         for (let slot of rune_page['slots']) {
           for (let runeFam in slot) {
             const curRuneFam = slot[runeFam];
             for (let rune of curRuneFam) {
-              this.runeService.setRunes(rune['id'], {icon: rune['icon'], description : rune.shortDesc, name: rune.name});
+              this.runeService.setRunes(rune['id'], {
+                icon: rune['icon'],
+                description: rune.shortDesc,
+                name: rune.name,
+              });
             }
           }
         }
@@ -35,7 +42,11 @@ export class AppComponent {
       const data = spellData['data'];
       for (let spell in data) {
         const curSpell = data[spell];
-        this.sumService.setSums(curSpell['key'], curSpell['image']['full']);
+        this.sumService.setSums(curSpell['key'], {
+          icon: curSpell['image']['full'],
+          description: curSpell.description,
+          name: curSpell.id.substring(8),
+        });
       }
     });
   }

@@ -23,8 +23,8 @@ export interface ParticipantData {
     kda: number;
     items: number[];
     lane: string | null;
-    sumSpell1: string | null;
-    sumSpell2: string | null;
+    sumSpell1: number;
+    sumSpell2: number;
     rune1: number;
     rune2: number;
     CSscore: number;
@@ -55,8 +55,8 @@ export const defaultParticipantData: ParticipantData = {
     kda: 0,
     items: [],
     lane: null,
-    sumSpell1: null,
-    sumSpell2: null,
+    sumSpell1: 0,
+    sumSpell2: 0,
     rune1: 0,
     rune2: 0,
     CSscore: 0,

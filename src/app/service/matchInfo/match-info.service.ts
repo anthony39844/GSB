@@ -157,15 +157,13 @@ export class MatchInfoService {
                       : participant.individualPosition
                     : '',
                 rune1: rune1,
-                // this.runesService.getRunes(rune1).icon,
                 rune2: rune2,
-                // this.runesService.getRunes(rune2).icon,
                 items: Array.from(
                   { length: 7 },
                   (_, i) => participant[`item${i}`]
                 ),
-                sumSpell1: this.sumsService.getSums(participant['summoner1Id']),
-                sumSpell2: this.sumsService.getSums(participant['summoner2Id']),
+                sumSpell1: participant.summoner1Id,
+                sumSpell2: participant.summoner2Id,
                 CSscore: cs,
                 csPerMin: Math.floor((cs / match.gameLength) * 10) / 10,
                 Kp: 0,

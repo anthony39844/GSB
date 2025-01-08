@@ -1,13 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { MatchInfoService } from '../../service/matchInfo/match-info.service';
-import { defaultParticipantData, MatchData } from '../../interfaces/matchData.interface';
+import {
+  defaultParticipantData,
+  MatchData,
+} from '../../interfaces/matchData.interface';
 import { CommonModule } from '@angular/common';
 import { PuuidService } from '../../service/puuid/puuid.service';
-import { RunesComponent } from "../runes/runes.component";
+import { RunesComponent } from '../runes/runes.component';
+import { SumSpellsComponent } from "../sum-spells/sum-spells.component";
 
 @Component({
   selector: 'app-participant-card',
-  imports: [CommonModule, RunesComponent],
+  imports: [CommonModule, RunesComponent, SumSpellsComponent],
   templateUrl: './participant-card.component.html',
   styleUrl: './participant-card.component.scss',
 })

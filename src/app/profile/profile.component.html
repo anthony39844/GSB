@@ -93,10 +93,13 @@
             </p>
           </div>
           <div class="match-info">
-            <app-champ-info class="champ-info-component" [profile]="match[1].profile"></app-champ-info>
+            <app-champ-info
+              class="champ-info-component"
+              [profile]="match[1].profile"
+            ></app-champ-info>
             <app-sum-spells
-              sumSpell1="{{ match[1].profile.sumSpell1 }}"
-              sumSpell2="{{ match[1].profile.sumSpell2 }}"
+              [sumSpell1]="match[1].profile.sumSpell1"
+              [sumSpell2]="match[1].profile.sumSpell2"
             ></app-sum-spells>
             <app-runes
               [rune1]="match[1].profile.rune1"

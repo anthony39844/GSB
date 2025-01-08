@@ -1,14 +1,26 @@
 @use "./../../../variables" as vars;
 
 .sum-spells {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    img {
-      border: 3px solid vars.$blackBorders;
-      border-radius: 20%;
-      margin: 5px;
-      width: 40px;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .tooltip1,
+  .tooltip2 {
+    display: none;
   }
+
+  .sum-spell1,
+  .sum-spell2 {
+    border: 3px solid vars.$blackBorders;
+    border-radius: 20%;
+    margin: 5px;
+    width: 40px;
+  }
+  .sum-spell1:hover + .tooltip1 {
+    display: block;
+  }
+  .sum-spell2:hover + .tooltip2 {
+    display: block;
+  }
+}
