@@ -83,8 +83,13 @@ export class ProfileComponent {
       .getMatchIds(this.puuid, !(this.puuid === currentPuuid))
       .subscribe((matchIds) => {
         if (matchIds) {
+          this.matchInfoService.setIds(
+            matchIds,
+            !(this.puuid === currentPuuid)
+          );
+
           this.matchInfoService.setPuuid(this.puuid);
-          this.matchInfoService.setIds(matchIds, false);
+
           this.matchData = this.matchInfoService.getMatchData();
         } else {
           console.log('Error getting matchIds');
