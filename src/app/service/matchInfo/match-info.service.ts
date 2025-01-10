@@ -28,13 +28,12 @@ export class MatchInfoService {
   }
 
   setIds(ids: string[], reset: boolean = true) {
-
     if (reset) {
-      console.log(reset)
       for (let key in this.matchData) {
         delete this.matchData[key];
       }
     }
+    console.log(ids);
     this.ids = ids;
     this.setData();
   }
@@ -45,6 +44,7 @@ export class MatchInfoService {
 
   private setData() {
     for (let matchId in this.ids) {
+      console.log(this.ids[matchId]);
       this.matchData[this.ids[matchId]] = {
         dataLoaded: false,
         time: 0,
@@ -216,6 +216,7 @@ export class MatchInfoService {
         )
       );
     }
+    console.log(this.matchData);
   }
 
   getTimeFromMinutes(minutes: number): string {

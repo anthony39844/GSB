@@ -25,7 +25,6 @@ export class HoverTooltipComponent {
       const data = this.itemService.getData(`${this.info}`);
       this.description = data.description.replace(/<(?!br\s*\/?)[^>]*>/gi, ''); // Removes all tags except <br>
       this.name = data.name;
-      console.log(data.description.replace(/<(?!br\s*\/?)[^>]*>/gi, ''));
 
       this.route = `https://ddragon.leagueoflegends.com/cdn/15.1.1/img/item/${this.info}.png`;
     } else if (this.type === 'rune') {

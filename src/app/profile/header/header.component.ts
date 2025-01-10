@@ -20,7 +20,6 @@ export class HeaderComponent {
   async getPuuid(summoner: string, tag: string) {
     tag = tag.replace('#', '');
     tag = tag || 'NA1';
-    this.matchInfoService.setIds([]);
     this.router.navigate(['/summoner', `${summoner}-${tag}`]);
   }
 
