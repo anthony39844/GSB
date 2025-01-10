@@ -68,9 +68,10 @@
   </div>
 
   <div class="right">
-    <div *ngIf="allDataLoaded()">
+    <div>
       <div *ngFor="let match of objectEntries(matchData)">
         <div
+          *ngIf="match[1].dataLoaded"
           [ngClass]="{
             won: match[1].profile.win,
             lost: !match[1].profile.win,
@@ -218,7 +219,7 @@
       </div>
     </div>
     <div class="show-more">
-      <p>Show More</p>
+      <p (click)="getMatchIds()">Show More</p>
     </div>
   </div>
 </div>

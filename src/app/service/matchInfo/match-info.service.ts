@@ -5,9 +5,6 @@ import {
   ParticipantData,
 } from '../../interfaces/matchData.interface';
 import { ApiService } from '../api/api.service';
-import { RunesService } from '../icon/runes.service';
-import { SumSpellsService } from '../icon/sum-spells.service';
-import { min } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,18 +22,17 @@ export class MatchInfoService {
     490: 'QUICK PLAY',
   };
 
-  constructor(
-    private apiService: ApiService,
-    private runesService: RunesService,
-    private sumsService: SumSpellsService
-  ) {}
+  constructor(private apiService: ApiService) {}
   getPuuid() {
     return this.puuid;
   }
 
-  setIds(ids: string[]) {
-    for (let key in this.matchData) {
-      delete this.matchData[key];
+  setIds(ids: string[], reset: boolean = true) {
+
+    if (reset) {
+      for (let key in this.matchData) {
+        delete this.matchData[key];
+      }
     }
     this.ids = ids;
     this.setData();
@@ -78,11 +74,11 @@ export class MatchInfoService {
         profile: defaultParticipantData,
       };
     }
-    let i = 0;
     for (const matchId in this.matchData) {
-      i += 1;
-
       let match = this.matchData[matchId];
+      if (match.dataLoaded) {
+        continue;
+      }
       this.apiService.getMatchData(matchId).subscribe((matchData) => {
         if (matchData.status) {
           if (matchData.status.status_code === 429) {
@@ -222,7 +218,6 @@ export class MatchInfoService {
   }
 
   getTimeFromMinutes(minutes: number): string {
-    console.log(minutes)
     if (minutes < 60) {
       return `${minutes}m ago`;
     }

@@ -12,9 +12,10 @@ api_key = os.getenv("API_KEY")
 route = "https://americas.api.riotgames.com"
 ddragon_route = "https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US"
 
-@app.route('/match_ids/<puuid>')
-def get_matches(puuid):
-    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=2&api_key={api_key}'
+@app.route('/match_ids/<puuid>/<start>')
+def get_matches(puuid, start):
+    matches_route = f'{route}/lol/match/v5/matches/by-puuid/{puuid}/ids?start={start}&count=4&api_key={api_key}'
+    print(matches_route)
     response = requests.get(matches_route).json()
     return response
 

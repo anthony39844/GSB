@@ -15,11 +15,7 @@ import { ApiService } from '../service/api/api.service';
 
 @Component({
   selector: 'app-match-details',
-  imports: [
-    CommonModule,
-    HeaderComponent
-
-  ],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './match-details.component.html',
   styleUrl: './match-details.component.scss',
 })
@@ -68,7 +64,6 @@ export class MatchDetailsComponent {
         if (!this.matchData) {
           this.matchInfoService.setIds([match]);
           this.matchInfoService.setPuuid(this.puuidService.getPuuid());
-          console.log(this.matchInfoService.getMatchData()[this.matchId]);
           this.matchData = this.matchInfoService.getMatchData()[this.matchId];
         }
 
@@ -96,8 +91,6 @@ export class MatchDetailsComponent {
   mostStats() {
     const findTopPlayer = (teams: any[], scoreType: string) => {
       const allPlayers = teams.flatMap((team) => team.members);
-      console.log(teams[0]);
-      console.log(teams[0].members);
       const maxScore = Math.max(
         ...allPlayers.map((member) => member[scoreType])
       );

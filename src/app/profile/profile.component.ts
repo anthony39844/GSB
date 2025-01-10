@@ -78,14 +78,18 @@ export class ProfileComponent {
   }
 
   getMatchIds() {
-    this.apiService.getMatchIds(this.puuid).subscribe((matchIds) => {
-      if (matchIds) {
-        this.matchInfoService.setPuuid(this.puuid);
-        this.matchInfoService.setIds(matchIds);
-      } else {
-        console.log('Error getting matchIds');
-      }
-    });
+    const currentPuuid = this.matchInfoService.getPuuid();
+    this.apiService
+      .getMatchIds(this.puuid, !(this.puuid === currentPuuid))
+      .subscribe((matchIds) => {
+        if (matchIds) {
+          this.matchInfoService.setPuuid(this.puuid);
+          this.matchInfoService.setIds(matchIds, false);
+          this.matchData = this.matchInfoService.getMatchData();
+        } else {
+          console.log('Error getting matchIds');
+        }
+      });
   }
 
   toggleExpand(matchId: string) {
@@ -116,7 +120,6 @@ export class ProfileComponent {
       this.accountLoaded = true;
       this.summoner = data.gameName;
       this.tagLine = data.tagLine;
-      this.matchData = this.matchInfoService.getMatchData();
     } catch {}
   }
 

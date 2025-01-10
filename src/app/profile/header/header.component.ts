@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../service/api/api.service';
 import { firstValueFrom } from 'rxjs';
 import { PuuidService } from '../../service/puuid/puuid.service';
+import { MatchInfoService } from '../../service/matchInfo/match-info.service';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +14,13 @@ import { PuuidService } from '../../service/puuid/puuid.service';
 export class HeaderComponent {
   constructor(
     private router: Router,
-    private apiService: ApiService,
-    private puuidService: PuuidService
+    private matchInfoService: MatchInfoService
   ) {}
 
   async getPuuid(summoner: string, tag: string) {
     tag = tag.replace('#', '');
     tag = tag || 'NA1';
-
+    this.matchInfoService.setIds([]);
     this.router.navigate(['/summoner', `${summoner}-${tag}`]);
   }
 
