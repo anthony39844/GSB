@@ -90,8 +90,8 @@ export class MatchInfoService {
           const participants = matchInfo['participants'];
           const gameStart = matchInfo['gameCreation'];
           const currTime = Date.now();
-          const hoursAgo = Math.floor((currTime - gameStart) / 3600000);
-          match.timeAgo = this.getTimeFromMinutes(hoursAgo);
+          const minutesAgo = Math.floor((currTime - gameStart) / 60000);
+          match.timeAgo = this.getTimeFromMinutes(minutesAgo);
           match.time = gameStart;
           match.gameMode = this.queueIDMap[matchInfo['queueId']];
           match.expanded = false;
@@ -224,7 +224,7 @@ export class MatchInfoService {
     }
     const hours = Math.floor(minutes / 60);
     if (hours > 23) {
-      const days = Math.floor(hours / 24);
+      const days = Math.round(hours / 24);
       return `${days}d ago`;
     }
     return `${hours}h ago`;
