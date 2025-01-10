@@ -30,6 +30,7 @@ export class MatchInfoService {
   setIds(ids: string[], reset: boolean = true) {
 
     if (reset) {
+      console.log(reset)
       for (let key in this.matchData) {
         delete this.matchData[key];
       }

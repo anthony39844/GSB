@@ -41,7 +41,7 @@
     <div class="player-card" *ngFor="let player of team.members">
       <div class="champion-info">
         <img
-          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+          src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
             player.champion
           }}.png"
           [ngClass]="{
@@ -53,21 +53,29 @@
       </div>
       <div class="sum-spells">
         <img
-          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+          src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
             getSpell(player.sumSpell1)
           }}"
           alt="Summoner spell 1"
         />
         <img
-          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+          src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
             getSpell(player.sumSpell2)
           }}"
           alt="Summoner spell 2"
         />
       </div>
       <div class="runes">
-        <img class="rune1" src='https://ddragon.canisback.com/img/{{ getRune(player.rune1) }}' alt="Rune 1">
-        <img class="rune2" src='https://ddragon.canisback.com/img/{{ getRune(player.rune2) }}' alt="Rune 2">
+        <img
+          class="rune1"
+          src="https://ddragon.canisback.com/img/{{ getRune(player.rune1) }}"
+          alt="Rune 1"
+        />
+        <img
+          class="rune2"
+          src="https://ddragon.canisback.com/img/{{ getRune(player.rune2) }}"
+          alt="Rune 2"
+        />
       </div>
       <div class="game-name">
         <p class="name" (click)="getPuuid(player.gameName, player.tagLine)">
@@ -142,7 +150,7 @@
         <div class="item" *ngFor="let item of player.items; let last = last">
           <img
             *ngIf="item != 0"
-            src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+            src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/item/{{
               item
             }}.png"
             [ngClass]="{ ward: last }"

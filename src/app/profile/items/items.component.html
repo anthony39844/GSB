@@ -7,10 +7,14 @@
     <img
       class="item-img"
       *ngIf="item != 0"
-      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/item/{{
         item
       }}.png"
     />
-    <app-hover-tooltip class="tooltip" type="item" [info]="item"></app-hover-tooltip>
+    <app-hover-tooltip
+      class="tooltip"
+      type="item"
+      [info]="item"
+    ></app-hover-tooltip>
   </div>
 </div>

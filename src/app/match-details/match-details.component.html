@@ -23,11 +23,13 @@
       <div class="most-stat-profile">
         <img
           class="champ-img"
-          src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+          src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
             player[0].champion
           }}.png"
         />
-        <p (click)="newNavigate(player[0].gameName, player[0].tagLine)">{{ player[0].gameName }}</p>
+        <p (click)="newNavigate(player[0].gameName, player[0].tagLine)">
+          {{ player[0].gameName }}
+        </p>
       </div>
     </div>
   </div>
@@ -56,7 +58,7 @@
             <div class="player">
               <div class="champion-info">
                 <img
-                  src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{
+                  src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
                     player.champion
                   }}.png"
                   [ngClass]="{
@@ -79,13 +81,13 @@
                 <div class="spells-runes">
                   <div class="sum-spells">
                     <img
-                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
                         getSpell(player.sumSpell1)
                       }}"
                       alt="Summoner spell 1"
                     />
                     <img
-                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/{{
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
                         getSpell(player.sumSpell2)
                       }}"
                       alt="Summoner spell 2"
@@ -163,7 +165,7 @@
                   >
                     <img
                       *ngIf="item != 0"
-                      src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/{{
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/item/{{
                         item
                       }}.png"
                       [ngClass]="{ ward: last }"

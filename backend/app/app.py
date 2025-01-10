@@ -10,7 +10,7 @@ CORS(app)
 load_dotenv()
 api_key = os.getenv("API_KEY")
 route = "https://americas.api.riotgames.com"
-ddragon_route = "https://ddragon.leagueoflegends.com/cdn/14.24.1/data/en_US"
+ddragon_route = "https://ddragon.leagueoflegends.com/cdn/15.1.1/data/en_US"
 
 @app.route('/match_ids/<puuid>/<start>')
 def get_matches(puuid, start):

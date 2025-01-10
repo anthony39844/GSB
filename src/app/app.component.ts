@@ -45,7 +45,7 @@ export class AppComponent {
         this.sumService.setSums(curSpell['key'], {
           icon: curSpell['image']['full'],
           description: curSpell.description,
-          name: curSpell.id.substring(8),
+          name: curSpell.name,
         });
       }
     });
