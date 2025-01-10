@@ -1,0 +1,33 @@
+@use "./../../../variables" as vars;
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  background-color: vars.$bgColor2;
+  width: 300px;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: 2px solid vars.$primary;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+  img {
+    position: relative;
+    border: 2px solid vars.$blackBorders;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+  p {
+    width: 90%;
+    margin-left: 5px;
+  }
+  .name {
+    color: gold;
+    font-weight: bold;
+  }
+}

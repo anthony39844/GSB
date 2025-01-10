@@ -1,0 +1,18 @@
+@use "./../../../variables" as vars;
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: vars.$primary;
+    padding: 0px 25px;
+    margin-bottom: 20px;
+    .homeBtn {
+      cursor: pointer;
+      color: white;
+    }
+    .searches {
+      background-color: transparent;
+    }
+  }
+  

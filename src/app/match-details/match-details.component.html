@@ -1,0 +1,188 @@
+<app-header></app-header>
+
+<div class="container">
+  <div class="match-details-header">
+    <h2>Match Details</h2>
+    <p>{{ matchData.gameMode }}</p>
+    <p>∙</p>
+    <p>{{ matchData.gameLength }} minutes</p>
+  </div>
+  <div class="most-stats">
+    <div
+      *ngFor="let player of mostStatPlayers; let i = index"
+      class="most-{{ player[1] }}"
+      [ngStyle]="{
+        'background-image':
+          'linear-gradient(270deg, rgba(46, 34, 105, 0.5) 0%, rgb(19, 14, 57) 100%), url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' +
+          player[0].champion +
+          '_0.jpg)'
+      }"
+    >
+      <p class="stat-label">Highest {{ player[1] }}</p>
+      <p class="stat">{{ player[0][statKeyOrder[i]] }}</p>
+      <div class="most-stat-profile">
+        <img
+          class="champ-img"
+          src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
+            player[0].champion
+          }}.png"
+        />
+        <p (click)="newNavigate(player[0].gameName, player[0].tagLine)">
+          {{ player[0].gameName }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="match-info">
+    <div class="match-info-header">
+      <ng-container *ngFor="let team of matchData.teams; let i = index">
+        <div class="team">
+          <p>TEAM {{ i + 1 }}</p>
+          <p [ngClass]="{ won: team.win, lost: !team.win, 'win-lose': true }">
+            {{ team.win ? "WON" : "LOST" }}
+          </p>
+          <img src="./assets/icons/kda.svg" />
+          <p>
+            {{ team.totalKills }} / {{ team.totalDeaths }} /
+            {{ team.totalAssists }}
+          </p>
+          <img src="./assets/icons/gold.svg" />
+          <p>{{ team.totalGold }}</p>
+        </div>
+      </ng-container>
+    </div>
+    <div class="players">
+      <ng-container *ngFor="let team of matchData.teams; let i = index">
+        <div class="team">
+          <ng-container *ngFor="let player of team.members">
+            <div class="player">
+              <div class="champion-info">
+                <img
+                  src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
+                    player.champion
+                  }}.png"
+                  [ngClass]="{
+                    'champ-img': true,
+                    'user-champ-img': puuid == player.puuid
+                  }"
+                  (click)="newNavigate(player.gameName, player.tagLine)"
+                />
+                <p>{{ player.level }}</p>
+              </div>
+              <div class="name-spells-runes">
+                <div class="game-name">
+                  <p
+                    class="name"
+                    (click)="newNavigate(player.gameName, player.tagLine)"
+                  >
+                    {{ player.gameName }}
+                  </p>
+                </div>
+                <div class="spells-runes">
+                  <div class="sum-spells">
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
+                        getSpell(player.sumSpell1)
+                      }}"
+                      alt="Summoner spell 1"
+                    />
+                    <img
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/spell/{{
+                        getSpell(player.sumSpell2)
+                      }}"
+                      alt="Summoner spell 2"
+                    />
+                  </div>
+                  <div class="runes">
+                    <img
+                      class="rune1"
+                      src="https://ddragon.canisback.com/img/{{
+                        getRune(player.rune1)
+                      }}"
+                      alt="Rune 1"
+                    />
+                    <img
+                      class="rune2"
+                      src="https://ddragon.canisback.com/img/{{
+                        getRune(player.rune2)
+                      }}"
+                      alt="Rune 2"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="kda-cs-kp-items">
+                <div class="kda-cs-kp">
+                  <div class="kda-info">
+                    <p class="player-kills">
+                      {{ player.kills }} / {{ player.deaths }} /
+                      {{ player.assists }}
+                    </p>
+                    <p
+                      [ngClass]="{
+                        good: player.kda > 3.5,
+                        bad: player.kda <= 2,
+                        amazing: player.kda > 5,
+                        'player-kda': true
+                      }"
+                    >
+                      {{ player.kda }} KDA
+                    </p>
+                  </div>
+                  <div class="cs-kp">
+                    <div class="CS">
+                      <p class="cs-score">{{ player.CSscore }}&nbsp;</p>
+                      <p
+                        [ngClass]="{
+                          good:
+                            player.csPerMin >= 7 && player.lane != 'SUPPORT',
+                          bad: player.csPerMin < 5 && player.lane != 'SUPPORT'
+                        }"
+                      >
+                        ({{ player.csPerMin }})
+                      </p>
+                      <p>&nbsp;CS</p>
+                    </div>
+                    <div class="KP">
+                      <p
+                        [ngClass]="{
+                        'good': player.Kp > 60,
+                        'bad': player.Kp < 40,
+                        'amazing': player.Kp > 80,
+                        }
+                        "
+                      >
+                        {{ player.Kp }}%
+                      </p>
+                      <p>&nbsp;KP</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="items">
+                  <div
+                    class="item"
+                    *ngFor="let item of player.items; let last = last"
+                  >
+                    <img
+                      *ngIf="item != 0"
+                      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/item/{{
+                        item
+                      }}.png"
+                      [ngClass]="{ ward: last }"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="i === 0" class="teammate-lanes">
+          <img
+            *ngFor="let image of laneImages"
+            src="./assets/role/{{ image }}.png"
+          />
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

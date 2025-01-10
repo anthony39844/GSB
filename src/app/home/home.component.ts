@@ -1,26 +1,33 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../service/api/api.service';
 import { Router } from '@angular/router';
-import { PuuidService } from '../service/puuid/puuid.service';  
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  constructor(private apiService: ApiService, private router: Router, private puuidService: PuuidService) {}
+  backgroundUrl: string = '';
+  championsList: string[] = [];
+
+  constructor(private router: Router, private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.apiService.getChamps().subscribe((champs) => {
+      this.championsList = Object.keys(champs.data);
+      if (this.championsList.length > 0) {
+        const randomNum = Math.floor(Math.random() * this.championsList.length);
+        this.backgroundUrl = `url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${this.championsList[randomNum]}_0.jpg)`;
+      }
+    });
+  }
 
   getPuuid(summoner: string, tag: string) {
-    tag = tag.replace("#", "");
-    this.apiService.getPuuid(summoner, tag ? tag : "NA1").subscribe(data => {
-      if (data['puuid']) {
-        this.puuidService.setPuuid(data['puuid']);
-        this.router.navigate(['/summoner', summoner]);
-      } else {
-        console.log("Invalid summoner", data)
-      }
-    })
+    tag = tag.replace('#', '');
+    tag = tag ? tag : 'NA1';
+    this.router.navigate(['/summoner', `${summoner}-${tag}`]);
   }
 }

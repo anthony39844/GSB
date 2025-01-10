@@ -1,0 +1,21 @@
+<div class="champion-info">
+  <div class="champion">
+    <img
+      [ngStyle]="{
+        border: profile.win ? '4px solid #0BDA51' : '4px solid red'
+      }"
+      class="champ-img"
+      src="https://ddragon.leagueoflegends.com/cdn/15.1.1/img/champion/{{
+        profile.champion
+      }}.png"
+      alt="{{ profile.champion }}"
+    />
+    <img
+      *ngIf="profile?.lane"
+      class="lane-img"
+      src="./assets/role/{{ profile.lane?.toLowerCase() }}.png"
+      alt="{{ profile.lane }}"
+    />
+  </div>
+  <p>{{ profile.champion }}</p>
+</div>

@@ -1,16 +1,23 @@
+@use "./../../variables" as vars;
 .home {
-    .header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-family: 'Times New Roman', Times, serif;
-    }
-    .title {
-        font-size: 80px;
-    }
-    p {
-        font-size: 40px;
-    }
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+  }
+  .title {
+    font-size: 80px;
+  }
+  p {
+    font-size: 40px;
+  }
 }

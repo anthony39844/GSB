@@ -1,13 +1,32 @@
-<div class="home">
+<div class="home" [style.background-image]="backgroundUrl">
+  <div class="content">
     <div class="header">
-        <h1 class="title">GSB</h1>
-        <p>Game Sense Builder</p>  
+      <h1 class="title">GSB</h1>
+      <p>Game Sense Builder</p>
     </div>
-
-    <div class="search-div"> 
-        <div class="searches">
-            <input type="input" #inputRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)" class="search sum_search" placeholder="Summoner Name" name="name" id='name' required />
-            <input type="input" #tagLineRef (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)" class="search tag_search" placeholder="#NA1" name="name" id='name' required />
-        </div>
+    <div class="search-div">
+      <div class="searches">
+        <input
+          type="input"
+          #inputRef
+          (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"
+          class="search sum_search"
+          placeholder="Summoner Name"
+          name="name"
+          id="name"
+          required
+        />
+        <input
+          type="input"
+          #tagLineRef
+          (keydown.enter)="getPuuid(inputRef.value, tagLineRef.value)"
+          class="search tag_search"
+          placeholder="#NA1"
+          name="name"
+          id="tag"
+          required
+        />
+      </div>
     </div>
+  </div>
 </div>
