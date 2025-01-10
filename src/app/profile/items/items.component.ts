@@ -10,7 +10,4 @@ import { HoverTooltipComponent } from '../hover-tooltip/hover-tooltip.component'
 })
 export class ItemsComponent {
   @Input() items: number[] = [];
-  ngOnInit() {
-    console.log(this.items);
-  }
 }

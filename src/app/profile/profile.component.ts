@@ -83,12 +83,11 @@ export class ProfileComponent {
       .getMatchIds(this.puuid, !(this.puuid === currentPuuid))
       .subscribe((matchIds) => {
         if (matchIds) {
+          this.matchInfoService.setPuuid(this.puuid);
           this.matchInfoService.setIds(
             matchIds,
             !(this.puuid === currentPuuid)
           );
-
-          this.matchInfoService.setPuuid(this.puuid);
 
           this.matchData = this.matchInfoService.getMatchData();
         } else {
