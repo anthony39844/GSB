@@ -1,4 +1,6 @@
 # GSB
+Game Sense Builder.
+A way to view players of League of Legends info. 
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
 
