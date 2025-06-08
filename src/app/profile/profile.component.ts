@@ -155,6 +155,7 @@ export class ProfileComponent {
         this.hasSolo = true;
         let solo = null;
         let flex = null;
+        console.log(data);
         if (data.rank.length == 1) {
           if (data.rank[0]['queueType'] == 'RANKED_FLEX_SR') {
             this.hasSolo = false;
@@ -163,8 +164,14 @@ export class ProfileComponent {
           }
         }
         if (this.hasSolo && this.hasFlex) {
-          solo = data.rank[1];
-          flex = data.rank[0];
+          solo =
+            data.rank[0]['queueType'] == 'RANKED_SOLO_5x5'
+              ? data.rank[0]
+              : data.rank[1];
+          flex =
+            data.rank[0]['queueType'] == 'RANKED_FLEX_SR'
+              ? data.rank[0]
+              : data.rank[1];
         } else if (this.hasFlex) {
           flex = data.rank[0];
         } else if (this.hasSolo) {
